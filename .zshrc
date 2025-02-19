@@ -9,10 +9,6 @@ setopt HIST_IGNORE_DUPS
 unsetopt BEEP
 setopt INTERACTIVE_COMMENTS
 
-# Set key bindings for word jumping
-bindkey '^[[1;3D' backward-word      # Option + Left
-bindkey '^[[1;3C' forward-word       # Option + Right
-
 # https://apple.stackexchange.com/a/20553
 function pub-ip {
   dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"'
