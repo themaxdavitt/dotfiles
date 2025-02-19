@@ -10,6 +10,3 @@ export PATH="$(brew --prefix llvm)/bin:$PATH"
 
 # Python-specific stuff
 export PATH="$HOME/.local/bin:$PATH"
-
-# https://news.ycombinator.com/item?id=11071754
-alias config="git --git-dir=$HOME/.files/ --work-tree=$HOME"
