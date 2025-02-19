@@ -34,3 +34,8 @@ function priv-ip() {
     done
   fi
 }
+
+# https://max.davitt.me/blog/fix-sounds-cut-off-over-bluetooth/
+function fix-bt() {
+  ffplay -nodisp -f lavfi -i anullsrc=r=44100:cl=stereo
+}
