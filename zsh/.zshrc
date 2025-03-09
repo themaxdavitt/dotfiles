@@ -39,3 +39,7 @@ function priv-ip() {
 function fix-bt() {
   ffplay -nodisp -f lavfi -i anullsrc=r=44100:cl=stereo
 }
+
+ICLOUD_HOME="/Users/themaxdavitt/Library/Mobile Documents"
+
+alias everything='/usr/bin/git --git-dir=$HOME/.obsidian-git --work-tree=$ICLOUD_HOME/iCloud~md~obsidian/Documents/everything'
