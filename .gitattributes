@@ -1,7 +1,7 @@
 * text=auto
 
 .zed/settings.json linguist-language=JSON-with-Comments
-dot_config/mise/private_mise.lock linguist-generated
+dot_config/mise/private_mise.lock linguist-language=TOML linguist-generated
 dot_config/zed/private_settings.json.literal linguist-language=JSON-with-Comments
 dot_zprofile linguist-language=Shell
 dot_zshrc linguist-language=Shell
