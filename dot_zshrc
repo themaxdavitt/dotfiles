@@ -9,11 +9,11 @@ setopt INTERACTIVE_COMMENTS
 setopt SHARE_HISTORY
 unsetopt BEEP
 
+eval "$("$HOME"/.local/bin/mise activate zsh)"
+
 autoload -U compinit
 compinit
 source "/opt/homebrew/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh"
-
-eval "$(mise activate zsh)"
 
 export HOMEBREW_BUNDLE_NO_UPGRADE=1
 export HOMEBREW_NO_INSTALL_UPGRADE=1

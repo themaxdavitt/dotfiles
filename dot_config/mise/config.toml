@@ -2,8 +2,10 @@
 experimental = true
 paranoid = true
 lockfile = true
+minimum_release_age = "14d"
 
 [tools]
+"npm:@bitwarden/cli" = "2026.4.1"
 "npm:pi-acp" = "0.0.26"
 "github:badlogic/pi-mono" = "0.70.2"
 "github:eugene1g/agent-safehouse" = { version = "0.9.0", bin = "safehouse" }

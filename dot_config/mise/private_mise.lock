@@ -18,6 +18,10 @@ checksum = "sha256:61c2f71ee13ef9089442cb13cf050cc679e767ec48da9771e7d8f8a3eb2a8
 url = "https://github.com/eugene1g/agent-safehouse/releases/download/v0.9.0/safehouse.sh"
 url_api = "https://api.github.com/repos/eugene1g/agent-safehouse/releases/assets/383162252"
 
+[[tools."npm:@bitwarden/cli"]]
+version = "2026.4.1"
+backend = "npm:@bitwarden/cli"
+
 [[tools."npm:pi-acp"]]
 version = "0.0.26"
 backend = "npm:pi-acp"
