@@ -1,0 +1,12 @@
+[settings]
+experimental = true
+paranoid = true
+lockfile = true
+
+[tools]
+"npm:pi-acp" = "0.0.26"
+"github:badlogic/pi-mono" = "0.70.2"
+"github:eugene1g/agent-safehouse" = { version = "0.9.0", bin = "safehouse" }
+
+[env]
+HK_HIDE_WHEN_DONE = 1

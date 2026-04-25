@@ -1,0 +1,21 @@
+{
+  "file_types": {
+    "Shell Script": ["dot_zprofile", "dot_zshrc"],
+    "JSONC": ["**/zed/**/*.json.literal"],
+  },
+  "lsp": {
+    "json-language-server": {
+      "settings": {
+        "json": {
+          "schemas": [
+            {
+              "fileMatch": ["**/zed/**/*.json.literal"],
+              "url": "zed://schemas/settings",
+            },
+          ],
+        },
+      },
+    },
+  },
+  "format_on_save": "on",
+}

@@ -1,0 +1,16 @@
+# shellcheck shell=ksh
+# shellcheck disable=SC1091,SC1094,SC2034
+
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=1000000000
+SAVEHIST=$HISTSIZE
+setopt HIST_IGNORE_DUPS
+setopt INTERACTIVE_COMMENTS
+setopt SHARE_HISTORY
+unsetopt BEEP
+
+autoload -U compinit
+compinit
+source "/opt/homebrew/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh"
+
+eval "$(mise activate zsh)"

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -e
+
+curl --fail-with-body -sS --proto '=https' --tlsv1.2 \
+    "https://ipv4.icanhazip.com"

@@ -1,0 +1,22 @@
+{
+  "lastChangelogVersion": "0.70.2",
+  "transport": "websocket",
+  "followUpMode": "one-at-a-time",
+  "steeringMode": "all",
+  "quietStartup": true,
+  "treeFilterMode": "default",
+  "doubleEscapeAction": "none",
+  "defaultProvider": "openrouter",
+  "defaultModel": "deepseek/deepseek-v4-pro",
+  "defaultThinkingLevel": "medium",
+  "enabledModels": [
+    "openrouter/deepseek/deepseek-v4-pro",
+    "openrouter/moonshotai/kimi-k2.6",
+    "openrouter/anthropic/claude-opus-4.7",
+    "openrouter/openai/gpt-5.4",
+    "openrouter/google/gemini-3.1-pro-preview"
+  ],
+  "showHardwareCursor": true,
+  "enableInstallTelemetry": false,
+  "theme": "dark"
+}

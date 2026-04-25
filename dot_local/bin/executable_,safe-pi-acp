@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+
+# https://github.com/svkozak/pi-acp/issues/18
+OPENCODE_API_KEY="dummy" \
+    exec sandbox-exec -f "$(safehouse --enable=all-agents)" -- \
+    pi-acp

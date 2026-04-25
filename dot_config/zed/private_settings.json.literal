@@ -1,0 +1,82 @@
+// `.literal` suffix is because Zed kept registering this as JSON before the JSONC override would kick in
+
+// https://zed.dev/docs/configuring-zed
+{
+  "soft_wrap": "bounded",
+  "cli_default_open_behavior": "new_window",
+  "project_panel": {
+    "dock": "left",
+  },
+  "outline_panel": {
+    "dock": "left",
+  },
+  "agent": {
+    "sidebar_side": "right",
+    "dock": "right",
+    "use_modifier_to_send": true,
+  },
+  "agent_servers": {
+    "pi": {
+      // Keep in sync with `dot_pi/agent/settings.json`
+      "favorite_models": [
+        "openrouter/deepseek/deepseek-v4-pro",
+        "openrouter/moonshotai/kimi-k2.6",
+        "openrouter/anthropic/claude-opus-4.7",
+        "openrouter/openai/gpt-5.4",
+        "openrouter/google/gemini-3.1-pro-preview",
+      ],
+      "type": "custom",
+      "command": ",safe-pi-acp",
+      "args": [],
+      "env": {},
+    },
+  },
+  "git_panel": {
+    "dock": "left",
+    "tree_view": true,
+  },
+  "ui_font_size": 14.0,
+  "buffer_font_size": 11.0,
+  "git": {
+    "blame": {
+      "show_avatar": false,
+    },
+  },
+  "telemetry": {
+    "metrics": false,
+    "diagnostics": false,
+  },
+  "theme": {
+    "mode": "dark",
+    "light": "Catppuccin Macchiato",
+    "dark": "Catppuccin Macchiato",
+  },
+  "buffer_font_family": "Source Code Pro",
+  "show_whitespaces": "all",
+  "minimap": {
+    "show": "always",
+    "current_line_highlight": "all",
+  },
+  "indent_guides": {
+    "background_coloring": "indent_aware",
+  },
+  "inlay_hints": {
+    "enabled": true,
+  },
+  "collaboration_panel": {
+    "button": false,
+  },
+  "tabs": {
+    "git_status": true,
+    "show_diagnostics": "all",
+  },
+  "diagnostics": {
+    "inline": {
+      "enabled": true,
+    },
+  },
+  "edit_predictions": {
+    "provider": "none",
+  },
+  "format_on_save": "off",
+}

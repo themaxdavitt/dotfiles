@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -e
+
+# https://max.davitt.me/blog/fix-sounds-cut-off-over-bluetooth/
+ffplay -nodisp -f lavfi -i anullsrc=r=44100:cl=stereo
