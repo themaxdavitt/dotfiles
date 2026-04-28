@@ -2,6 +2,7 @@
 
 // https://zed.dev/docs/configuring-zed
 {
+  "preferred_line_length": 120,
   "soft_wrap": "bounded",
   "cli_default_open_behavior": "new_window",
   "project_panel": {
