@@ -1,0 +1,6 @@
+{
+  "Node.js HTTP_PROXY support": {
+    "prefix": "node-proxy",
+    "body": "(process.env[\"HTTP_PROXY\"] || process.env[\"HTTPS_PROXY\"] || process.env[\"NO_PROXY\"]) && process.versions.node.split('.').map(Number)[0] < 24 || !process.env[\"NODE_USE_ENV_PROXY\"]",
+  },
+}
