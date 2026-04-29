@@ -77,7 +77,8 @@
     },
   },
   "edit_predictions": {
-    "provider": "none",
+    "mode": "subtle",
+    "provider": "zed",
   },
   "format_on_save": "off",
 }
