@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+
+# TODO: restore below after https://github.com/tobi/qmd/issues/493 is resolved
+# QMD_EMBED_MODEL="hf:Qwen/Qwen3-Embedding-0.6B-GGUF/Qwen3-Embedding-0.6B-Q8_0.gguf"
+QMD_EDITOR_URI="zed://file/{path}:{line}:{col}" \
+    exec qmd --chunk-strategy auto "$@"

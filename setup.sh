@@ -7,3 +7,5 @@ echo "TODO: Implement :)"
 # compaudit | xargs chmod g-w
 # brew bundle
 # mise install.sh (w/ hashsum check)
+
+# for work: https://github.com/phw198/OutlookGoogleCalendarSync (w/ OGCS Premium for guaranteed API quota) + old outlook

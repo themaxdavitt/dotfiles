@@ -25,3 +25,7 @@ backend = "npm:@bitwarden/cli"
 [[tools."npm:pi-acp"]]
 version = "0.0.26"
 backend = "npm:pi-acp"
+
+[[tools."npm:@tobilu/qmd"]]
+version = "2.1.0"
+backend = "npm:@tobilu/qmd"
