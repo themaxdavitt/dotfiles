@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+
+# https://github.com/zed-industries/zed/issues/53528#issuecomment-4215942112 :|
+
+if (($# == 0)); then
+    exec zed -n .
+else
+    exec zed -n "$@"
+fi

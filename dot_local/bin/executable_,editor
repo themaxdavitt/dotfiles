@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 set -e
 
-# https://github.com/zed-industries/zed/issues/53528#issuecomment-4215942112 :|
-exec zed -n "$@"
+exec ,. -w "$@"
