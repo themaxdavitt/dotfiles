@@ -3,3 +3,4 @@ set -e
 
 mise install "$@"
 mise lock --global
+chezmoi add "$HOME/.config/mise/mise.lock"
