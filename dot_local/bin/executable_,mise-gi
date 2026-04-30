@@ -2,5 +2,5 @@
 set -e
 
 mise install "$@"
-mise lock --global
+mise lock --global --platform macos-arm64
 chezmoi add "$HOME/.config/mise/mise.lock"
