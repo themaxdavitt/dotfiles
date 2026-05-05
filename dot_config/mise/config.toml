@@ -5,12 +5,12 @@ lockfile = true
 minimum_release_age = "14d"
 
 [tools]
-"npm:@bitwarden/cli" = { version = "2026.4.1", minimum_release_age = "2026-04-24T22:38:51Z" }
+"github:bitwarden/clients" = { version = "latest", version_prefix = "cli-v" }
 "npm:pi-acp" = { version = "0.0.26", minimum_release_age = "2026-04-19T22:38:51Z" }
-"github:badlogic/pi-mono" = "0.70.2"
+"github:badlogic/pi-mono" = "latest"
 "github:eugene1g/agent-safehouse" = { version = "0.9.0", bin = "safehouse" }
-"npm:@tobilu/qmd" = { version = "2.1.0", minimum_release_age = "2026-04-06T22:38:51Z" }
-"github:rclone/rclone" = { version = "latest" }
+"npm:@tobilu/qmd" = { version = "latest", minimum_release_age = "2026-05-02T23:05:55Z" }
+"github:rclone/rclone" = "latest"
 
 [env]
 HK_HIDE_WHEN_DONE = 1

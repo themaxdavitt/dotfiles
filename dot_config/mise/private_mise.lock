@@ -9,6 +9,18 @@ checksum = "sha256:4e039050367d82bff963e15fea8d85ca268f7b0284b83f5f15939aad08735
 url = "https://github.com/badlogic/pi-mono/releases/download/v0.70.2/pi-darwin-arm64.tar.gz"
 url_api = "https://api.github.com/repos/badlogic/pi-mono/releases/assets/404412490"
 
+[[tools."github:bitwarden/clients"]]
+version = "2026.3.0"
+backend = "github:bitwarden/clients"
+
+[tools."github:bitwarden/clients".options]
+version_prefix = "cli-v"
+
+[tools."github:bitwarden/clients"."platforms.macos-arm64"]
+checksum = "sha256:d935e9885ed215ecb0de9a7e7251487012b007a74fedbaaec6074d299fef3e02"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.3.0/bw-macos-arm64-2026.3.0.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/387161354"
+
 [[tools."github:eugene1g/agent-safehouse"]]
 version = "0.9.0"
 backend = "github:eugene1g/agent-safehouse"
@@ -26,10 +38,6 @@ backend = "github:rclone/rclone"
 checksum = "sha256:b9e265eb7a098743d0726c05c73fe207d355950fb8481e0b226c0c00173da1e8"
 url = "https://github.com/rclone/rclone/releases/download/v1.73.5/rclone-v1.73.5-osx-arm64.zip"
 url_api = "https://api.github.com/repos/rclone/rclone/releases/assets/399925150"
-
-[[tools."npm:@bitwarden/cli"]]
-version = "2026.4.1"
-backend = "npm:@bitwarden/cli"
 
 [[tools."npm:@tobilu/qmd"]]
 version = "2.1.0"

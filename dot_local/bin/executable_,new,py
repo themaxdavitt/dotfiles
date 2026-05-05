@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cat >"$HOME/.local/share/chezmoi/dot_local/bin/executable_,$1" <<EOF
+#!/usr/bin/env -S uv run --script
+# -*- mode: python -*-
+#
+# /// script
+# dependencies = [
+#   # TODO
+# ]
+# [tool.uv]
+# exclude-newer = "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+# ///
+
+import argparse
+
+
+def main():
+    parser = argparse.ArgumentParser("name")
+    args = parser.parse_args()
+
+
+if __name__ == "__main__":
+    main()
+
+
+EOF

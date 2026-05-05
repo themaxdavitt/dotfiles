@@ -1,0 +1,3 @@
+- Document everything else
+- Figure out which `exec` uses are actually needed.
+- Explain configuring OpenRouter to only use good providers + ZDR
