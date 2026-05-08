@@ -1,0 +1,6 @@
+font-family = Source Code Pro
+font-size = 11
+theme = Catppuccin Macchiato
+
+# https://github.com/earendil-works/pi/blob/v0.70.2/packages/coding-agent/docs/terminal-setup.md
+keybind = alt+backspace=text:\x1b\x7f
