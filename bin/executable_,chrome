@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -e
+
+PORT="$1"
+NAME="$2"
+
+mkdir -p "$HOME/.cache/chromium-$NAME"
+exec safehouse \
+    --enable=chromium-full \
+    --append-profile="$HOME/.config/agent-safehouse/chromium.sb" \
+    -- "/Applications/Chromium.app/Contents/MacOS/Chromium" \
+    --no-sandbox \
+    --use-mock-keychain \
+    --proxy-server="socks5://127.0.0.1:$PORT" \
+    --host-resolver-rules="MAP * ~NOTFOUND , EXCLUDE 127.0.0.1" \
+    --force-webrtc-ip-handling-policy --webrtc-ip-handling-policy=disable_non_proxied_udp \
+    --user-data-dir="$HOME/.cache/chromium-$NAME" \
+    "${@:3}"

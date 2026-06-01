@@ -6,20 +6,20 @@ backend = "github:badlogic/pi-mono"
 
 [tools."github:badlogic/pi-mono"."platforms.macos-arm64"]
 checksum = "sha256:4e039050367d82bff963e15fea8d85ca268f7b0284b83f5f15939aad087353a4"
-url = "https://github.com/badlogic/pi-mono/releases/download/v0.70.2/pi-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/badlogic/pi-mono/releases/assets/404412490"
+url = "https://github.com/earendil-works/pi/releases/download/v0.70.2/pi-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/404412490"
 
 [[tools."github:bitwarden/clients"]]
-version = "2026.3.0"
+version = "2026.1.0"
 backend = "github:bitwarden/clients"
 
 [tools."github:bitwarden/clients".options]
 version_prefix = "cli-v"
 
 [tools."github:bitwarden/clients"."platforms.macos-arm64"]
-checksum = "sha256:d935e9885ed215ecb0de9a7e7251487012b007a74fedbaaec6074d299fef3e02"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.3.0/bw-macos-arm64-2026.3.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/387161354"
+checksum = "sha256:e3649caeda5231a373dd9dc3024568cfe51aa06d53bc80e8dfb3f4c674b3b02f"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.1.0/bw-macos-arm64-2026.1.0.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/351254788"
 
 [[tools."github:eugene1g/agent-safehouse"]]
 version = "0.9.0"
@@ -29,6 +29,15 @@ backend = "github:eugene1g/agent-safehouse"
 checksum = "sha256:61c2f71ee13ef9089442cb13cf050cc679e767ec48da9771e7d8f8a3eb2a8697"
 url = "https://github.com/eugene1g/agent-safehouse/releases/download/v0.9.0/safehouse.sh"
 url_api = "https://api.github.com/repos/eugene1g/agent-safehouse/releases/assets/383162252"
+
+[[tools."github:jdx/fnox"]]
+version = "1.25.1"
+backend = "github:jdx/fnox"
+
+[tools."github:jdx/fnox"."platforms.macos-arm64"]
+checksum = "sha256:39d1f8cc620d3784f1b4c0127a0cf404f97d35ac4233656d36891d80c77cd147"
+url = "https://github.com/jdx/fnox/releases/download/v1.25.1/fnox-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/jdx/fnox/releases/assets/422647956"
 
 [[tools."github:rclone/rclone"]]
 version = "1.73.5"

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+if (($# == 0)); then
+    exec ls -halt --color=auto
+else
+    exec ls -halt --color=auto "$@"
+fi

@@ -1,0 +1,3 @@
+[providers]
+bitwarden = { type = "bitwarden", backend = "rbw" }
+age = { type = "age", recipients = [{{ (rbwFields "fnox").pub.value | toToml }}], key_file = "/Users/themaxdavitt/.config/fnox/age.txt" }

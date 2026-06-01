@@ -1,0 +1,174 @@
+#!/usr/bin/env -S mise x python@3.14 -- python3
+# -*- mode: python -*-
+
+# Just wasn't too interested in using a third-party client. Seems to work on macOS but _buyer beware!_
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import pathlib
+import subprocess
+import sys
+
+
+RBW_VERSION = "1.15.0"
+TYPE_MAP = {0: "text", 1: "hidden", 2: "boolean", 3: "linked"}
+FIELD_MAP = {
+    "note": "notes",
+    "notes": "notes",
+    "user": "username",
+    "username": "username",
+    "password": "password",
+    "url": "uri",
+    "uri": "uri",
+    "code": "totp",
+    "totp": "totp",
+}
+
+
+def child_env() -> dict[str, str]:
+    env = os.environ.copy()
+    profile = env.get("RBW_PROFILE")
+    if profile and "BITWARDENCLI_APPDATA_DIR" not in env:
+        if sys.platform == "darwin":
+            base = pathlib.Path.home() / "Library" / "Application Support"
+        elif os.name == "nt":
+            base = pathlib.Path(os.environ.get("APPDATA", pathlib.Path.home() / "AppData" / "Roaming"))
+        else:
+            base = pathlib.Path(os.environ.get("XDG_CONFIG_HOME", pathlib.Path.home() / ".config"))
+        env["BITWARDENCLI_APPDATA_DIR"] = str(base / f"Bitwarden CLI {profile}")
+    return env
+
+
+def run(args: list[str], *, want_json: bool = False):
+    proc = subprocess.run(
+        [os.environ.get("RBW_SHIM_BACKEND", "bwbio"), *args],
+        capture_output=True,
+        text=True,
+        env=child_env(),
+    )
+    if proc.returncode:
+        sys.stdout.write(proc.stdout)
+        sys.stderr.write(proc.stderr)
+        raise SystemExit(proc.returncode)
+    if not want_json:
+        return proc.stdout
+    try:
+        return json.loads(proc.stdout)
+    except json.JSONDecodeError:
+        sys.stderr.write(f"backend returned invalid JSON for {' '.join(args)}\n")
+        raise SystemExit(1)
+
+
+def get_item(needle: str) -> dict:
+    item = run(["get", "item", needle], want_json=True)
+    if not isinstance(item, dict):
+        sys.stderr.write("backend returned non-object item JSON\n")
+        raise SystemExit(1)
+    return item
+
+
+def rbw_raw(item: dict) -> dict:
+    login = item.get("login") if isinstance(item.get("login"), dict) else {}
+    uris = login.get("uris") if isinstance(login.get("uris"), list) else []
+    fields = item.get("fields") if isinstance(item.get("fields"), list) else []
+    history = item.get("passwordHistory") if isinstance(item.get("passwordHistory"), list) else []
+    return {
+        "id": item.get("id"),
+        "folder": None,
+        "name": item.get("name"),
+        "data": {
+            "username": login.get("username"),
+            "password": login.get("password"),
+            "totp": login.get("totp"),
+            "uris": [
+                {"uri": uri.get("uri"), "match_type": uri.get("match")}
+                for uri in uris
+                if isinstance(uri, dict)
+            ] or None,
+        },
+        "fields": [
+            {
+                "name": field.get("name"),
+                "value": field.get("value"),
+                "type": TYPE_MAP.get(field.get("type"), field.get("type")),
+            }
+            for field in fields
+            if isinstance(field, dict)
+        ],
+        "notes": item.get("notes"),
+        "history": [
+            {"last_used_date": entry.get("lastUsedDate"), "password": entry.get("password")}
+            for entry in history
+            if isinstance(entry, dict)
+        ],
+    }
+
+
+def custom_field(item: dict, name: str) -> str | None:
+    exact = []
+    contains = []
+    for field in item.get("fields") or []:
+        if not isinstance(field, dict) or not isinstance(field.get("name"), str):
+            continue
+        value = field.get("value")
+        text = value if isinstance(value, str) else "" if value is None else str(value)
+        if field["name"].casefold() == name.casefold():
+            exact.append(text)
+        elif name.casefold() in field["name"].casefold():
+            contains.append(text)
+    if exact:
+        return exact[0]
+    if contains:
+        return contains[0]
+    return None
+
+
+def write_text(value: str | None) -> None:
+    if value is None:
+        return
+    sys.stdout.write(value)
+    if not value.endswith("\n"):
+        sys.stdout.write("\n")
+
+
+def handle_get(args: argparse.Namespace) -> int:
+    if args.raw:
+        json.dump(rbw_raw(get_item(args.needle)), sys.stdout, indent=2)
+        sys.stdout.write("\n")
+        return 0
+    if args.field is None:
+        sys.stdout.write(run(["get", "password", args.needle]))
+        return 0
+    field = FIELD_MAP.get(args.field.lower(), args.field)
+    if field in {"username", "password", "notes", "uri", "totp"}:
+        target = "totp" if field == "totp" else field
+        sys.stdout.write(run(["get", target, args.needle]))
+        return 0
+    write_text(custom_field(get_item(args.needle), args.field))
+    return 0
+
+
+def handle_code(args: argparse.Namespace) -> int:
+    sys.stdout.write(run(["get", "totp", args.needle]))
+    return 0
+
+
+parser = argparse.ArgumentParser(prog="rbw")
+parser.add_argument("--version", action="version", version=f"rbw {RBW_VERSION}")
+subparsers = parser.add_subparsers(dest="command", required=True)
+
+get_parser = subparsers.add_parser("get")
+get_parser.add_argument("needle")
+get_parser.add_argument("-f", "--field")
+get_parser.add_argument("--raw", action="store_true")
+get_parser.set_defaults(func=handle_get)
+
+code_parser = subparsers.add_parser("code", aliases=["totp"])
+code_parser.add_argument("needle")
+code_parser.set_defaults(func=handle_code)
+
+args = parser.parse_args()
+raise SystemExit(args.func(args))

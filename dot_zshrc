@@ -9,7 +9,16 @@ setopt INTERACTIVE_COMMENTS
 setopt SHARE_HISTORY
 unsetopt BEEP
 
+# option + left arrow
+bindkey '^[b' backward-word
+# option + right arrow
+bindkey '^[f' forward-word
+# option + backspace
+# TODO: determine if this should match the Ghostty config
+bindkey '\e\C-?' backward-kill-word
+
 eval "$("$HOME"/.local/bin/mise activate zsh)"
+# No fnox integration because it's spammy and feels unsafe
 
 autoload -U compinit
 compinit
@@ -19,4 +28,6 @@ export HOMEBREW_BUNDLE_NO_UPGRADE=1
 export HOMEBREW_NO_INSTALL_UPGRADE=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 
-export EDITOR="$HOME/.local/bin/,editor"
+export EDITOR="$HOME/bin/,editor"
+
+export PATH="$HOME/bin:$PATH"

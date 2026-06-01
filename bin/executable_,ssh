@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+exec safehouse \
+    --enable=ssh \
+    --env-pass=SSH_AUTH_SOCK \
+    --append-profile="$HOME/.config/agent-safehouse/ssh.sb" \
+    -- /usr/bin/ssh "$@"
