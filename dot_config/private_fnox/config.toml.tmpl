@@ -1,3 +1,4 @@
 [providers]
 bitwarden = { type = "bitwarden", backend = "rbw" }
+# For caching, in case I ever want that
 age = { type = "age", recipients = [{{ (rbwFields "fnox").pub.value | toToml }}], key_file = "/Users/themaxdavitt/.config/fnox/age.txt" }

@@ -1,5 +1,5 @@
 #!/usr/bin/env -S mise x node@22 -- node
-# -*- mode: javascript -*-
+// -*- mode: javascript -*-
 
 // https://github.com/tmd-x/bitwarden-cli-bio/commit/71e600af3aaef45f022070f181fc2bc9ad7d57ab
 // TODO: Remove when https://github.com/jeanregisser/bitwarden-cli-bio/pull/4 is merged

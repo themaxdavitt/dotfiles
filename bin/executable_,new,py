@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cat >"$HOME/.local/share/chezmoi/dot_local/bin/executable_,$1" <<EOF
+cat >"$HOME/.local/share/chezmoi/bin/executable_,$1" <<EOF
 #!/usr/bin/env -S uv run --script
 # -*- mode: python -*-
 #

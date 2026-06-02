@@ -1,0 +1,57 @@
+#!/usr/bin/env -S uv run --script
+# -*- mode: python -*-
+#
+# /// script
+# dependencies = [
+#   "openai"
+# ]
+# [tool.uv]
+# exclude-newer = "2026-05-17T00:00:00Z"
+# ///
+
+import argparse
+import os
+
+from openai import OpenAI
+
+
+def main():
+    parser = argparse.ArgumentParser(",idea")
+    parser.add_argument("prompt", type=str, help="")
+    parser.add_argument(
+        "--openrouter-api-key",
+        type=str,
+        help="OpenRouter API key",
+        default=os.getenv("OPENROUTER_API_KEY", ""),
+    )
+    args = parser.parse_args()
+
+    client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=args.openrouter_api_key,
+    )
+
+    with client.chat.completions.stream(
+        model="deepseek/deepseek-v4-flash",
+        extra_body={
+            "provider": {
+                "require_parameters": True,
+            },
+            "temperature": 1.6,
+            "min_p": 0.05,
+            "top_p": 0.97,
+        },
+        messages=[
+            {
+                "role": "user",
+                "content": args.prompt,
+            },
+        ],
+    ) as stream:
+        for event in stream:
+            if event.type == "content.delta":
+                print(event.delta, flush=True, end="")
+
+
+if __name__ == "__main__":
+    main()
