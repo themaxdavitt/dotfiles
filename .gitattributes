@@ -1,4 +1,4 @@
 * text=auto
 
-bin/executable_bwbio linguist-generated
+bin/executable_bwbio linguist-vendored
 dot_config/mise/private_mise.lock linguist-language=TOML linguist-generated
