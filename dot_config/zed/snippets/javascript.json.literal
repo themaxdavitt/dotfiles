@@ -1,3 +1,5 @@
+// -*- mode: jsonc -*-
+
 {
   "Node.js HTTP_PROXY support": {
     "prefix": "node-proxy",

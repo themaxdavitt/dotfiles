@@ -1,5 +1,6 @@
 # shellcheck shell=ksh
 # shellcheck disable=SC1091,SC1094,SC2034
+# -*- mode: bash -*-
 
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=1000000000

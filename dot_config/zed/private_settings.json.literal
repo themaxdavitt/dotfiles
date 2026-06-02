@@ -1,3 +1,4 @@
+// -*- mode: jsonc -*-
 // `.literal` suffix is because Zed kept registering this as JSON before the JSONC override would kick in
 
 // https://zed.dev/docs/configuring-zed

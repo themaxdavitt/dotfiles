@@ -1,4 +1,5 @@
 # shellcheck shell=ksh
+# -*- mode: bash -*-
 
 # TODO: document why this goes here
 eval "$(/opt/homebrew/bin/brew shellenv)"
