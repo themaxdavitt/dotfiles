@@ -1,5 +1,5 @@
 # shellcheck shell=ksh
-# shellcheck disable=SC1091,SC1094,SC2034
+# shellcheck disable=SC1094,SC2034
 # -*- mode: bash -*-
 
 HISTFILE="$HOME/.zsh_history"
@@ -18,9 +18,6 @@ bindkey '^[f' forward-word
 # TODO: determine if this should match the Ghostty config
 bindkey '\e\C-?' backward-kill-word
 
-eval "$("$HOME"/.local/bin/mise activate zsh)"
-# No fnox integration because it's spammy and feels unsafe
-
 autoload -U compinit
 compinit
 source "/opt/homebrew/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh"
@@ -30,5 +27,3 @@ export HOMEBREW_NO_INSTALL_UPGRADE=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 
 export EDITOR="$HOME/bin/,editor"
-
-export PATH="$HOME/bin:$PATH"
