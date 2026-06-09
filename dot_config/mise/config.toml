@@ -1,3 +1,5 @@
+min_version = { soft = '2026.6.1' }
+
 [settings]
 experimental = true
 paranoid = true
@@ -7,8 +9,10 @@ minimum_release_age = "14d"
 [tools]
 "github:bitwarden/clients" = { version = "latest", version_prefix = "cli-v" }
 "npm:pi-acp" = { version = "0.0.26", minimum_release_age = "2026-04-19T22:38:51Z" }
-"github:badlogic/pi-mono" = "latest"
-"github:eugene1g/agent-safehouse" = { version = "0.9.0", bin = "safehouse" }
+# https://github.com/earendil-works/pi/blob/main/packages/coding-agent/CHANGELOG.md
+"github:earendil-works/pi" = "0.79.0"
+# https://github.com/eugene1g/agent-safehouse/blob/main/CHANGELOG.md
+"github:eugene1g/agent-safehouse" = { version = "0.10.1", asset_pattern = "safehouse.sh", bin = "safehouse" }
 "npm:@tobilu/qmd" = { version = "latest", minimum_release_age = "2026-05-02T23:05:55Z" }
 "github:rclone/rclone" = "latest"
 "github:jdx/fnox" = "latest"

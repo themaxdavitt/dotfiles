@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.70.2",
+  "lastChangelogVersion": "0.79.0",
   "transport": "websocket",
   "followUpMode": "one-at-a-time",
   "steeringMode": "all",
@@ -8,7 +8,7 @@
   "doubleEscapeAction": "none",
   "defaultProvider": "openrouter",
   "defaultModel": "deepseek/deepseek-v4-pro",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "xhigh",
   "enabledModels": [
     "openrouter/deepseek/deepseek-v4-pro",
     "openrouter/moonshotai/kimi-k2.6",
@@ -18,5 +18,6 @@
   ],
   "showHardwareCursor": true,
   "enableInstallTelemetry": false,
-  "theme": "dark"
+  "theme": "dark",
+  "collapseChangelog": true
 }

@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# Guard wrapper for pi: warn if this repo has project-local inputs that pi may
+# still read or migrate before its normal trust gate, then exec the real binary.
+
+set -euo pipefail
+
+pi_bin="$(mise where "github:earendil-works/pi")/pi"
+findings=()
+
+if [[ -d .pi ]]; then
+    if [[ -f .pi/settings.json ]]; then
+        keys=()
+        jq -e 'has("sessionDir")' .pi/settings.json >/dev/null && keys+=("sessionDir")
+        jq -e 'has("theme")' .pi/settings.json >/dev/null && keys+=("theme")
+
+        if ((${#keys[@]} > 0)); then
+            findings+=(".pi/settings.json: mentions pre-trust startup keys (${keys[*]})")
+        else
+            findings+=(".pi/settings.json: exists and is read before trust")
+        fi
+    fi
+
+    [[ -e .pi/commands ]] && findings+=(".pi/commands: startup migration may rename this to .pi/prompts before trust")
+    [[ -e .pi/hooks ]] && findings+=(".pi/hooks: startup scans this deprecated directory before trust")
+    [[ -e .pi/tools ]] && findings+=(".pi/tools: startup scans this deprecated directory before trust")
+fi
+
+if ((${#findings[@]} > 0)); then
+    echo "dotfiles: suspicious pre-trust inputs found in $(pwd)" >&2
+    for finding in "${findings[@]}"; do
+        echo "  - $finding" >&2
+    done
+    echo "(these checks happen before pi's normal trust prompt in v0.79.0)" >&2
+    [[ -t 0 ]] || {
+        echo "refusing to continue without an interactive terminal" >&2
+        exit 1
+    }
+    read -r -p "start pi anyway? [y/N] " answer
+    [[ "$answer" =~ ^[Yy]([Ee][Ss])?$ ]] || exit 1
+fi
+
+PI_OFFLINE=true PI_TELEMETRY=false PI_CACHE_RETENTION=long \
+    "$pi_bin" "$@"
