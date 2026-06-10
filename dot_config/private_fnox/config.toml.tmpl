@@ -2,5 +2,9 @@
 
 [providers]
 bitwarden = { type = "bitwarden", backend = "rbw" }
-# For caching, in case I ever want that
 age = { type = "age", recipients = [{{ (rbwFields "fnox").pub.value | toToml }}], key_file = "/Users/themaxdavitt/.config/fnox/age.txt" }
+
+# Only not-so-secret things here
+[secrets]
+# For higher rate limits or something
+HF_TOKEN = { provider = "bitwarden", value = "PUBLIC_READ_ONLY_HF_TOKEN" }

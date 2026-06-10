@@ -7,11 +7,8 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
-import pathlib
 import subprocess
 import sys
-
 
 RBW_VERSION = "1.15.0"
 TYPE_MAP = {0: "text", 1: "hidden", 2: "boolean", 3: "linked"}
@@ -28,26 +25,11 @@ FIELD_MAP = {
 }
 
 
-def child_env() -> dict[str, str]:
-    env = os.environ.copy()
-    profile = env.get("RBW_PROFILE")
-    if profile and "BITWARDENCLI_APPDATA_DIR" not in env:
-        if sys.platform == "darwin":
-            base = pathlib.Path.home() / "Library" / "Application Support"
-        elif os.name == "nt":
-            base = pathlib.Path(os.environ.get("APPDATA", pathlib.Path.home() / "AppData" / "Roaming"))
-        else:
-            base = pathlib.Path(os.environ.get("XDG_CONFIG_HOME", pathlib.Path.home() / ".config"))
-        env["BITWARDENCLI_APPDATA_DIR"] = str(base / f"Bitwarden CLI {profile}")
-    return env
-
-
 def run(args: list[str], *, want_json: bool = False):
     proc = subprocess.run(
-        [os.environ.get("RBW_SHIM_BACKEND", "bwbio"), *args],
+        ["bwbio", *args],
         capture_output=True,
         text=True,
-        env=child_env(),
     )
     if proc.returncode:
         sys.stdout.write(proc.stdout)
@@ -74,7 +56,11 @@ def rbw_raw(item: dict) -> dict:
     login = item.get("login") if isinstance(item.get("login"), dict) else {}
     uris = login.get("uris") if isinstance(login.get("uris"), list) else []
     fields = item.get("fields") if isinstance(item.get("fields"), list) else []
-    history = item.get("passwordHistory") if isinstance(item.get("passwordHistory"), list) else []
+    history = (
+        item.get("passwordHistory")
+        if isinstance(item.get("passwordHistory"), list)
+        else []
+    )
     return {
         "id": item.get("id"),
         "folder": None,
@@ -87,7 +73,8 @@ def rbw_raw(item: dict) -> dict:
                 {"uri": uri.get("uri"), "match_type": uri.get("match")}
                 for uri in uris
                 if isinstance(uri, dict)
-            ] or None,
+            ]
+            or None,
         },
         "fields": [
             {
@@ -100,7 +87,10 @@ def rbw_raw(item: dict) -> dict:
         ],
         "notes": item.get("notes"),
         "history": [
-            {"last_used_date": entry.get("lastUsedDate"), "password": entry.get("password")}
+            {
+                "last_used_date": entry.get("lastUsedDate"),
+                "password": entry.get("password"),
+            }
             for entry in history
             if isinstance(entry, dict)
         ],
