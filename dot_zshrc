@@ -27,6 +27,7 @@ export HOMEBREW_BUNDLE_NO_UPGRADE=1
 export HOMEBREW_NO_INSTALL_UPGRADE=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 
+export VISUAL="$HOME/bin/,editor"
 export EDITOR="$HOME/bin/,editor"
 
 # Should be quick, only synced global values
