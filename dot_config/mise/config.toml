@@ -20,6 +20,10 @@ minimum_release_age = "14d"
 "github:git-lfs/git-lfs" = "3.7.1"
 # https://github.com/huggingface/xet-core/releases?q=git-xet&expanded=true
 "github:huggingface/xet-core" = { version = "0.2.1", version_prefix = "git-xet-v", bin = "git-xet" }
+# https://github.com/yt-dlp/yt-dlp/releases
+"github:yt-dlp/yt-dlp" = { version = "2026.06.09", asset_pattern = "yt-dlp_macos.zip", bin = "yt-dlp" }
+
+"deno" = "2.8.2"
 
 [env]
 HK_HIDE_WHEN_DONE = 1
