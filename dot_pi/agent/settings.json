@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.79.0",
+  "lastChangelogVersion": "0.79.1",
   "transport": "websocket",
   "followUpMode": "one-at-a-time",
   "steeringMode": "all",
