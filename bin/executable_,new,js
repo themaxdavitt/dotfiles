@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO: add basic arg parsing?
+cat >"$HOME/.local/share/chezmoi/bin/executable_,$1" <<EOF
+#!/usr/bin/env -S mise x deno@2 -- deno run --ext=js --minimum-dependency-age=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+// -*- mode: javascript -*-
+
+
+EOF

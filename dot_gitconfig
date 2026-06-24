@@ -1,0 +1,25 @@
+[user]
+	name = Max Davitt
+	email = max@davitt.me
+
+[init]
+	defaultBranch = main
+[core]
+	excludesfile = ~/.gitignore
+	pager = LESS='KR' delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	line-numbers = true
+[merge]
+	conflictStyle = zdiff3
+[branch]
+	sort = -committerdate
+[push]
+	autoSetupRemote = true
+
+[url "https://github.com/"]
+	insteadOf = "github:"
+[url "https://gist.github.com/"]
+	insteadOf = "gist:"

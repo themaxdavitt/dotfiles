@@ -1,0 +1,27 @@
+# `if OS.mac?` is implied
+
+tap "tmd-x/3rd-party", trusted: true
+# Command-line tool to send user notifications
+cask "tmd-x/3rd-party/alerter"
+
+# Desktop password and login vault
+cask "bitwarden"
+# Menu bar usage monitor for Codex and Claude
+cask "codexbar"
+# Drivers for DisplayLink docks, adapters and monitors
+cask "displaylink"
+# Terminal emulator that uses platform-native UI and GPU acceleration
+cask "ghostty"
+# Graphically shows disk usage within a file system
+cask "grandperspective"
+# Open-source software for live streaming and screen recording
+cask "obs"
+# Replacement for Docker Desktop
+cask "orbstack"
+# Virtual machines UI using QEMU
+cask "utm"
+# Multiplayer code editor
+cask "zed"
+
+mas "Windows App", id: 1295203466
+mas "Xcode", id: 497799835

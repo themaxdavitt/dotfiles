@@ -1,0 +1,48 @@
+{
+  "extends": "base",
+  "meta": {
+    "name": "claude",
+  },
+  "groups": {
+    "include": ["unlink_protection"],
+  },
+  "network": { "allow_domain": ["api.anthropic.com", "claude.ai", "platform.claude.com"], "open_port": [0] },
+  "filesystem": {
+    "allow": [
+      "~/.claude",
+      // "~/.local/state/claude/locks",
+      // "~/.cache/claude",
+      "$NONO_CONFIG/profile-drafts",
+      // "/tmp/claude-$UID",
+      "~/Library/Keychains",
+      { "path": "~/Applications/Claude Code URL Handler.app", "when": "macos" },
+      // "~/Library/Caches",
+      // "~/Library/Logs",
+    ],
+    "read": [
+      "$NONO_CONFIG/profiles",
+      "~/.local/bin/claude",
+      "~/.gitconfig",
+      "~/.gitignore",
+      // "~/Library/Preferences",
+    ],
+    "allow_file": [
+      "~/.claude.json",
+      "~/.claude.json.lock",
+      "~/Library/Keychains/login.keychain-db",
+      "~/Library/Keychains/metadata.keychain-db",
+    ],
+    "bypass_protection": [{ "path": "~/Library/Keychains", "when": "macos" }],
+  },
+  "open_urls": {
+    "allow_origins": [
+      "https://claude.ai",
+      "https://claude.com",
+      "https://api.anthropic.com",
+      "https://platform.claude.com",
+    ],
+    "allow_localhost": true,
+  },
+  "allow_launch_services": true,
+  "interactive": true,
+}

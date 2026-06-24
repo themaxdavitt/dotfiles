@@ -1,0 +1,3 @@
+paranoid = true
+# 15 days
+minimumReleaseAge = 21600

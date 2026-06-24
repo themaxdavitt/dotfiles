@@ -1,0 +1,23 @@
+#!/bin/bash
+set -euo pipefail
+
+# dnscrypt-proxy.toml hash: {{ include "dot_local/share/dotfiles/dnscrypt-proxy/dnscrypt-proxy.toml" | sha256sum }}
+# forwarding-rules.txt hash: {{ include "dot_local/share/dotfiles/dnscrypt-proxy/forwarding-rules.txt" | sha256sum }}
+
+sudo mkdir -p /Library/Application\ Support/dnscrypt-proxy /Library/Caches/dnscrypt-proxy
+
+if [ ! -f /Library/Application\ Support/dnscrypt-proxy/dnscrypt-proxy.toml ]; then
+    sudo ln -s ~/.local/share/dotfiles/dnscrypt-proxy/dnscrypt-proxy.toml /Library/Application\ Support/dnscrypt-proxy
+fi
+
+if [ ! -f /Library/Application\ Support/dnscrypt-proxy/forwarding-rules.txt ]; then
+    sudo ln -s ~/.local/share/dotfiles/dnscrypt-proxy/forwarding-rules.txt /Library/Application\ Support/dnscrypt-proxy
+fi
+
+if [ ! -f /Library/LaunchDaemons/dnscrypt-proxy.plist ]; then
+    cd /Library/Application\ Support/dnscrypt-proxy
+    sudo dnscrypt-proxy -service install
+fi
+
+sudo dnscrypt-proxy -service stop || true
+sudo dnscrypt-proxy -service start

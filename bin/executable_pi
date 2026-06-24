@@ -3,9 +3,11 @@
 # Guard wrapper for pi: warn if this repo has project-local inputs that pi may
 # still read or migrate before its normal trust gate, then exec the real binary.
 
+# TODO: mention in skill to check whether or not this is relevant when updating pi
+
 set -euo pipefail
 
-pi_bin="$(mise where "github:earendil-works/pi")/pi"
+pi_bin="$(mise which "pi")"
 findings=()
 
 if [[ -d .pi ]]; then

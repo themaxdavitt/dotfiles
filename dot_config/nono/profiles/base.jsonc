@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "name": "base",
+  },
+  "groups": {
+    "exclude": [
+      "user_tools",
+      "homebrew_macos",
+      "homebrew_linux",
+      "dangerous_commands",
+      "dangerous_commands_macos",
+      "dangerous_commands_linux",
+    ],
+  },
+  "environment": {
+    "allow_vars": ["HOME", "TERM", "LANG"],
+  },
+  "network": {
+    "allow_domain": [
+      "registry.npmjs.org",
+      "pypi.org",
+      "files.pythonhosted.org",
+      "crates.io",
+      "static.crates.io",
+      "index.crates.io",
+      "github.com",
+      "api.github.com",
+      "codeload.github.com",
+      "raw.githubusercontent.com",
+      "gist.githubusercontent.com",
+      "objects.githubusercontent.com",
+      "github-releases.githubusercontent.com",
+      "ghcr.io",
+      "pkg-containers.githubusercontent.com",
+    ],
+  },
+  "security": {
+    "signal_mode": "isolated",
+    "capability_elevation": false,
+  },
+  "filesystem": {
+    "allow": ["$NONO_CONFIG/profile-drafts"],
+    "read": ["$NONO_CONFIG/profiles"],
+  },
+  "workdir": { "access": "readwrite" },
+  // ???
+  "diagnostics": {
+    "suppress_system_services": ["forbidden-exec-sugid"],
+  },
+}

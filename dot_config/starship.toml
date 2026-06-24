@@ -1,0 +1,73 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = true
+
+# TODO: figure out what I want the colors to be, these are basically just random for now
+
+# FYI: `$fill` seems to break fzf-tab..?
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_state\
+$git_status\
+$status\
+$cmd_duration\
+$line_break\
+$character"""
+
+continuation_prompt = "[.](bright-black) "
+
+[username]
+show_always = true
+format = '[$user]($style)@'
+aliases = { "themaxdavitt" = "max" }
+
+[hostname]
+ssh_only = false
+format = '[$ssh_symbol$hostname]($style) '
+aliases = { "MacBookPro" = "macbook" }
+
+[directory]
+style = "blue"
+
+[character]
+success_symbol = "[>](bold green)"
+error_symbol = "[x](bold red)"
+vimcmd_symbol = "[<](bold green)"
+vimcmd_visual_symbol = "[<](bold yellow)"
+vimcmd_replace_symbol = "[<](bold purple)"
+vimcmd_replace_one_symbol = "[<](bold purple)"
+
+[git_branch]
+format = "[$branch]($style)"
+style = "bright-black"
+
+# TODO: test
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "bright-black"
+
+# TODO: check if this supports worktrees
+[git_status]
+format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218)($ahead_behind$stashed)]($style) "
+style = "cyan"
+conflicted = "​"
+untracked = "​"
+modified = "​"
+staged = "​"
+renamed = "​"
+deleted = "​"
+stashed = "!"
+
+[cmd_duration]
+format = "[$duration]($style) "
+style = "yellow"
+
+[status]
+disabled = false
+format = '[$status]($style) '
+pipestatus_format = '$pipestatus '
+pipestatus_segment_format = '[$status]($style)'
+pipestatus = true

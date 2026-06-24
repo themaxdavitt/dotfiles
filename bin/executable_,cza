@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-# TODO: figure out how I can make this run automatically using some chezmoi filename magic
+# TODO: figure out how I can make some/all of this run automatically using some chezmoi filename magic, e.g. https://www.chezmoi.io/user-guide/machines/macos/ tho maybe figure out how sequencing should work with mise's bootstrap feature in the mix now
+# TODO: instead, actually, maybe make this zshrc-only?
 
 lock() {
     bwbio lock
@@ -9,6 +10,7 @@ lock() {
 
 trap lock EXIT
 
+# TODO: bail if can't be unlocked via bio
 BW_SESSION="$(bwbio unlock --raw)"
 
 BW_SESSION="$BW_SESSION" chezmoi apply --dry-run --verbose --force
@@ -20,6 +22,7 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 # Keep cruft at bay... a little
+# TODO: something smarter
 find "$HOME/bin" -maxdepth 1 -type f -name ",*" -exec rm {} +
 
 BW_SESSION="$BW_SESSION" chezmoi apply --force
@@ -42,7 +45,7 @@ for tool in sys.stdin.read().splitlines():
 
 if [[ ${#new_tools[@]} -gt 0 ]]; then
     echo locking "${new_tools[@]}" >&2
-    mise lock --global --platform macos-arm64 "${new_tools[@]}"
+    mise lock --global "${new_tools[@]}"
 fi
 
 if [[ ${#tools[@]} -gt 0 ]]; then

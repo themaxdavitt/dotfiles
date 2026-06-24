@@ -1,34 +1,15 @@
 # shellcheck shell=ksh
-# shellcheck disable=SC1094,SC2034
 # -*- mode: bash -*-
 
-HISTFILE="$HOME/.zsh_history"
-HISTSIZE=1000000000
-SAVEHIST=$HISTSIZE
-setopt HIST_IGNORE_DUPS
-setopt INTERACTIVE_COMMENTS
-setopt SHARE_HISTORY
-unsetopt BEEP
-
-# option + left arrow
-bindkey '^[b' backward-word
-# option + right arrow
-bindkey '^[f' forward-word
-# option + backspace
-# TODO: determine if this should match the Ghostty config
-bindkey '\e\C-?' backward-kill-word
-
-autoload -U compinit
-compinit
-source "$HOME/.zsh/fzf-tab/fzf-tab.zsh"
-source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-
-export HOMEBREW_BUNDLE_NO_UPGRADE=1
-export HOMEBREW_NO_INSTALL_UPGRADE=1
-export HOMEBREW_NO_AUTO_UPDATE=1
-
-export VISUAL="$HOME/bin/,editor"
-export EDITOR="$HOME/bin/,editor"
-
-# Should be quick, only synced global values
-eval "$(fnox export -c "$HOME"/.config/fnox/config.toml)"
+# shellcheck disable=2034
+files=( ~/.zshrc.d/*.sh )
+if [[ -d ~/.zshrc.d ]]; then
+    setopt null_glob
+    # shellcheck disable=2068,2296
+    for file in ${(n)files[@]}; do
+        # shellcheck disable=1090
+        source "$file"
+    done
+    unsetopt nullglob
+    unset file
+fi

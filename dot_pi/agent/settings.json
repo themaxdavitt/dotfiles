@@ -19,5 +19,6 @@
   "showHardwareCursor": true,
   "enableInstallTelemetry": false,
   "theme": "dark",
-  "collapseChangelog": true
+  "collapseChangelog": true,
+  "skills": ["~/.claude/skills"]
 }

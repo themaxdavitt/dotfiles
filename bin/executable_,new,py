@@ -6,9 +6,7 @@ cat >"$HOME/.local/share/chezmoi/bin/executable_,$1" <<EOF
 # -*- mode: python -*-
 #
 # /// script
-# dependencies = [
-#   # TODO
-# ]
+# dependencies = []
 # [tool.uv]
 # exclude-newer = "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 # ///
@@ -17,7 +15,7 @@ import argparse
 
 
 def main():
-    parser = argparse.ArgumentParser("name")
+    parser = argparse.ArgumentParser(",$1")
     args = parser.parse_args()
 
 
