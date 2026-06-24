@@ -18,6 +18,8 @@
 	sort = -committerdate
 [push]
 	autoSetupRemote = true
+[blame]
+	ignoreRevsFile = :(optional).git-blame-ignore-revs
 
 [url "https://github.com/"]
 	insteadOf = "github:"
