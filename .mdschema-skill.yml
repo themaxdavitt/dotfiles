@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/jackchuka/mdschema/refs/tags/v0.13.2/schema.json
+# Schema for SKILL.md files. This lane owns document *structure* only: lexical
+# discipline (directive tokens, hedges, negation) is Vale AgentGuidance's job,
+# and frontmatter *values* (name == dirname, description patterns) belong to
+# .lints/skill-frontmatter.sh.
+
+frontmatter:
+  fields:
+    - name: name
+      type: string
+    - name: description
+      type: string
+    - name: license
+      optional: true
+      type: string
+    - name: metadata
+      optional: true
+      type: object
+
+structure:
+  # One short, intentionally-abstract framing paragraph; everything normative
+  # lives in the directive sections below.
+  - heading:
+      pattern: "^# Philosophy$"
+    word_count: { min: 25, max: 75 }
+    forbidden_text:
+      - pattern: 'ALWAYS:'
+      - pattern: 'NEVER:'
+  # Directives that always apply when the skill is active.
+  - heading:
+      pattern: "^# (Core )?Directives$"
+    lists:
+      - { min: 1, type: unordered }
+  # Optional context-specific directive sections.
+  - heading:
+      pattern: "^# Application: .+"
+    optional: true
+    count: { min: 0 }
+    lists:
+      - { min: 1, type: unordered }

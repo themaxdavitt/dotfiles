@@ -1,0 +1,1 @@
+Write `SKILL.md` for an agent skill that helps produce valid OpenAPI 3.1 specifications. Assume the complete field-by-field OpenAPI reference material spans roughly 40 pages and is essential when the skill is used. Show the full `SKILL.md` you would ship (you may abbreviate the reference material itself).

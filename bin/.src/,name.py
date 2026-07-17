@@ -1,0 +1,26 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.14"
+# dependencies = [
+#   "haikunator"
+# ]
+# [tool.uv]
+# exclude-newer = "2026-04-08T12:00:00Z"
+# ///
+
+import argparse
+
+from haikunator import Haikunator
+
+
+def main():
+    parser = argparse.ArgumentParser(",name")
+    parser.add_argument("-l", "--token-length", type=int, default=2)
+    parser.add_argument("-d", "--delimiter", type=str, default="-")
+    args = parser.parse_args()
+
+    print(Haikunator().haikunate(token_length=args.token_length, delimiter=args.delimiter))
+
+
+if __name__ == "__main__":
+    main()

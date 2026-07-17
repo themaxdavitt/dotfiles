@@ -1,3 +1,4 @@
+; -*- mode: lisp -*-
 (deny network*)
 
 (allow system-socket (socket-domain AF_UNIX))
@@ -6,5 +7,5 @@
 (allow network-outbound (remote ip "localhost:*"))
 
 (allow file-read* file-write*
-    (regex #"^/Users/themaxdavitt/\.cache/chromium-[^/]+(/|$)")
+  (regex #"^/Users/themaxdavitt/\.cache/chromium-[^/]+(/|$)")
 )

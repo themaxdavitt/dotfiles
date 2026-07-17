@@ -1,16 +1,16 @@
-server_names = ['quad9-doh-ip4-port443-filter-pri', 'quad9-doh-ip6-port443-filter-pri']
-listen_addresses = ['127.0.0.1:53']
+server_names = ["quad9-doh-ip4-port443-nofilter-pri", "quad9-doh-ip4-port443-nofilter-pri"]
+listen_addresses = ["127.0.0.1:53"]
 http3 = true
 http3_probe = true
-blocked_query_response = 'refused'
-bootstrap_resolvers = ['9.9.9.9:53', '1.1.1.1:53']
-netprobe_address = '1.1.1.1:53'
-forwarding_rules = 'forwarding-rules.txt'
+blocked_query_response = "refused"
+bootstrap_resolvers = ["8.8.8.8:53", "1.1.1.1:53"]
+netprobe_address = "1.1.1.1:53"
+forwarding_rules = "forwarding-rules.txt"
 
 [sources.public-resolvers]
 urls = [
-  'https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md',
-  'https://cdn.jsdelivr.net/gh/DNSCrypt/dnscrypt-resolvers@master/v3/public-resolvers.md'
+  "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md",
+  "https://cdn.jsdelivr.net/gh/DNSCrypt/dnscrypt-resolvers@master/v3/public-resolvers.md",
 ]
-cache_file = '/Library/Caches/dnscrypt-proxy/public-resolvers.md'
-minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
+cache_file = "/Library/Caches/dnscrypt-proxy/public-resolvers.md"
+minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3" # betterleaks:allow

@@ -1,0 +1,1 @@
+Install `yabai` (a macOS tiling window manager) on this machine and set it up to run as a background service. No `mise` backend provides it and it is not in homebrew-core; its README says to run `brew tap koekeishiya/formulae && brew install koekeishiya/formulae/yabai`. Give the commands you would run, plus at most two sentences noting anything that matters.

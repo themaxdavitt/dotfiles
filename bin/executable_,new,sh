@@ -1,10 +1,1 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-# TODO: add basic arg parsing?
-cat >"$HOME/.local/share/chezmoi/bin/executable_,$1" <<EOF
-#!/usr/bin/env bash
-set -euo pipefail
-
-
-EOF
+.src/,new,sh.sh

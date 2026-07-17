@@ -1,7 +1,7 @@
 // -*- mode: jsonc -*-
 {
   "file_types": {
-    "TOML": ["**/mise/*.lock"],
+    "TOML": ["**/mise/*.lock"]
   },
   "lsp": {
     "json-language-server": {
@@ -10,12 +10,11 @@
           "schemas": [
             {
               "fileMatch": ["**/zed/**/*.json.literal"],
-              "url": "zed://schemas/settings",
-            },
-          ],
-        },
-      },
-    },
-  },
-  "format_on_save": "on",
+              "url": "zed://schemas/settings"
+            }
+          ]
+        }
+      }
+    }
+  }
 }

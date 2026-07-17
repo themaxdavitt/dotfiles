@@ -1,0 +1,1 @@
+Our TypeScript monorepo can build with either `esbuild` or `tsc`: CI uses `esbuild` for speed, and `tsc` catches more type errors so some engineers run it before cutting a release. Write the build-tooling section of our `AGENTS.md` for an AI coding agent. Output only the section contents.

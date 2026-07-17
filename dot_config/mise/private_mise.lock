@@ -66,12 +66,12 @@ checksum = "sha256:76260fb34f4ee622ff0a66b857e5954aa49c7e343a92e57a1ec4a760618c9
 url = "https://github.com/git-lfs/git-lfs/releases/download/v3.7.1/git-lfs-darwin-arm64-v3.7.1.zip"
 
 [[tools."aqua:jdx/aube"]]
-version = "1.22.0"
+version = "1.24.0"
 backend = "aqua:jdx/aube"
 
 [tools."aqua:jdx/aube"."platforms.macos-arm64"]
-checksum = "sha256:1ca59b6c9e338dc0bf4df850a2a314bec8fd82a618532c6dfc6878812fa89326"
-url = "https://github.com/jdx/aube/releases/download/v1.22.0/aube-v1.22.0-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:729feaec0408c3bd8f27cb69903a9d3d61d6fba89c6ca4fa2b6ece6e3eff92de"
+url = "https://github.com/jdx/aube/releases/download/v1.24.0/aube-v1.24.0-aarch64-apple-darwin.tar.gz"
 provenance = "github-attestations"
 
 [[tools."aqua:koalaman/shellcheck"]]
@@ -139,6 +139,14 @@ checksum = "sha256:e8a6780b6dbd4aeb296fdd077909c10a8506cee3211bfeb544342d4c40430
 url = "https://github.com/suzuki-shunsuke/ghtkn/releases/download/v0.2.6/ghtkn_darwin_arm64.tar.gz"
 provenance = "github-attestations"
 
+[[tools."aqua:vercel-labs/agent-browser"]]
+version = "0.31.2"
+backend = "aqua:vercel-labs/agent-browser"
+
+[tools."aqua:vercel-labs/agent-browser"."platforms.macos-arm64"]
+checksum = "sha256:98042bcfee9afdf6119d6817a04ef5897f519f290491664911779b084ae1b82a"
+url = "https://github.com/vercel-labs/agent-browser/releases/download/v0.31.2/agent-browser-darwin-arm64"
+
 [[tools.deno]]
 version = "2.8.2"
 backend = "core:deno"
@@ -148,26 +156,24 @@ checksum = "sha256:02e5eb795c9f763772dfd081429cead9029e0a4a6aaff6d4e5f3ed6d2e94d
 url = "https://dl.deno.land/release/v2.8.2/deno-aarch64-apple-darwin.zip"
 
 [[tools."github:always-further/nono"]]
-version = "0.64.1"
+version = "0.65.1"
 backend = "github:always-further/nono"
 
 [tools."github:always-further/nono"."platforms.macos-arm64"]
-checksum = "sha256:a2d9c58f2525140338956d59531e09f577ec0ad2c65a22e337852b49394c0809"
-url = "https://github.com/always-further/nono/releases/download/v0.64.1/nono-v0.64.1-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/always-further/nono/releases/assets/452776636"
+checksum = "sha256:70075407c9cb8bc2162f27b40d62e68b750cc3e8e2049910fbfbfba6a4db6489"
+url = "https://github.com/always-further/nono/releases/download/v0.65.1/nono-v0.65.1-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/always-further/nono/releases/assets/455783024"
 provenance = "github-attestations"
 
-[[tools."github:bitwarden/clients"]]
-version = "2026.1.0"
-backend = "github:bitwarden/clients"
+[[tools."github:backnotprop/plannotator"]]
+version = "0.21.1"
+backend = "github:backnotprop/plannotator"
 
-[tools."github:bitwarden/clients".options]
-version_prefix = "cli-v"
-
-[tools."github:bitwarden/clients"."platforms.macos-arm64"]
-checksum = "sha256:e3649caeda5231a373dd9dc3024568cfe51aa06d53bc80e8dfb3f4c674b3b02f"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.1.0/bw-macos-arm64-2026.1.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/351254788"
+[tools."github:backnotprop/plannotator"."platforms.macos-arm64"]
+checksum = "sha256:89b485f54538dad211cd5f1e2e296860cc3aea433adb4785eed335dbe25377af"
+url = "https://github.com/backnotprop/plannotator/releases/download/v0.21.1/plannotator-darwin-arm64"
+url_api = "https://api.github.com/repos/backnotprop/plannotator/releases/assets/454565163"
+provenance = "github-attestations"
 
 [[tools."github:boyter/cs"]]
 version = "3.1.0"
@@ -230,39 +236,30 @@ checksum = "sha256:b1b7afb9e7c8840f269e9f342ffce3c2b90faa221f288484654a80f2a244b
 url = "https://github.com/michel-kraemer/zsh-patina/releases/download/1.8.0/zsh-patina-v1.8.0-aarch64-apple-darwin.tar.gz"
 url_api = "https://api.github.com/repos/michel-kraemer/zsh-patina/releases/assets/447387252"
 
-[[tools."github:yt-dlp/yt-dlp"]]
-version = "2026.06.09"
-backend = "github:yt-dlp/yt-dlp"
+[[tools.node]]
+version = "24.14.1"
+backend = "core:node"
 
-[tools."github:yt-dlp/yt-dlp".options]
-asset_pattern = "yt-dlp_macos.zip"
+[tools.node."platforms.macos-arm64"]
+checksum = "sha256:25495ff85bd89e2d8a24d88566d7e2f827c6b0d3d872b2cebf75371f93fcb1fe"
+url = "https://nodejs.org/dist/v24.14.1/node-v24.14.1-darwin-arm64.tar.gz"
 
-[tools."github:yt-dlp/yt-dlp"."platforms.macos-arm64"]
-checksum = "sha256:62a3108d7c37090107f0bb9a2369b953b35e43f4bc76ab0ea87e4ab593c23ec7"
-url = "https://github.com/yt-dlp/yt-dlp/releases/download/2026.06.09/yt-dlp_macos.zip"
-url_api = "https://api.github.com/repos/yt-dlp/yt-dlp/releases/assets/443156647"
-provenance = "github-attestations"
+[[tools."npm:@bitwarden/cli"]]
+version = "2026.1.0"
+backend = "npm:@bitwarden/cli"
+
+[tools."npm:@bitwarden/cli".options]
+allow_builds = '["core-js"]'
 
 [[tools."npm:@earendil-works/pi-coding-agent"]]
-version = "0.78.1"
+version = "0.80.6"
 backend = "npm:@earendil-works/pi-coding-agent"
 
 [tools."npm:@earendil-works/pi-coding-agent".options]
 allow_builds = '["@google/genai", "protobufjs"]'
 
 [[tools."npm:@tobilu/qmd"]]
-version = "2.1.0"
-backend = "npm:@tobilu/qmd"
-
-[[tools."npm:@tobilu/qmd"]]
-version = "2.1.0"
-backend = "npm:@tobilu/qmd"
-
-[tools."npm:@tobilu/qmd".options]
-allow_builds = '["better-sqlite3", "node-llama-cpp", "tree-sitter-go", "tree-sitter-javascript", "tree-sitter-python"]'
-
-[[tools."npm:@tobilu/qmd"]]
-version = "2.1.0"
+version = "2.5.3"
 backend = "npm:@tobilu/qmd"
 
 [tools."npm:@tobilu/qmd".options]
@@ -276,9 +273,21 @@ backend = "npm:pi-acp"
 version = "0.4.32"
 backend = "pipx:ffsubsync"
 
+[tools."pipx:ffsubsync".options]
+uvx_args = "--python 3.14"
+
 [[tools."pipx:yt-dlp"]]
 version = "2026.06.09"
 backend = "pipx:yt-dlp"
 
 [tools."pipx:yt-dlp".options]
 extras = "default,curl-cffi"
+
+[[tools.python]]
+version = "3.14.6"
+backend = "core:python"
+
+[tools.python."platforms.macos-arm64"]
+checksum = "blake3:4d4071b155629f4b8ab336b493e08d5e2ae10369706400f01833aafaa4a8838e"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260623/cpython-3.14.6+20260623-aarch64-apple-darwin-install_only_stripped.tar.gz"
+provenance = "github-attestations"

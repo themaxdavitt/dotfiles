@@ -1,4 +1,0 @@
-- Document everything else
-- Figure out which `exec` uses are actually needed.
-- Explain configuring OpenRouter to only use good providers + ZDR
-- Look into [mise's declarative bootstrapping feature](https://github.com/jdx/mise/releases/tag/v2026.6.6)

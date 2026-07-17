@@ -1,0 +1,13 @@
+severity = "Warning"
+exclude = [".zed/**", ".git/**"]
+tools = ["claude-code", "codex", "github-copilot", "generic"]
+
+[rules]
+# Some of the rules are old or just half-baked TBH
+disabled_rules = ["VER-001", "XP-001", "XP-003", "XP-006", "CDX-AG-005"]
+disabled_validators = ["PromptValidator"]
+
+# [files]
+# include_as_memory = ["AGENTS.md.txt", "CLAUDE.md.txt"]
+# include_as_generic = []
+# exclude = []

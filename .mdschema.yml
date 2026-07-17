@@ -1,0 +1,7 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/jackchuka/mdschema/refs/tags/v0.13.2/schema.json
+# Default mdschema config — used for files not covered by a more specific schema.
+# Minimal: just enforce no skipped heading levels.
+
+heading_rules:
+  no_skip_levels: true
+  max_depth: 6

@@ -1,20 +1,18 @@
 {
-  "lastChangelogVersion": "0.79.1",
+  "lastChangelogVersion": "0.80.6",
   "transport": "websocket",
   "followUpMode": "one-at-a-time",
   "steeringMode": "all",
   "quietStartup": true,
   "treeFilterMode": "default",
   "doubleEscapeAction": "none",
-  "defaultProvider": "openrouter",
-  "defaultModel": "deepseek/deepseek-v4-pro",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.6-terra",
   "defaultThinkingLevel": "xhigh",
   "enabledModels": [
-    "openrouter/deepseek/deepseek-v4-pro",
-    "openrouter/moonshotai/kimi-k2.6",
-    "openrouter/anthropic/claude-opus-4.7",
-    "openrouter/openai/gpt-5.4",
-    "openrouter/google/gemini-3.1-pro-preview"
+    "openrouter/~anthropic/claude-fable-latest",
+    "openai-codex/gpt-5.6-terra",
+    "openrouter/z-ai/glm-5.2"
   ],
   "showHardwareCursor": true,
   "enableInstallTelemetry": false,

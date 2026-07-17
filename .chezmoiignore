@@ -1,4 +1,19 @@
+# -*- mode: gitignore -*-
+
+# Patterns match *target* paths (what would land in $HOME), not source names.
+# Dot-prefixed source entries (.vale/, .lints/, .mdschema*.yml, .claude/, …)
+# never deploy and need no entries here.
+
 /Brewfile
+/LICENSE
 /*.md
-/setup.sh
+/*.toml
+/*.wip.txt
 /TODO*
+/hk.pkl
+__pycache__
+
+# Skill evals: co-located with skills but not deployed to $HOME
+.claude/skills/*/evals
+
+# TODO: something smarter in this file, like maybe an allow list

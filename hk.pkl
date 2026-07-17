@@ -1,0 +1,257 @@
+amends "package://github.com/jdx/hk/releases/download/v1.48.0/hk@1.48.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.48.0/hk@1.48.0#/Builtins.pkl"
+
+// Gitignored personal scratch — hk can still surface it (e.g. a staged deletion
+// leaves the file on disk), so exclude it from every step explicitly.
+exclude = List("TODO*", "TODO*/**")
+
+local linters = new Mapping<String, Step> {
+  ["editorconfig"] = Builtins.editorconfig_checker
+  ["dotfiles-mdschema-skill"] {
+    batch = true
+    glob = List("**/SKILL.md")
+    check = "mdschema check --schema .mdschema-skill.yml {{ files }}"
+  }
+  ["dotfiles-mdschema-agents"] {
+    batch = true
+    glob =
+      List(
+        "**/AGENTS.md",
+        "**/AGENTS.local.md",
+        "**/AGENTS.override.md",
+      )
+    check = "mdschema check --schema .mdschema-agents.yml {{ files }}"
+  }
+  ["dotfiles-skill-frontmatter"] {
+    batch = true
+    glob = List("**/SKILL.md")
+    check = ".lints/skill-frontmatter.sh {{ files }}"
+  }
+  ["oxlint"] = Builtins.ox_lint
+  ["oxfmt"] = Builtins.oxfmt
+  ["pkl-format"] = Builtins.pkl_format
+  // TODO: enable rules or something, IDK
+  ["ruff"] = Builtins.ruff
+  ["ruff-format"] = Builtins.ruff_format
+  ["vale"] = Builtins.vale
+  ["zizmor"] = (Builtins.zizmor) {
+    check_diff = "zizmor --quiet --persona=auditor --no-progress {{ files }}"
+    fix = "zizmor --quiet --persona=auditor --no-progress --fix {{ files }}"
+    output_summary = "hide"
+  }
+  ["case-conflict"] = Builtins.check_case_conflict
+  ["executables-have-shebangs"] = Builtins.check_executables_have_shebangs
+  ["merge-conflict"] = Builtins.check_merge_conflict
+  ["symlinks"] = Builtins.check_symlinks
+
+  // TODO: consider adding a separate zsh-specific shellcheck using a shellcheckrc with some disables preconfigured
+  ["shellcheck"] = (Builtins.shellcheck) {
+    glob = List("**/*.sh", "**/*.zsh", "**/*.bash")
+    depends =
+      List(
+        "dotfiles-bin-bash-set-line",
+        "dotfiles-bin-src-symlink",
+        "dotfiles-chezmoi-executable-shebang",
+        "dotfiles-sh-bash-shebang",
+        "dotfiles-zsh-shellcheck-mode",
+      )
+  }
+  ["dotfiles-shellcheck-disable-no-prefix"] {
+    glob =
+      List(
+        "**/*.sh",
+        "**/*.zsh",
+        "**/*.bash",
+        "**/.shellcheckrc",
+        "**/shellcheckrc",
+      )
+    check = ".lints/shellcheck-disable-no-prefix.sh {{ files }}"
+  }
+  // TODO: add `shfmt`
+
+  // TODO: add online, maybe only in pre-commit
+  // TODO: enable when it's ready
+  //["lychee-offline"] = (Builtins.lychee) {
+  //  check = "lychee --no-progress --offline {{ files }}"
+  //  // can't use `lychee.toml`'s `exclude_path` because it warns with "No files found for this input source"
+  //  exclude = List("bin/.src/,chrome.sh")
+  //}
+  ["pkl"] = Builtins.pkl
+  ["dotfiles-agnix"] {
+    glob =
+      List(
+        ".agnix.toml",
+        "**/SKILL.md",
+        "**/CLAUDE.md",
+        "**/CLAUDE.local.md",
+        "**/AGENTS.md",
+        "**/AGENTS.local.md",
+        "**/AGENTS.override.md",
+        "**/.claude/settings.json",
+        "**/.claude/settings.local.json",
+        "**/*.mcp.json",
+        "**/.github/copilot-instructions.md",
+      )
+    check = ".lints/agnix.sh {{ files }}"
+  }
+  // TODO: change/remove after astral-sh/ty#691 is resolved..?
+  ["dotfiles-ty-pep723"] {
+    batch = true
+    glob = List("bin/.src/*.py")
+    check = ".lints/ty-pep723.sh {{ files }}"
+  }
+  ["dotfiles-bin-uv-py"] {
+    batch = true
+    glob = List("bin/.src/*.py")
+    check = ".lints/bin-uv-py.sh {{ files }}"
+  }
+  ["dotfiles-bin-bash-set-line"] {
+    batch = true
+    glob = List("bin/executable_*", "bin/.src/**/*")
+    check = ".lints/bin-bash-set-line.sh {{ files }}"
+  }
+  ["dotfiles-bin-src-symlink"] {
+    batch = true
+    glob = List("bin/*")
+    allow_symlinks = true
+    check = ".lints/bin-src-symlink.sh {{ files }}"
+  }
+  ["dotfiles-chezmoi-executable-shebang"] {
+    batch = true
+    glob = List("**/*.sh")
+    allow_symlinks = true
+    check = ".lints/chezmoi-executable-shebang.sh {{ files }}"
+  }
+  ["dotfiles-lints-have-executable-bit"] {
+    batch = true
+    glob = List(".lints/*.sh")
+    check = ".lints/lints-have-executable-bit.sh {{ files }}"
+  }
+  ["dotfiles-eval-graders-executable"] {
+    batch = true
+    glob = List("**/evals/*/grade.sh", ".evals/*/*/grade.sh")
+    check = ".lints/eval-graders-executable.sh {{ files }}"
+  }
+  ["dotfiles-lints-single-line-description"] {
+    batch = true
+    glob = List(".lints/*.sh")
+    check = ".lints/lints-single-line-description.sh {{ files }}"
+  }
+  ["dotfiles-sh-bash-shebang"] {
+    batch = true
+    glob = List("**/*.sh", "**/*.bash")
+    check = ".lints/sh-bash-shebang.sh {{ files }}"
+  }
+  ["dotfiles-shebang-uses-env"] {
+    batch = true
+    types = List("text")
+    check = ".lints/shebang-uses-env.sh {{ files }}"
+  }
+  ["dotfiles-unused-custom-lint"] {
+    batch = true
+    glob = List(".lints/*.sh", "hk.pkl")
+    check = ".lints/unused-custom-lint.sh {{ files }}"
+  }
+  ["dotfiles-zsh-shellcheck-mode"] {
+    batch = true
+    glob = List("**/*.zsh")
+    check = ".lints/zsh-shellcheck-mode.sh {{ files }}"
+  }
+  ["dotfiles-constraint-density"] {
+    batch = true
+    glob =
+      List(
+        "**/AGENTS.md",
+        "**/AGENTS.local.md",
+        "**/AGENTS.override.md",
+        "**/SKILL.md",
+        "**/CLAUDE.md",
+      )
+    check = ".lints/constraint-density.sh {{ files }}"
+  }
+  ["dotfiles-claude-imports-agents"] {
+    batch = true
+    glob = List("**/CLAUDE.md")
+    check = ".lints/claude-imports-agents.sh {{ files }}"
+  }
+  ["dotfiles-github-file-links"] {
+    batch = true
+    glob =
+      List(
+        "**/AGENTS.md",
+        "**/AGENTS.local.md",
+        "**/AGENTS.override.md",
+        "**/SKILL.md",
+        "**/CLAUDE.md",
+      )
+    check = ".lints/github-file-links.sh {{ files }}"
+  }
+  ["dotfiles-emacs-mode-line"] {
+    batch = true
+    types = List("text")
+    check = ".lints/emacs-mode-line.sh {{ files }}"
+  }
+  ["dotfiles-pi-favorite-models-sync"] {
+    batch = true
+    glob =
+      List(
+        "dot_config/zed/private_settings.json.literal",
+        "dot_pi/agent/settings.json",
+      )
+    check = ".lints/pi-favorite-models-sync.sh {{ files }}"
+  }
+  // ,llint: LLM-backed agent-guidance linting with multi-model voting.
+  // Requires OPENROUTER_API_KEY in env (store via fnox; export in shell profile).
+  // Gated behind the `llm` profile (paid + network): `mise run check-llm` or
+  // `hk check --profile llm`. Content-hash cache in ~/.cache/llint/ makes
+  // re-runs on unchanged files free.
+  // NOTE: ,llint eval is intentionally NOT wired here — it's an authoring tool,
+  //       not a commit gate. Run it manually: ,llint eval <skill-dir>
+  ["dotfiles-llint-guidance"] {
+    batch = true
+    profiles = List("llm")
+    glob =
+      List(
+        "**/CLAUDE.md",
+        "**/AGENTS.md",
+        "**/AGENTS.local.md",
+        "**/AGENTS.override.md",
+        "**/SKILL.md",
+        "**/.github/copilot-instructions.md",
+      )
+    check =
+      ",llint lint --scope agent-guidance --rules-dir dot_config/dotfiles/llint/rules --agent-spec-dir dot_config/dotfiles/llint/agents {{ files }}"
+  }
+  ["dotfiles-llint-skill"] {
+    batch = true
+    profiles = List("llm")
+    glob = List("**/SKILL.md")
+    check =
+      ",llint lint --scope skill-definition --rules-dir dot_config/dotfiles/llint/rules --agent-spec-dir dot_config/dotfiles/llint/agents {{ files }}"
+  }
+  ["betterleaks"] = (Builtins.betterleaks) {
+    check = "betterleaks dir --redact --verbose --no-banner --log-level warn {{ files }}"
+  }
+}
+
+hooks {
+  ["pre-commit"] {
+    // fix = true
+    // stash = "git"
+    steps = (linters) {
+      ["dotfiles-check-email"] {
+        shell = "bash -o errexit -c"
+        check =
+          #"for var in GIT_AUTHOR_IDENT GIT_COMMITTER_IDENT; do ident=$(git var "$var"); email="${ident#*<}"; email="${email%%>*}"; if [ "$email" != "max@davitt.me" ]; then echo "error: bad $var email '$email'" >&2; exit 1; fi; done"#
+      }
+      ["large-files"] = Builtins.check_added_large_files
+    }
+  }
+  ["fix"] {
+    fix = true
+    steps = linters
+  }
+  ["check"] {
+    steps = linters
+  }
+}

@@ -8,3 +8,6 @@ age = { type = "age", recipients = [{{ (rbwFields "fnox").pub.value | toToml }}]
 [secrets]
 # For higher rate limits or something
 HF_TOKEN = { provider = "bitwarden", value = "PUBLIC_READ_ONLY_HF_TOKEN" }
+
+[profiles.pi.secrets]
+OPENROUTER_API_KEY = { provider = "bitwarden", "value" = "Pi OPENROUTER_API_KEY" }

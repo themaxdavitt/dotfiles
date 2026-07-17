@@ -1,0 +1,1 @@
+You are an agent working in this chezmoi dotfiles repo on macOS. You have edited the source template for `~/.zshrc` and want to preview the rendered change before anything is applied. What exactly do you do, step by step? A few sentences or commands.

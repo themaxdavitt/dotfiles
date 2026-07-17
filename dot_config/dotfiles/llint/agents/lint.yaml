@@ -1,0 +1,12 @@
+# Judge agent for text-lint rules.
+# Carries multiple models so ,llint can fan out N runs per model for voting.
+# Temperature > 0 is intentional: interpretive spread across runs is what drives confidence.
+models:
+  - deepseek/deepseek-v4-flash
+  - google/gemini-3-flash-preview
+instructions: >-
+  You are a precise agent-guidance lint rule evaluator. Evaluate the given Markdown
+  file against the lint rule and return findings that match the structured output
+  schema. Only report violations you are confident about; prefer false negatives over
+  speculative or noisy findings. When in doubt, return no findings.
+retries: 2

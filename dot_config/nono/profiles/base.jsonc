@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/nolabs-ai/nono/refs/tags/v0.65.1/crates/nono-cli/data/nono-profile.schema.json",
   "meta": {
     "name": "base",
   },
@@ -13,7 +14,8 @@
     ],
   },
   "environment": {
-    "allow_vars": ["HOME", "TERM", "LANG"],
+    // TODO: remove `GH_TOKEN`
+    "allow_vars": ["HOME", "TERM", "LANG", "TMPDIR", "XDG_RUNTIME_DIR"],
   },
   "network": {
     "allow_domain": [
@@ -32,6 +34,15 @@
       "github-releases.githubusercontent.com",
       "ghcr.io",
       "pkg-containers.githubusercontent.com",
+      "openrouter.ai",
+      "api.openai.com",
+      "auth.openai.com",
+      "chatgpt.com",
+      "codeberg.org",
+      "example.com",
+      "icanhazip.com",
+      "googlechromelabs.github.io",
+      "storage.googleapis.com",
     ],
   },
   "security": {
@@ -39,12 +50,29 @@
     "capability_elevation": false,
   },
   "filesystem": {
-    "allow": ["$NONO_CONFIG/profile-drafts"],
-    "read": ["$NONO_CONFIG/profiles"],
+    "allow": ["$NONO_CONFIG/profile-drafts", "$TMPDIR", "$XDG_RUNTIME_DIR"],
+    "read": [
+      "$NONO_CONFIG/profiles",
+      // TOOD: move to coding agent profile?
+      "~/.gitconfig",
+      "~/.config/git",
+      "~/.cache/aube",
+      "~/.cache/uv",
+      "~/.local/share/aube",
+      "~/.local/share/mise",
+      "~/.local/share/uv",
+      "~/.config/gh",
+    ],
+    "unix_socket_subtree_bind": ["$TMPDIR", "$XDG_RUNTIME_DIR"],
   },
   "workdir": { "access": "readwrite" },
   // ???
   "diagnostics": {
     "suppress_system_services": ["forbidden-exec-sugid"],
   },
+  "unsafe_macos_seatbelt_rules": [
+    "(allow iokit-open (iokit-user-client-class \"RootDomainUserClient\") (iokit-user-client-class \"IOSurfaceRootUserClient\"))",
+    "(allow iokit-get-properties)",
+    "(allow mach-register)",
+  ],
 }

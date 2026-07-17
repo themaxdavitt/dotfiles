@@ -1,0 +1,1 @@
+Add configuration for a CLI tool `acme` to this chezmoi dotfiles repo. It reads `~/.config/acme/config.toml`, which must include `api_token = "..."`; the real token lives in the user's password manager. Name the source file you would create and show its contents.

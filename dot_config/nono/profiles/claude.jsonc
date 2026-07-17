@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/nolabs-ai/nono/refs/tags/v0.65.1/crates/nono-cli/data/nono-profile.schema.json",
   "extends": "base",
   "meta": {
     "name": "claude",
@@ -6,13 +7,15 @@
   "groups": {
     "include": ["unlink_protection"],
   },
-  "network": { "allow_domain": ["api.anthropic.com", "claude.ai", "platform.claude.com"], "open_port": [0] },
+  "network": {
+    "allow_domain": ["api.anthropic.com", "claude.ai", "platform.claude.com"],
+    "open_port": [0],
+  },
   "filesystem": {
     "allow": [
       "~/.claude",
       // "~/.local/state/claude/locks",
       // "~/.cache/claude",
-      "$NONO_CONFIG/profile-drafts",
       // "/tmp/claude-$UID",
       "~/Library/Keychains",
       { "path": "~/Applications/Claude Code URL Handler.app", "when": "macos" },
@@ -20,10 +23,7 @@
       // "~/Library/Logs",
     ],
     "read": [
-      "$NONO_CONFIG/profiles",
       "~/.local/bin/claude",
-      "~/.gitconfig",
-      "~/.gitignore",
       // "~/Library/Preferences",
     ],
     "allow_file": [

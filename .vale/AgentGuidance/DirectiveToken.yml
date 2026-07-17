@@ -1,0 +1,11 @@
+extends: existence
+message: "Top-level bullet must start with 'ALWAYS:' or 'NEVER:' (got: '%s')."
+level: error
+scope: raw
+raw:
+  # Only top-level `- ` bullets must carry a directive token; nested sub-list
+  # items (sets, sequences, checklists) are exempt because they are indented.
+  # Matches how .lints/constraint-density.sh counts directives.
+  # Note: raw scope also sees fenced code blocks, so example blocks that show
+  # top-level bullets must themselves model the directive format.
+  - '(?m)^- (?!(?:ALWAYS|NEVER):).+$'

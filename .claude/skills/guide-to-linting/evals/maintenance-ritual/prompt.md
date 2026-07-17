@@ -1,0 +1,1 @@
+This dotfiles repo maintains several agent skills (`SKILL.md` files) as its agent guidance. The deployed coding-agent model was just switched to a newer model family. What maintenance, if any, should the repo's guidance get, and how would you decide what to change? Answer in one short paragraph.

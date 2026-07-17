@@ -1,3 +1,4 @@
+; -*- mode: lisp -*-
 (deny network*)
 
 (allow system-socket (socket-domain AF_UNIX))

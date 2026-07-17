@@ -21,11 +21,9 @@
     "pi": {
       // Keep in sync with `dot_pi/agent/settings.json`
       "favorite_models": [
-        "openrouter/deepseek/deepseek-v4-pro",
-        "openrouter/moonshotai/kimi-k2.6",
-        "openrouter/anthropic/claude-opus-4.7",
-        "openrouter/openai/gpt-5.4",
-        "openrouter/google/gemini-3.1-pro-preview",
+        "openrouter/~anthropic/claude-fable-latest",
+        "openai-codex/gpt-5.6-terra",
+        "openrouter/z-ai/glm-5.2"
       ],
       "type": "custom",
       "command": ",safe-pi-acp",

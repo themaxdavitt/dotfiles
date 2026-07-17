@@ -1,0 +1,1 @@
+Add a shell alias `gs` for `git status` to this chezmoi dotfiles repo's zsh configuration. A second, private chezmoi checkout on the same machine also contributes zsh config. Name the source file you would create or edit, and show its contents.

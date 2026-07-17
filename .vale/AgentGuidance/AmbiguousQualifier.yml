@@ -1,0 +1,12 @@
+extends: existence
+message: 'Ambiguous qualifier "%s": replace with a definitive instruction or condition.'
+level: error
+ignorecase: true
+tokens:
+  - usually
+  - sometimes
+  - typically
+  - generally
+  - often
+  - as needed
+  - when appropriate

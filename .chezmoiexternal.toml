@@ -1,6 +1,6 @@
 [".zsh/fzf-tab"]
-  type = "archive"
-  url = "https://github.com/Aloxaf/fzf-tab/archive/24105b15714bfec37989ed5c5b6e60f572253019.tar.gz"
-  exact = true
-  stripComponents = 1
-  exclude = ["*/test/**", "*/modules/**", "*/.git*", "*/README*"]
+type = "archive"
+url = "https://github.com/Aloxaf/fzf-tab/archive/24105b15714bfec37989ed5c5b6e60f572253019.tar.gz"
+exact = true
+stripComponents = 1
+exclude = ["*/test/**", "*/modules/**", "*/.git*", "*/README*"]

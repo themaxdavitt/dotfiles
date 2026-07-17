@@ -1,0 +1,1 @@
+This chezmoi repo will now manage `~/.config/wezterm/wezterm.lua`, which already exists in the home directory. Give the resulting source path inside the repo and the command you would run to bring the file under management.

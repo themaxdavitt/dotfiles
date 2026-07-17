@@ -1,0 +1,14 @@
+extends: existence
+message: 'Weak imperative "%s": state as an ALWAYS: or NEVER: directive.'
+level: error
+ignorecase: true
+tokens:
+  - should
+  - try to
+  - consider
+  - might
+  - could
+  - possibly
+  - preferably
+  - ideally
+  - optionally

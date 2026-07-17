@@ -1,0 +1,1 @@
+The user wants `ACME_TOKEN` available as an environment variable in their zsh sessions, sourced from their password manager rather than typed in each time. Describe how you would wire this up in this chezmoi dotfiles repo.

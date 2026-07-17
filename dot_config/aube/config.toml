@@ -1,3 +1,7 @@
 paranoid = true
-# 15 days
-minimumReleaseAge = 21600
+
+# TODO: figure out what to do, this conflicts with mise overrides, minimumReleaseAgeExclude did not help
+# # 15 days
+# minimumReleaseAge = 21600
+[jailBuildPermissions."better-sqlite3"]
+network = true

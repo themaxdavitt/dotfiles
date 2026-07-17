@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-set -eo pipefail
-
-ipconfig getiflist | xargs -n1 ipconfig getifaddr

@@ -1,0 +1,1 @@
+Add a small Python utility command `,slugify` to this chezmoi dotfiles repo; it turns stdin into a URL slug and may use one PyPI dependency. Show the first fifteen or so lines of the script source (shebang and metadata included) and name the files you create.

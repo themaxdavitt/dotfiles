@@ -1,0 +1,1 @@
+This chezmoi dotfiles repo enforces its conventions through checks wired into `hk.pkl`. New requirement: every skill's `SKILL.md` frontmatter `description` must be at most 1024 characters. Describe where this check should live in this repo and how it would work. Answer in one short paragraph.

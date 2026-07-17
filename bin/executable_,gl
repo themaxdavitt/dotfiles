@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-# shellcheck disable=2046
-exec git log -n 10 --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%s%C(reset)%C(auto)%d%C(reset) %C(dim white)~%cr%C(reset)%n''%C(white)%an <%ae> (%G?)%C(reset) %C(dim blue)#%h%C(reset)' --all $(git reflog show --format="%h" stash)

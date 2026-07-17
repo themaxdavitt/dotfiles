@@ -1,0 +1,5 @@
+# overriding the only non-ANSI color in the default theme with bright black
+"comment" = "90"
+
+[metadata]
+extends = "patina"

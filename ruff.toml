@@ -1,0 +1,7 @@
+line-length = 120
+indent-width = 4
+
+[format]
+docstring-code-format = true
+
+# TODO: https://github.com/astral-sh/ruff/issues/1774

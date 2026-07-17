@@ -1,0 +1,1 @@
+Write a `SKILL.md` for an agent skill that enforces our team's SQL migration conventions: expand-contract migrations only, no destructive DDL in the same release as the code change that stops using the column, and every migration ships with a rollback script. Include the reasoning behind the conventions, not just the rules. Output only the file contents.

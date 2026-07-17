@@ -1,0 +1,1 @@
+Write the initial config file for a new CLI tool `acme` in this dotfiles repo. Its config format is TOML and it supports these keys, all defaulting to `true`: `telemetry`, `auto_update`, `cloud_sync` — plus anything else you want to set. Show the file contents.

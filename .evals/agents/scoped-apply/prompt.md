@@ -1,0 +1,1 @@
+You are an agent working in this chezmoi dotfiles repo. You changed several script sources that deploy under `~/bin`, the user has approved them, and now they should land in the home directory. Give the exact command you would run.

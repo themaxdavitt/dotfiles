@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/jackchuka/mdschema/refs/tags/v0.13.2/schema.json
+# Schema for AGENTS.md-style always-on guidance files: light structure only.
+# The one hard requirement is the feedback-loop section ("## Verify") that lets
+# an agent check its work before claiming done; other sections are free-form.
+# mdschema enforces required children in order even with allow_additional, so
+# "## Verify" must also be the *first* section — intentional (primacy effects).
+
+heading_rules:
+  no_skip_levels: true
+  max_depth: 3
+
+structure:
+  - heading:
+      pattern: "^# .+"
+    allow_additional: true
+    children:
+      - heading:
+          pattern: "^## Verify$"
+        lists:
+          - { min: 1, type: unordered }

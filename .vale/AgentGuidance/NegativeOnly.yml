@@ -1,0 +1,6 @@
+extends: existence
+message: 'Negative-only directive "%s": pair with a constructive alternative (instead, prefer, ask, unless, via, etc.) on the same line.'
+level: error
+ignorecase: true
+raw:
+  - '\b(never|do not|avoid|don.t)\b(?!.*\b(?:instead|prefer|by|via|opt|recommend|suggest|unless|rather|through|ask)\b)'

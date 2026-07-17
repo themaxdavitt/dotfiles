@@ -1,4 +1,4 @@
-"$schema" = 'https://starship.rs/config-schema.json'
+"$schema" = "https://starship.rs/config-schema.json"
 
 add_newline = true
 
@@ -21,12 +21,12 @@ continuation_prompt = "[.](bright-black) "
 
 [username]
 show_always = true
-format = '[$user]($style)@'
+format = "[$user]($style)@"
 aliases = { "themaxdavitt" = "max" }
 
 [hostname]
 ssh_only = false
-format = '[$ssh_symbol$hostname]($style) '
+format = "[$ssh_symbol$hostname]($style) "
 aliases = { "MacBookPro" = "macbook" }
 
 [directory]
@@ -67,7 +67,7 @@ style = "yellow"
 
 [status]
 disabled = false
-format = '[$status]($style) '
-pipestatus_format = '$pipestatus '
-pipestatus_segment_format = '[$status]($style)'
+format = "[$status]($style) "
+pipestatus_format = "$pipestatus "
+pipestatus_segment_format = "[$status]($style)"
 pipestatus = true
