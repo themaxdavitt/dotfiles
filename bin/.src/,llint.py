@@ -45,7 +45,7 @@ from pydantic import (
 )
 from pydantic_ai import Agent
 from pydantic_ai.models.openrouter import OpenRouterModel, OpenRouterModelSettings
-from pydantic_ai.output import OutputSpec
+from pydantic_ai.output import NativeOutput, OutputSpec
 from pydantic_ai.profiles import InlineDefsJsonSchemaTransformer, ModelProfile, merge_profile
 from pydantic_ai.providers.openrouter import OpenRouterProvider
 from pydantic_ai.retries import AsyncTenacityTransport, RetryConfig, wait_retry_after
@@ -467,7 +467,14 @@ def retrying_http_client() -> httpx.AsyncClient:
 def build_model(model_id: str, api_key: str) -> OpenRouterModel:
     provider = OpenRouterProvider(api_key=api_key, http_client=retrying_http_client())
     # Inline nested $ref/$defs so every OpenRouter provider gets a self-contained schema.
-    profile_override: ModelProfile = {"json_schema_transformer": InlineDefsJsonSchemaTransformer}
+    # Force native structured output: pydantic-ai's OpenRouter profiles
+    # conservatively claim glm/claude can't do response_format json_schema, but
+    # their current providers can, and require_parameters filters routing to
+    # ones that do. Without this the judge panel silently shrinks to gpt-only.
+    profile_override: ModelProfile = {
+        "json_schema_transformer": InlineDefsJsonSchemaTransformer,
+        "supports_json_schema_output": True,
+    }
     profile = merge_profile(provider.model_profile(model_id), profile_override)
     return OpenRouterModel(model_id, provider=provider, profile=profile)
 
@@ -488,7 +495,15 @@ def model_settings(reasoning_effort: Optional[ReasoningEffort]) -> OpenRouterMod
         # opt-in; other providers cache automatically and ignore this). Only
         # prefixes over the model's minimum (4096 tokens on Opus/Haiku 4.5)
         # actually cache, so small prompts are unaffected either way.
-        "extra_body": {"cache_control": {"type": "ephemeral"}, "session_id": SESSION_ID},
+        "extra_body": {
+            "cache_control": {"type": "ephemeral"},
+            "session_id": SESSION_ID,
+            # Repair malformed JSON server-side (trailing commas, markdown
+            # fences, …) before it reaches pydantic validation — glm-5.2 burns
+            # its output retries on this otherwise. Non-streaming json_schema
+            # requests only (our case); can't fix max_tokens truncation.
+            "plugins": [{"id": "response-healing"}],
+        },
     }
     if reasoning_effort is not None:
         settings["openrouter_reasoning"] = {"effort": reasoning_effort}
@@ -499,9 +514,18 @@ def make_lint_agent(
     llm: OpenRouterModel, config: LlintAgentConfig, output_type: OutputSpec[OutputT]
 ) -> Agent[object, OutputT]:
     instructions = config.instructions or SYSTEM_PROMPT
+    # NativeOutput sends response_format json_schema instead of pydantic-ai's
+    # default tool-call output mode — required for OpenRouter's response-healing
+    # plugin to engage (it only heals response_format requests), and
+    # require_parameters already filters to providers that support it.
     return cast(
         Agent[object, OutputT],
-        Agent(llm, output_type=output_type, instructions=instructions, retries=config.retries),
+        Agent(
+            llm,
+            output_type=NativeOutput(output_type),
+            instructions=instructions,
+            retries=config.retries,
+        ),
     )
 
 

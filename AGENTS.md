@@ -9,7 +9,7 @@ This file guides AI agents working in this repo: personal dotfiles, currently ma
   - Lint (LLM judge lane, paid + cached): `mise run check-llm`
   - Skill value (behavioral ablation, on demand): `,llint eval <skill-dir>`
   - Renders: `chezmoi diff`, `chezmoi cat <target>`, `chezmoi execute-template` — each can trigger a Bitwarden unlock, so **warn FIRST** (next section)
-  - Scripts: `shellcheck`; tool/version changes: `mise lock` and `--dry-run`
+  - Scripts: `shellcheck`; tool/version changes: hand off to the user's `,cza` run — the `focus-tool-pinning` skill owns why `mise lock`/`mise install` stay off-limits
 
 ## ⚠️ Bitwarden unlock — warn FIRST
 
@@ -27,7 +27,7 @@ This file guides AI agents working in this repo: personal dotfiles, currently ma
 
 - ALWAYS: pin + delay everything (supply chain) — this is the point of the repo. Activate the `focus-tool-pinning` skill for any tool, runtime, or dependency change; the `mise`/`brew`/PEP 723/vendoring rules live there.
 - NEVER: commit a secret or read one into the tree; instead activate the `focus-secret-templates` skill and have templates pull via `rbwFields` (source of truth: Bitwarden → `bwbio` + the `rbw` shim → `fnox`, age-encrypted).
-- ALWAYS: default new configs to telemetry-off and offline/privacy-first — the `focus-privacy-defaults` skill owns the switches (see existing Zed, `pi`, and `mise` settings).
+- ALWAYS: default new configs to telemetry-off and offline/privacy-first — disable telemetry, crash reporting, update checks, and phone-home features in every new tool config; the `focus-privacy-defaults` skill owns the switches (see existing Zed, `pi`, and `mise` settings).
 - ALWAYS: follow the existing seatbelt patterns (`agent-safehouse`, `,chrome`, `,ssh`, `,safe-pi`) and raise it when a new tool touches the network or runs an agent — sandboxing policy is unsettled, so ask before inventing new rules.
 
 ## Linting

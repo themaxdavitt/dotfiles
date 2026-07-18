@@ -3,7 +3,7 @@ set -euo pipefail
 
 NEW_TMPDIR="/tmp/.dotfiles/.dotfiles-,sb-$RANDOM"
 NEW_RUNDIR="$NEW_TMPDIR-run"
-mkdir -p "$NEW_RUNDIR"
+mkdir -p "$NEW_TMPDIR" "$NEW_RUNDIR"
 
 cleanup() {
   rm -rf "$NEW_TMPDIR"

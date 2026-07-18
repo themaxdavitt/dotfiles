@@ -36,7 +36,14 @@
       "~/.pi/agent/settings.json",
       "~/.pi/agent/settings.json.lock",
     ],
-    "read": ["~/.claude/skills", "~/.pi/agent/extensions"],
+    // AGENTS.md is a symlink to ~/.claude/CLAUDE.md (shared user-level
+    // guidance), so both the link and its target need read access.
+    "read": [
+      "~/.claude/skills",
+      "~/.pi/agent/extensions",
+      "~/.pi/agent/AGENTS.md",
+      "~/.claude/CLAUDE.md",
+    ],
   },
   "open_urls": {
     "allow_origins": ["https://auth.openai.com"],

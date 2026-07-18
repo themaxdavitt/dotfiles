@@ -115,6 +115,9 @@ run = [
 # TODO: re-run `,cza`
 # "github:backnotprop/plannotator" = "0.21.1"
 "aqua:vercel-labs/agent-browser" = "0.31.2"
+# Session attach/detach for the terminal (dtach-style persistence)
+# https://github.com/neurosnap/zmx/releases
+"github:neurosnap/zmx" = "0.6.0"
 
 node = "lts"
 python = "3"

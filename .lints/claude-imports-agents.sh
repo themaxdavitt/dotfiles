@@ -29,6 +29,10 @@ for arg in "$@"; do
   relpath="$(arg_to_relpath "$arg")" || continue
   # Match any CLAUDE.md, not just the repo root one
   [[ "$relpath" == *CLAUDE.md ]] || continue
+  # Exception: the deployed user-level guidance (~/.claude/CLAUDE.md) is its
+  # own canonical file — no AGENTS.md exists at that scope (Claude Code reads
+  # only CLAUDE.md; pi's ~/.pi/agent/AGENTS.md symlinks to this file instead).
+  [[ "$relpath" == "dot_claude/CLAUDE.md" ]] && continue
   file="$repo_root/$relpath"
   [[ -f "$file" ]] || continue
 

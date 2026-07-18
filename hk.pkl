@@ -19,6 +19,10 @@ local linters = new Mapping<String, Step> {
         "**/AGENTS.md",
         "**/AGENTS.local.md",
         "**/AGENTS.override.md",
+        // User-level guidance: real content despite the CLAUDE.md name (that's
+        // the only file Claude Code reads at user scope; pi symlinks to it),
+        // so it rides the AGENTS.md schema, not the @AGENTS.md-pointer lint.
+        "dot_claude/CLAUDE.md",
       )
     check = "mdschema check --schema .mdschema-agents.yml {{ files }}"
   }
