@@ -1,6 +1,6 @@
 ---
 name: guide-to-linting
-description: "ALWAYS: use when asked to write or debug any lint or check: mdschema schemas, Vale rules, `.lints/` scripts, `,llint` rules, hk wiring, or eval graders. This will steer you to \"focused\" skills based on your goal."
+description: "ALWAYS: use when asked to write or debug any lint or check: mdschema schemas, Vale rules, `.lints/` scripts, `,llint` rules, hk wiring, or eval graders. This will steer you to \"focused\" lint-authoring skills."
 ---
 
 # Philosophy

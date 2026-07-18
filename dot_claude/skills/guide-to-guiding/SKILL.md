@@ -1,6 +1,6 @@
 ---
 name: guide-to-guiding
-description: "ALWAYS: use when asked to write guidance for `AGENTS.md`, `CLAUDE.md`, skills, subagents, etc. This will steer you to \"focused\" skills based on your goal."
+description: "ALWAYS: use when asked to write guidance for `AGENTS.md`, `CLAUDE.md`, skills, subagents, etc. This will steer you to \"focused\" guidance-authoring skills."
 ---
 
 # Philosophy

@@ -1,7 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/suzuki-shunsuke/ghtkn-go-sdk/refs/tags/v0.3.1/json-schema/ghtkn.json
 apps:
-  # - name: themaxdavitt/write
-  #   client_id: ...
+  # https://github.com/settings/apps/new?name=themaxdavitt-ghtkn-write&url=https://github.com/suzuki-shunsuke/ghtkn&device_flow_enabled=true&webhook_active=false&actions=write&artifact_metadata=read&attestations=read&checks=read&statuses=read&contents=write&repository_custom_properties=read&deployments=read&discussions=read&environments=read&issues=read&merge_queues=read&metadata=read&packages=read&pages=read&repository_projects=read&pull_requests=read&actions_variables=read&organization_custom_org_roles=read&organization_custom_properties=read&custom_properties_for_organizations=read&organization_custom_roles=read&organization_runner_custom_images=read&issue_fields=read&issue_types=read&members=read&&organization_private_registries=read&organization_projects=read&organization_self_hosted_runners=read&organization_actions_variables=read&gists=write&public=false
+  - name: themaxdavitt/write
+    client_id: Iv23li0j1gCu4MgNVRKd
   # https://github.com/settings/apps/new?name=themaxdavitt-ghtkn-read&url=https://github.com/suzuki-shunsuke/ghtkn&device_flow_enabled=true&webhook_active=false&actions=read&artifact_metadata=read&attestations=read&checks=read&statuses=read&contents=read&repository_custom_properties=read&deployments=read&discussions=read&environments=read&issues=read&merge_queues=read&metadata=read&packages=read&pages=read&repository_projects=read&pull_requests=read&actions_variables=read&organization_custom_org_roles=read&organization_custom_properties=read&custom_properties_for_organizations=read&organization_custom_roles=read&organization_runner_custom_images=read&issue_fields=read&issue_types=read&members=read&&organization_private_registries=read&organization_projects=read&organization_self_hosted_runners=read&organization_actions_variables=read&public=false
   - name: themaxdavitt/read
     client_id: Iv23ligTgiHKHQPkwiRU
