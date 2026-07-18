@@ -16,7 +16,7 @@ Supply-chain caution is the point of this repo: every tool arrives pinned, delay
 - ALWAYS: give each non-runtime tool a one-line `# comment` saying why it's useful; runtimes (e.g. `deno`, `node`) are exempt.
 - ALWAYS: tell the user to review changelogs / release notes on any tool version bump.
 - NEVER: install from third-party taps (e.g. no `hashicorp/tap/terraform`); instead use official Homebrew repos or `tmd-x/3rd-party` (managed by this repo's author).
-- ALWAYS: give PEP 723 scripts `exclude-newer = <UTC>` (`,dt` stamps it; `,new,py` scaffolds it).
+- ALWAYS: give PEP 723 scripts `exclude-newer = <UTC>` (`date -u +"%Y-%m-%dT%H:%M:%SZ"` prints the stamp; the `focus-comma-scripts` Python template carries the field).
 - NEVER: pull unpinned/undelayed third-party code into a `,`-script; instead wrap already-pinned tools in a thin bash `exec` passthrough, or pin + delay via PEP 723 `uv` + `exclude-newer`. Exception: `mise x node@22` pulls zero third-party npm packages and pins the runtime via `mise` (a weak `@22` is fine for too-big-to-fail runtimes `mise` manages); third-party packages get no such leniency.
 - NEVER: add new in-tree vendored code (`bin/executable_bwbio` is a wart to remove, not a pattern to copy); instead prefer `.chezmoiexternal.toml`, git submodules, or mise-managed binaries.
 - NEVER: modify a vendored file without an adjacent comment recording its upstream and the reason for the local change; instead prefer re-vendoring wholesale from upstream over accumulating local patches.

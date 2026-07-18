@@ -10,8 +10,13 @@
 # [tool.uv]
 # exclude-newer = "2026-06-28T00:00:00Z"
 # ///
+"""LLM-backed agent-guidance linting with multi-model voting."""
 
 # TODO: eventually use `httpx2` when `pydantic_ai` supports it because `httpx` is dead
+# TODO: route model calls through `pi` (via "$(mise which pi)" — the wrapper's
+#       interaction with pre-existing sandboxes is unsettled, so don't use the
+#       wrapper) instead of raw OpenRouter: it can also draw on the Codex
+#       subscription alongside the OpenRouter key.
 
 import hashlib
 import json
@@ -47,7 +52,7 @@ from pydantic_ai.retries import AsyncTenacityTransport, RetryConfig, wait_retry_
 from tenacity import retry_if_exception, stop_after_attempt, wait_exponential
 
 
-DEFAULT_MODEL = "deepseek/deepseek-v4-flash"
+DEFAULT_MODEL = "z-ai/glm-5.2"
 DEFAULT_RUNS = 3
 OutputT = TypeVar("OutputT")
 
@@ -992,7 +997,7 @@ app = typer.Typer(
     no_args_is_help=True,
     pretty_exceptions_enable=False,
     rich_markup_mode="markdown",
-    help="LLM-backed agent-guidance linting with multi-model voting.",
+    help=__doc__,
 )
 
 
@@ -1206,4 +1211,4 @@ def eval_skill(
 
 
 if __name__ == "__main__":
-    app()
+    app(prog_name=",llint")

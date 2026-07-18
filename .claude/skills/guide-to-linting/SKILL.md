@@ -18,6 +18,7 @@ Five lanes police this repo, ordered by cost: schema-shaped structure, lexical r
 - NEVER: write a `,llint` rule for something Vale or `.lints` can express deterministically; instead reserve judge rules for meaning, and prefer false negatives over false positives — noisy lints erode trust in the whole pipeline.
 - NEVER: design a `,llint` check that asks a model to introspect on its own reasoning ("would I already know this?"); instead design cross-review, where a separate judge grades an artifact or behavior some other model produced — for redundancy questions, that means comparing graded runs with vs. without the guidance under test.
 - ALWAYS: run new or changed lints with representative file arguments before finishing, and report which current repo failures they produce. Expected failures are acceptable when the user said existing files may violate the new rule.
+- ALWAYS: when a red `hk` run shows several simultaneous failures, read [troubleshooting][troubleshooting] before chasing any of them — hk kills in-flight steps when one fails, so most `ERROR`/`aborted` lines are phantoms of a single real failure.
 - ALWAYS: wire every new check into `hk.pkl` in the same change, using the narrowest trigger globs that cover the rule (`dotfiles-unused-custom-lint` enforces this for `.lints/`).
 
 # Application: `,llint` lanes
@@ -34,3 +35,4 @@ Five lanes police this repo, ordered by cost: schema-shaped structure, lexical r
 - ALWAYS: after a model or tooling change, re-run each skill's ablation evals (`,llint eval <skill-dir>`) and delete guidance every deployed consumer model already follows unaided — [`references/maintenance.md`][maintenance] holds the full ritual.
 
 [maintenance]: references/maintenance.md
+[troubleshooting]: references/troubleshooting.md

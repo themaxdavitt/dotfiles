@@ -37,6 +37,7 @@ excluded_patterns=(
   '\.toml$'
   '\.py$'
   '\.mjs$'
+  '\.js$'
   '\.gitignore$'
   '\.yml$'
   '\.jsonc$'

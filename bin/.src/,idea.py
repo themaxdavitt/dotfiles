@@ -2,19 +2,24 @@
 # /// script
 # requires-python = ">=3.14"
 # dependencies = [
-#   "openai"
+#   "openai",
+#   "typer",
 # ]
 # [tool.uv]
 # exclude-newer = "2026-05-17T00:00:00Z"
 # ///
+"""Harvest idea candidates from a deliberately over-hot LLM, truncating any run
+that spirals into gibberish before the salad ever prints."""
 
-import argparse
 import os
 import re
 import sys
 import time
 
+import typer
 from openai import OpenAI
+
+app = typer.Typer(add_completion=False)
 
 # High temperature + min_p walks a cliff edge on purpose: the gems and the
 # noise spirals are the same mechanism. Once a surprising token lands, the
@@ -213,58 +218,39 @@ def generate(client, prompt, max_tokens, detect, session_id):
     }
 
 
-def main():
-    parser = argparse.ArgumentParser(",idea")
-    parser.add_argument("prompt", type=str, help="")
-    parser.add_argument(
-        "--openrouter-api-key",
-        type=str,
-        help="OpenRouter API key",
-        default=os.getenv("OPENROUTER_API_KEY", ""),
-    )
-    parser.add_argument(
-        "-n",
-        "--candidates",
-        type=int,
-        default=1,
-        help="generate N candidates separated by ---; harvest the best",
-    )
-    parser.add_argument(
-        "--max-tokens",
-        type=int,
-        default=500,
-        help="per-candidate token cap; gems need runway before the cliff",
-    )
-    parser.add_argument(
-        "--no-detect",
-        action="store_true",
-        help="raw stream, no spiral detection or truncation",
-    )
-    args = parser.parse_args()
-
+@app.command(help=__doc__)
+def main(
+    prompt: str = typer.Argument(...),
+    openrouter_api_key: str = typer.Option("", envvar="OPENROUTER_API_KEY", help="OpenRouter API key"),
+    candidates: int = typer.Option(
+        1, "--candidates", "-n", help="generate N candidates separated by ---; harvest the best"
+    ),
+    max_tokens: int = typer.Option(500, help="per-candidate token cap; gems need runway before the cliff"),
+    no_detect: bool = typer.Option(False, "--no-detect", help="raw stream, no spiral detection or truncation"),
+) -> None:
     client = OpenAI(
         base_url="https://openrouter.ai/api/v1",
-        api_key=args.openrouter_api_key,
+        api_key=openrouter_api_key,
     )
     # Per-candidate suffix: sticky routing would pin every candidate to one
     # provider, and the harvest wants provider variance, not consistency.
     # The shared prefix still filters the activity dashboard.
     session_base = f"idea-{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}-{os.getpid()}"
 
-    detect = not args.no_detect
-    for i in range(args.candidates):
+    detect = not no_detect
+    for i in range(candidates):
         if i:
             print("---")
         session_id = f"{session_base}-c{i + 1}"
-        result = generate(client, args.prompt, args.max_tokens, detect, session_id)
-        if (result["spiral"] or args.candidates > 1) and result["total"]:
+        result = generate(client, prompt, max_tokens, detect, session_id)
+        if (result["spiral"] or candidates > 1) and result["total"]:
             note = f"kept {result['printed']}/{result['total']} words"
             if result["spiral"]:
                 note += ", spiral truncated"
             if result["provider"]:
                 note += f" [{result['provider']}]"
-            print(f",idea: [{i + 1}/{args.candidates}] {note}", file=sys.stderr)
+            print(f",idea: [{i + 1}/{candidates}] {note}", file=sys.stderr)
 
 
 if __name__ == "__main__":
-    main()
+    app(prog_name=",idea")

@@ -6,16 +6,20 @@
 # can coexist with a weaker model's need. Delete guidance only when every
 # deployed consumer reports it redundant.
 models:
-  # Subscription/work-accessible consumers (2026-07-06 refresh).
-  - moonshotai/kimi-k2.7-code
+  # Subscription/work-accessible consumers (2026-07-18 refresh).
+  # Top tier. claude-fable-5 is the strongest actually-deployed consumer
+  # (Claude Code) — redundant there means the text is pure token rent where
+  # it's read most.
+  - moonshotai/kimi-k3
+  - openai/gpt-5.6-sol
+  - anthropic/claude-fable-5
+  # Workhorse tier.
   - z-ai/glm-5.2
-  # gpt-5.5 is available but double the price — not worth it for ablation.
+  - openai/gpt-5.6-terra
+  - anthropic/claude-opus-4.8
+  # Day-job consumers.
   - openai/gpt-5.4
   - anthropic/claude-sonnet-5
-  - anthropic/claude-opus-4.8
-  # Strongest actually-deployed consumer (Claude Code) — redundant here means
-  # the text is pure token rent where it's read most.
-  - anthropic/claude-fable-5
 instructions: >-
   You are a capable AI assistant. Answer the given task directly and concisely.
   When asked to write a plan, outline the steps you would take.

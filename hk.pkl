@@ -28,7 +28,12 @@ local linters = new Mapping<String, Step> {
     check = ".lints/skill-frontmatter.sh {{ files }}"
   }
   ["oxlint"] = Builtins.ox_lint
-  ["oxfmt"] = Builtins.oxfmt
+  // oxfmt 0.54 doesn't format markdown: it drops .md via its own ignore rules,
+  // and a batch left empty that way exits 2 ("Expected at least one target
+  // file"), failing any commit that touches only markdown.
+  ["oxfmt"] = (Builtins.oxfmt) {
+    exclude = List("**/*.md", "**/*.markdown")
+  }
   ["pkl-format"] = Builtins.pkl_format
   // TODO: enable rules or something, IDK
   ["ruff"] = Builtins.ruff
@@ -104,6 +109,21 @@ local linters = new Mapping<String, Step> {
     batch = true
     glob = List("bin/.src/*.py")
     check = ".lints/bin-uv-py.sh {{ files }}"
+  }
+  ["dotfiles-bin-py-typer"] {
+    batch = true
+    glob = List("bin/.src/*.py")
+    check = ".lints/bin-py-typer.sh {{ files }}"
+  }
+  ["dotfiles-bin-py-prog-name"] {
+    batch = true
+    glob = List("bin/.src/,*.py")
+    check = ".lints/bin-py-prog-name.sh {{ files }}"
+  }
+  ["dotfiles-bin-py-typer-help"] {
+    batch = true
+    glob = List("bin/.src/,*.py")
+    check = ".lints/bin-py-typer-help.sh {{ files }}"
   }
   ["dotfiles-bin-bash-set-line"] {
     batch = true

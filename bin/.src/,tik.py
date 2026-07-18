@@ -3,17 +3,21 @@
 # requires-python = ">=3.14"
 # dependencies = [
 #   "tokenizers",
+#   "typer",
 # ]
 # [tool.uv]
 # exclude-newer = "2026-06-19T20:53:08Z"
 # ///
+"""Count tokens (or dump token IDs) for files or stdin with a Hugging Face tokenizer."""
 
-import argparse
 import json
 import sys
 from enum import Enum
 
+import typer
 from tokenizers import Tokenizer
+
+app = typer.Typer(add_completion=False)
 
 
 class Format(str, Enum):
@@ -21,50 +25,29 @@ class Format(str, Enum):
     IDS = "ids"
 
 
-def main():
-    parser = argparse.ArgumentParser(",tik")
-    parser.add_argument(
-        "-f",
-        "--format",
-        default=Format.CNT.value,
-        choices=Format._value2member_map_,
-        help="desired output format (count or IDs)",
-    )
-    parser.add_argument(
-        "-m",
-        "--model",
-        type=str,
-        default="zai-org/GLM-5.2",
-        help="model to tokenize for",
-    )
-    parser.add_argument(
-        "files",
-        metavar="FILE",
-        nargs="*",
-        help="files to read, if empty, stdin is used",
-    )
-    args = parser.parse_args()
+@app.command(help=__doc__)
+def main(
+    fmt: Format = typer.Option(Format.CNT, "--format", "-f", help="desired output format (count or IDs)"),
+    model: str = typer.Option("zai-org/GLM-5.2", "--model", "-m", help="model to tokenize for"),
+    files: list[str] | None = typer.Argument(None, metavar="[FILE]...", help="files to read, if empty, stdin is used"),
+) -> None:
+    handles = [open(f) for f in files] if files else [sys.stdin]
 
-    if not args.files:
-        args.files.append(sys.stdin)
-    else:
-        args.files = map(lambda f: open(f, "r"), args.files)
+    tokenizer = Tokenizer.from_pretrained(model)
 
-    tokenizer = Tokenizer.from_pretrained(args.model)
-
-    if args.format == Format.CNT:
+    if fmt == Format.CNT:
         cnt = 0
-        for f in args.files:
+        for f in handles:
             cnt += len(tokenizer.encode(f.read()).tokens)
             f.close()
         print(cnt, end="")
-    else:  # args.format == Format.IDS
+    else:  # fmt == Format.IDS
         raw = []
-        for f in args.files:
+        for f in handles:
             raw += tokenizer.encode(f.read()).ids
             f.close()
         json.dump(raw, sys.stdout)
 
 
 if __name__ == "__main__":
-    main()
+    app(prog_name=",tik")

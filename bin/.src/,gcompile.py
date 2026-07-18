@@ -10,11 +10,12 @@
 # [tool.uv]
 # exclude-newer = "2026-06-28T00:00:00Z"
 # ///
+"""Guidance-as-compilation-artifact experiment: measure which directives still
+buy behavior on deployed consumer models (`ablate`), and search for the
+minimal directive subset per model with GEPA (`compile`).
 
-# Guidance-as-compilation-artifact experiment: measure which directives still
-# buy behavior on deployed consumer models (`ablate`), and search for the
-# minimal directive subset per model with GEPA (`compile`).
-# Human-triggered only — run on demand or after a model/tooling change.
+Human-triggered only — run on demand or after a model/tooling change.
+"""
 
 import hashlib
 import json
@@ -405,7 +406,7 @@ app = typer.Typer(
     add_completion=False,
     no_args_is_help=True,
     pretty_exceptions_enable=False,
-    help="Per-directive ablation and GEPA subset compilation for SKILL.md files.",
+    help=__doc__,
 )
 
 SkillArg = Annotated[
@@ -810,4 +811,4 @@ def _candidate_bytes(parsed: Skill, candidate: dict[str, str]) -> int:
 
 
 if __name__ == "__main__":
-    app()
+    app(prog_name=",gcompile")

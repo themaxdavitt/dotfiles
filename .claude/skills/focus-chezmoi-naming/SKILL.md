@@ -13,5 +13,6 @@ Source file names are the API: attribute prefixes decide the target's dot prefix
 - ALWAYS: add a `.literal` suffix when Zed mis-detects a file's format (e.g. JSON vs JSONC); chezmoi strips it from the target name.
 - ALWAYS: keep repo-scoped tooling in dot-prefixed source directories (`.claude/`, `.evals/`, `.lints/`) — chezmoi skips dot-prefixed source entries entirely; write `.chezmoiignore` patterns against TARGET paths, not source paths.
 - ALWAYS: when attribute prefixes leave a source name without a usable extension (e.g. `executable_,gl`), add a `# -*- mode: … -*-` line and `shellcheck` directives so editors and linters can still detect the file type.
+- ALWAYS: after removing or relocating a managed source file, delete the now-unmanaged deployed copy yourself (then re-apply the scoped target) — `chezmoi apply` leaves newly-unmanaged files untouched, so stale copies linger in `$HOME` until removed by hand.
 
 [chezmoi-source-attrs]: https://raw.githubusercontent.com/twpayne/chezmoi/refs/tags/v2.70.2/assets/chezmoi.io/docs/reference/source-state-attributes.md

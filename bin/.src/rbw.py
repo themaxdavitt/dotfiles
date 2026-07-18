@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.14"
-# dependencies = []
+# dependencies = ["typer"]
 # [tool.uv]
 # exclude-newer = "2026-07-03T01:13:26Z"
 # ///
@@ -10,11 +10,12 @@
 
 from __future__ import annotations
 
-import argparse
 import json
 import subprocess
 import sys
 from typing import Any
+
+import typer
 
 RBW_VERSION = "1.15.0"
 TYPE_MAP = {0: "text", 1: "hidden", 2: "boolean", 3: "linked"}
@@ -130,41 +131,51 @@ def write_text(value: str | None) -> None:
         sys.stdout.write("\n")
 
 
-def handle_get(args: argparse.Namespace) -> int:
-    if args.raw:
-        json.dump(rbw_raw(get_item(args.needle)), sys.stdout, indent=2)
+app = typer.Typer(add_completion=False)
+
+
+def version_callback(value: bool) -> None:
+    if value:
+        print(f"rbw {RBW_VERSION}")
+        raise typer.Exit()
+
+
+@app.callback()
+def main(
+    version: bool = typer.Option(False, "--version", callback=version_callback, is_eager=True),
+) -> None:
+    pass
+
+
+@app.command()
+def get(
+    needle: str,
+    field: str | None = typer.Option(None, "--field", "-f"),
+    raw: bool = typer.Option(False, "--raw"),
+) -> None:
+    if raw:
+        json.dump(rbw_raw(get_item(needle)), sys.stdout, indent=2)
         sys.stdout.write("\n")
-        return 0
-    if args.field is None:
-        sys.stdout.write(run(["get", "password", args.needle]))
-        return 0
-    field = FIELD_MAP.get(args.field.lower(), args.field)
-    if field in {"username", "password", "notes", "uri", "totp"}:
-        target = "totp" if field == "totp" else field
-        sys.stdout.write(run(["get", target, args.needle]))
-        return 0
-    write_text(custom_field(get_item(args.needle), args.field))
-    return 0
+        return
+    if field is None:
+        sys.stdout.write(run(["get", "password", needle]))
+        return
+    mapped = FIELD_MAP.get(field.lower(), field)
+    if mapped in {"username", "password", "notes", "uri", "totp"}:
+        sys.stdout.write(run(["get", mapped, needle]))
+        return
+    write_text(custom_field(get_item(needle), field))
 
 
-def handle_code(args: argparse.Namespace) -> int:
-    sys.stdout.write(run(["get", "totp", args.needle]))
-    return 0
+@app.command()
+def code(needle: str) -> None:
+    sys.stdout.write(run(["get", "totp", needle]))
 
 
-parser = argparse.ArgumentParser(prog="rbw")
-parser.add_argument("--version", action="version", version=f"rbw {RBW_VERSION}")
-subparsers = parser.add_subparsers(dest="command", required=True)
+# `rbw code` alias, matching upstream rbw's `code`/`totp` pair.
+@app.command(name="totp", hidden=True)
+def totp(needle: str) -> None:
+    code(needle)
 
-get_parser = subparsers.add_parser("get")
-get_parser.add_argument("needle")
-get_parser.add_argument("-f", "--field")
-get_parser.add_argument("--raw", action="store_true")
-get_parser.set_defaults(func=handle_get)
 
-code_parser = subparsers.add_parser("code", aliases=["totp"])
-code_parser.add_argument("needle")
-code_parser.set_defaults(func=handle_code)
-
-args = parser.parse_args()
-raise SystemExit(args.func(args))
+app()
