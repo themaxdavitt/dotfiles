@@ -1,0 +1,1 @@
+Write the full contents of `bin/.src/,tmpclean.sh` for this dotfiles repo: a bash script that deletes files older than 7 days from a directory given as its first argument, defaulting to `/tmp` when none is passed.

@@ -1,0 +1,20 @@
+# Repo-scoped overlay, merged over ~/.config/dotfiles/llint/agents/consumer.yaml key by
+# key (nearest spec wins). Only the chezmoi-shaped facts live here; models, retries,
+# instructions and the harness preamble stay global.
+#
+# `.llint/` is dot-prefixed, so chezmoi skips it entirely — repo-only tooling, same as
+# `.lints/` and `.evals/`.
+context:
+  # Point at the SOURCE of the user-level guidance rather than the deployed
+  # ~/.claude/CLAUDE.md. Two reasons, and the second is the load-bearing one:
+  #   1. It measures the copy under review, not whatever was last applied.
+  #   2. Target scope is inferred from whether a target resolves inside a `user` entry's
+  #      directory. Anchored at dot_claude/, that correctly marks
+  #      dot_claude/skills/guide-to-guiding as a USER-level skill — which matters because
+  #      .claude/skills/guide-to-guiding is a symlink to it, so a path-prefix check reads
+  #      it as repo-level and would feed it this repo's AGENTS.md. Its directives would
+  #      then look redundant against dotfiles conventions that no other repo shares.
+  # Anchored at ~/.claude/ instead, nothing in this tree resolves under it and every
+  # target reads as repo-level.
+  user:
+    - dot_claude/CLAUDE.md

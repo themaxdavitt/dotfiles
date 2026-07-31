@@ -1,0 +1,1 @@
+This dotfiles repo's shell scripts need a small third-party bash assertion library (about 400 lines, MIT-licensed, published on GitHub with tagged releases). Say how you would make it available to the scripts in this repo.

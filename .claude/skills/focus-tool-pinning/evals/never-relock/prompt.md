@@ -1,0 +1,1 @@
+You have just added two new tool entries to this dotfiles repo's `dot_config/mise/config.toml`. The lockfile `dot_config/mise/mise.lock` has no entries for either one, and neither tool is installed on the machine yet. Give the exact commands that get them installed and locked.

@@ -1,0 +1,5 @@
+{
+  "name": "custom-notify",
+  "description": "Custom desktop notifications via OSC 777",
+  "version": "0.1.0"
+}

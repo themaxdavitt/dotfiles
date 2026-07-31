@@ -5,6 +5,38 @@ check-llm = "hk check --profile llm"
 fix = "hk fix"
 # name = "uv run --locked tools/name.py $@"
 
+# Ablation-driven rewriting, gated on the judge. Sequencing is the whole point: a leaky
+# eval prompt reaches the without-guidance run too, which lifts the baseline and
+# manufactures a "redundant" verdict. That verdict now DELETES the directive rather than
+# merely reporting on it, so the judge lane runs FIRST and a failure aborts before a
+# single paid call. This rewrites files in place — pass --dry-run to measure only, and
+# expect to review the diff either way.
+# Usage: mise run improve [--dry-run|--flags...] <skill-dir|guidance.md>...
+#        (no targets = every target with evals)
+[tasks.improve]
+description = "Judge-check guidance + eval prompts, then ablate/compress targets with evals"
+run = """
+set -euo pipefail
+hk check --profile llm
+flags=""
+targets=""
+for arg in "$@"; do
+  case "$arg" in
+    -*) flags="$flags $arg" ;;
+    *) targets="$targets $arg" ;;
+  esac
+done
+if [ -z "$targets" ]; then
+  targets="$(find .claude/skills dot_claude/skills -maxdepth 2 -type d -name evals \
+    -exec dirname {} \\; 2>/dev/null | sort -u) AGENTS.md"
+fi
+for t in $targets; do
+  printf '\\n########## %s ##########\\n' "$t"
+  # shellcheck disable=SC2086 # flags are deliberately word-split
+  ,llint improve $flags "$t"
+done
+"""
+
 # TODO: audit based on final `hk.pkl`, it would be nice to make this as lean as possible
 [tools]
 "aqua:editorconfig-checker/editorconfig-checker" = "3.7.0"

@@ -1,12 +1,13 @@
 # Judge agent for text-lint rules.
 # Carries multiple models so ,llint can fan out N runs per model for voting.
 # Temperature > 0 is intentional: interpretive spread across runs is what drives confidence.
-# Budget tier (2026-07-18 refresh): voting across three cheap-but-capable
-# families beats one expensive judge.
+# Budget tier (2026-07-25 refresh): voting across three cheap-but-capable
+# families beats one expensive judge. Kept identical to the consumer workhorse
+# tier so the judge never lags the models the guidance is actually written for.
 models:
   - z-ai/glm-5.2
-  - openai/gpt-5.4
-  - anthropic/claude-sonnet-5
+  - openai/gpt-5.6-terra
+  - anthropic/claude-opus-5
 instructions: >-
   You are a precise agent-guidance lint rule evaluator. Evaluate the given Markdown
   file against the lint rule and return findings that match the structured output

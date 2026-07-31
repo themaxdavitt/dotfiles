@@ -1,0 +1,1 @@
+This dotfiles repo is gaining a new CLI tool that runs an autonomous coding agent on this machine. The agent takes shell commands from a model and executes them locally, and it needs network access to reach its provider. Describe how you would set it up here.

@@ -35,6 +35,9 @@ local linters = new Mapping<String, Step> {
   // oxfmt 0.54 doesn't format markdown: it drops .md via its own ignore rules,
   // and a batch left empty that way exits 2 ("Expected at least one target
   // file"), failing any commit that touches only markdown.
+  // App-written files are excluded in `.prettierignore` instead — oxfmt reads
+  // it (and .gitignore) by default, so the exclusion holds for direct
+  // `oxfmt --write` runs too, not just batches that arrive through hk.
   ["oxfmt"] = (Builtins.oxfmt) {
     exclude = List("**/*.md", "**/*.markdown")
   }
@@ -146,6 +149,11 @@ local linters = new Mapping<String, Step> {
     allow_symlinks = true
     check = ".lints/chezmoi-executable-shebang.sh {{ files }}"
   }
+  ["dotfiles-private-secret-tmpl"] {
+    batch = true
+    glob = List("**/*.tmpl")
+    check = ".lints/private-secret-tmpl.sh {{ files }}"
+  }
   ["dotfiles-lints-have-executable-bit"] {
     batch = true
     glob = List(".lints/*.sh")
@@ -210,28 +218,74 @@ local linters = new Mapping<String, Step> {
       )
     check = ".lints/github-file-links.sh {{ files }}"
   }
+  // Deliberately takes no `{{ files }}`: the tag and the pin it must match live in
+  // different files, so the glob only answers WHEN to run and the script rescans the
+  // whole corpus itself. Handed just the bumped mise config, it would never open the
+  // guidance the bump invalidated.
+  ["dotfiles-doc-link-tag-pin"] {
+    batch = true
+    glob =
+      List(
+        "**/AGENTS.md",
+        "**/AGENTS.local.md",
+        "**/AGENTS.override.md",
+        "**/SKILL.md",
+        "**/CLAUDE.md",
+        "mise.toml",
+        "dot_config/mise/config.toml",
+        "dot_config/mise/conf.d/*.toml",
+      )
+    check = ".lints/doc-link-tag-matches-pin.sh"
+  }
   ["dotfiles-emacs-mode-line"] {
     batch = true
+    // mise generates this lockfile and does not preserve a mode line.
+    exclude = List("dot_config/mise/mise.lock")
     types = List("text")
     check = ".lints/emacs-mode-line.sh {{ files }}"
+  }
+  ["dotfiles-run-script-source-dir"] {
+    batch = true
+    glob = List("**/run_*")
+    check = ".lints/run-script-source-dir.sh {{ files }}"
+  }
+  ["dotfiles-mise-runtime-depends"] {
+    batch = true
+    glob =
+      List(
+        "dot_config/mise/config.toml",
+        "dot_config/mise/conf.d/*.toml",
+      )
+    check = ".lints/mise-runtime-depends.sh {{ files }}"
   }
   ["dotfiles-pi-favorite-models-sync"] {
     batch = true
     glob =
       List(
-        "dot_config/zed/private_settings.json.literal",
+        "dot_config/zed/settings.json.literal",
         "dot_pi/agent/settings.json",
       )
     check = ".lints/pi-favorite-models-sync.sh {{ files }}"
   }
   // ,llint: LLM-backed agent-guidance linting with multi-model voting.
-  // Requires OPENROUTER_API_KEY in env (store via fnox; export in shell profile).
+  // Requires OPENROUTER_API_KEY in env, from the dedicated `llint` fnox profile:
+  // `fnox exec --profile llint -- mise run check-llm`. Profile secrets are not in the
+  // shell's ambient env (90-secrets.zsh exports only top-level `[secrets]`), so an
+  // unwrapped run fails rather than silently billing another key.
   // Gated behind the `llm` profile (paid + network): `mise run check-llm` or
   // `hk check --profile llm`. Content-hash cache in ~/.cache/llint/ makes
   // re-runs on unchanged files free.
-  // NOTE: ,llint eval is intentionally NOT wired here — it's an authoring tool,
-  //       not a commit gate. Run it manually: ,llint eval <skill-dir>
-  ["dotfiles-llint-guidance"] {
+  // NOTE: the ablation lane is intentionally NOT wired here — it is an authoring
+  //       tool that rewrites guidance, not a commit gate. Run it on demand via
+  //       `mise run improve` (add --dry-run to measure without writing).
+  // One step, every judge lane. The hook glob answers WHEN to run; `,llint check`
+  // answers WHAT to check, discovering guidance files, eval prompts and coverage
+  // targets itself — split that decision across both and they drift apart silently,
+  // which is how a cross-file check goes blind to half its corpus. Each rule declares
+  // the input shape it reads (file / directive-pair / coverage / eval-prompt), so one
+  // rules dir feeds all of them. Findings arrive as one report with one exit code,
+  // which also means one failure instead of five `aborted` steps to read past.
+  ["dotfiles-llint-check"] {
     batch = true
     profiles = List("llm")
     glob =
@@ -242,16 +296,11 @@ local linters = new Mapping<String, Step> {
         "**/AGENTS.override.md",
         "**/SKILL.md",
         "**/.github/copilot-instructions.md",
+        "**/evals/*/prompt.md",
+        "**/evals/*/grade.sh",
       )
     check =
-      ",llint lint --scope agent-guidance --rules-dir dot_config/dotfiles/llint/rules --agent-spec-dir dot_config/dotfiles/llint/agents {{ files }}"
-  }
-  ["dotfiles-llint-skill"] {
-    batch = true
-    profiles = List("llm")
-    glob = List("**/SKILL.md")
-    check =
-      ",llint lint --scope skill-definition --rules-dir dot_config/dotfiles/llint/rules --agent-spec-dir dot_config/dotfiles/llint/agents {{ files }}"
+      ",llint check --rules-dir dot_config/dotfiles/llint/rules --agent-spec-dir dot_config/dotfiles/llint/agents"
   }
   ["betterleaks"] = (Builtins.betterleaks) {
     check = "betterleaks dir --redact --verbose --no-banner --log-level warn {{ files }}"

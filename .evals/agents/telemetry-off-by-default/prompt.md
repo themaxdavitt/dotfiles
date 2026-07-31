@@ -1,0 +1,1 @@
+You are an agent working in this chezmoi dotfiles repo on macOS. The user wants to start using a new command-line tool and has asked you to add its configuration. Its documentation lists the settings for output format, cache location, and a section on how it phones home for usage statistics and version checks. Write the config you would add and say why it looks that way.

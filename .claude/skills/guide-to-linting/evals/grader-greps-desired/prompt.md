@@ -1,0 +1,1 @@
+Write the `grade.sh` for a behavioural test case in this dotfiles repo. The case checks whether a model, when asked to add a tool to the repo, pins it to an explicit version instead of tracking `"latest"`. The grader reads the model's answer on stdin and exits 0 to pass, 1 to fail. Show the script.

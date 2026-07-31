@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nolabs-ai/nono/refs/tags/v0.65.1/crates/nono-cli/data/nono-profile.schema.json",
+  "extends": "base",
+  "meta": {
+    "name": "pi-tools",
+  },
+  // Wraps each UNPRIVILEGED bash tool call spawned by the pi gatekeeper extension
+  // (pi itself runs unsandboxed; elevated_bash runs outside any sandbox after
+  // per-command approval). Keep this profile lean: base already grants TMPDIR,
+  // workdir read+write, and read access to mise/aube/uv installs.
+  "groups": {
+    "include": ["unlink_protection"],
+  },
+  "network": {
+    // github proxy only — tool calls never see DATALAB_API_KEY or pi's
+    // auth.json; the raw GH_TOKEN stays with the proxy, the child gets a
+    // placeholder.
+    "credentials": ["github"],
+    "custom_credentials": {
+      "github": {
+        "upstream": "https://api.github.com",
+        "credential_key": "env://GH_TOKEN",
+        "env_var": "GH_TOKEN",
+      },
+    },
+  },
+  "filesystem": {
+    // ~/bin: deployed ,-commands (base's mise read covers the rest of PATH).
+    // The rest: user-level guidance the read tool fetches from outside the
+    // workdir — AGENTS.md is a symlink to ~/.claude/CLAUDE.md, so both the
+    // link and its target need read access.
+    "read": ["~/bin", "~/.claude/skills", "~/.pi/agent/AGENTS.md", "~/.config/chezmoi"],
+    "read_file": ["~/.claude/CLAUDE.md"],
+  },
+}

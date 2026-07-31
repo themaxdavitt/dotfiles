@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  User LaunchAgent: daily `,backup` to the `backups` restic repo.
+
+  chezmoi source: private_Library/private_LaunchAgents/me.davitt.backup.plist.tmpl
+         target:  ~/Library/LaunchAgents/me.davitt.backup.plist
+
+  Turn-on sequence (once per machine, after the repo exists):
+    1. `,backup init`   one-time repo bootstrap (reuses the rclone+fnox env); then
+       `,backup`        once by hand to confirm a snapshot lands.
+    2. remove this agent's line from .chezmoiignore, then apply the target
+       (`chezmoi apply ~/Library/LaunchAgents/me.davitt.backup.plist` — renders no
+       secrets, so no unlock; or a scoped `,cza`).
+    3. load it (macOS 11+):
+         launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/me.davitt.backup.plist
+       reload after edits:
+         launchctl bootout   gui/$(id -u)/me.davitt.backup 2>/dev/null; \
+         launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/me.davitt.backup.plist
+       status / logs:
+         launchctl print gui/$(id -u)/me.davitt.backup
+         tail -f ~/.local/state/restic/backup.log
+
+  TRIGGER: fires both at login (RunAtLoad) and daily at 03:00 (StartCalendarInterval,
+    or the next wake if asleep). The `,backup` marker throttles to ~1 snapshot/day, so
+    the two fire sources can never double-back-up.
+
+  ONE TAP WHEN IT FIRES: a real (non-throttled) run resolves the S3 + repo secrets from
+    Bitwarden, so `,backup` mints a single biometric unlock and resolves the whole batch
+    under it — one answerable Touch ID when you're at the laptop (typically the morning
+    wake that triggers the 03:00 catch-up), then tap-free for that run. Not truly
+    unattended: fnox folds BW_SESSION into its daemon-cache key, so a login pre-warm can't
+    make an asleep-at-03:00 run prompt-free — that needs machine-scoped creds (deferred).
+    A throttled run (e.g. the RunAtLoad fire right after a manual backup) skips before the
+    unlock, so it never prompts.
+
+  HOMELAB (Linux) port — the script is identical; schedule it with cron instead of
+  launchd. crontab env assignments are literal (no shell expansion), so spell the
+  paths out for that host:
+    # crontab -e
+    PATH=/home/YOU/.local/share/mise/shims:/home/YOU/bin:/usr/local/bin:/usr/bin:/bin
+    0 3 * * * /home/YOU/bin/,backup >> /home/YOU/.local/state/restic/backup.log 2>&1
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>me.davitt.backup</string>
+
+  <!-- launchd runs the file directly (no shell), so PATH below is what the script sees. -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>{{ .chezmoi.homeDir }}/bin/,backup</string>
+  </array>
+
+  <!-- Minimal launchd PATH won't find the mise shims or the rbw/bwbio shims in ~/bin; set it. -->
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>{{ .chezmoi.homeDir }}/.local/share/mise/shims:{{ .chezmoi.homeDir }}/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>HOME</key>
+    <string>{{ .chezmoi.homeDir }}</string>
+  </dict>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key><integer>3</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+
+  <!-- Fire at login too; the marker throttle dedupes the login + 03:00 double-fire. -->
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <false/>
+
+  <!-- Be a good citizen: low-priority background I/O, backups aren't latency-sensitive. -->
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>LowPriorityIO</key>
+  <true/>
+  <key>Nice</key>
+  <integer>10</integer>
+
+  <key>StandardOutPath</key>
+  <string>{{ .chezmoi.homeDir }}/.local/state/restic/backup.log</string>
+  <key>StandardErrorPath</key>
+  <string>{{ .chezmoi.homeDir }}/.local/state/restic/backup.log</string>
+</dict>
+</plist>

@@ -1,0 +1,1 @@
+This repo measures a guidance document's worth by giving a model the same task twice — once with the document loaded, once without — and grading both answers with a script. Pick any single directive from the repo's own guidance and write the task text that would be handed to the model to test it. Output only that task text, nothing else.

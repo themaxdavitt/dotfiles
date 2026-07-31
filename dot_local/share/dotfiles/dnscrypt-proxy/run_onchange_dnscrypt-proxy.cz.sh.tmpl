@@ -5,6 +5,19 @@ set -euo pipefail
 # dnscrypt-proxy.toml hash: {{ include "dot_local/share/dotfiles/dnscrypt-proxy/dnscrypt-proxy.toml" | sha256sum }}
 # forwarding-rules.txt hash: {{ include "dot_local/share/dotfiles/dnscrypt-proxy/forwarding-rules.txt" | sha256sum }}
 
+source_dir="{{ .chezmoi.sourceDir }}/dot_local/share/dotfiles/dnscrypt-proxy"
+config_dir="$HOME/.local/share/dotfiles/dnscrypt-proxy"
+
+# Seed the config from source before anything below points a symlink at it or
+# starts the daemon. Within one directory chezmoi applies entries in lexical
+# order, and `after_` orders this script against the containing directory rather
+# than its siblings — this script's target name (dnscrypt-proxy.cz.sh) sorts
+# ahead of dnscrypt-proxy.toml, so on a fresh machine the service would otherwise
+# start against a dangling symlink. Copying is idempotent: chezmoi writes
+# byte-identical content when it reaches those entries later in the same apply.
+mkdir -p "$config_dir"
+cp "$source_dir/dnscrypt-proxy.toml" "$source_dir/forwarding-rules.txt" "$config_dir"
+
 sudo mkdir -p /Library/Application\ Support/dnscrypt-proxy /Library/Caches/dnscrypt-proxy
 
 if [ ! -f /Library/Application\ Support/dnscrypt-proxy/dnscrypt-proxy.toml ]; then
@@ -22,3 +35,29 @@ fi
 
 sudo dnscrypt-proxy -service stop || true
 sudo dnscrypt-proxy -service start
+
+# --- "Public" network location --------------------------------------------------
+# At home the router already resolves over an encrypted upstream, so the default
+# `Automatic` location deliberately leaves DNS on DHCP and dnscrypt-proxy sits idle
+# (it stays running either way — starting it on demand only buys a startup race).
+# On an untrusted network, switch to `Public`, whose sole difference is DNS pointed
+# at the local proxy:
+#
+#   networksetup -switchtolocation Public     # or the  > Location menu
+#   networksetup -switchtolocation Automatic  # back home
+#
+# Only Wi-Fi is repointed on purpose: `networksetup -listallnetworkservices` also
+# lists Tailscale and several VPN services, which manage their own resolvers and
+# must not be overridden (the forwarding_rules `ts.net` entry hands MagicDNS names
+# back to 100.100.100.100 so the proxy doesn't break them either).
+#
+# DNS can only be set from *inside* a location, so bootstrapping means switching
+# there and back — guarded on existence so it happens once, not on every apply.
+if ! networksetup -listlocations | grep -qxF "Public"; then
+  previous_location="$(networksetup -getcurrentlocation)"
+  sudo networksetup -createlocation "Public" populate
+  sudo networksetup -switchtolocation "Public"
+  sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
+  sudo networksetup -switchtolocation "$previous_location"
+  echo "dnscrypt-proxy: created the 'Public' network location (Wi-Fi DNS -> 127.0.0.1)"
+fi

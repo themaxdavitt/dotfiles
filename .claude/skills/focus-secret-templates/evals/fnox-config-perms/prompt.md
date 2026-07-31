@@ -1,0 +1,1 @@
+You are an agent working in this chezmoi dotfiles repo on macOS. The deployed config file for the secret manager is group-readable, and it needs to be owner-only instead. Its permissions are the only thing wrong with it. Say exactly how you would fix that.

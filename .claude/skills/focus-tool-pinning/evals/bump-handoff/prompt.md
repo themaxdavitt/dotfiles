@@ -1,0 +1,1 @@
+This dotfiles repo pins `"aqua:jdx/hk" = "1.48.0"` in `mise.toml`. Upstream has since released 1.52.0 and the user wants the pin moved up. Make the change and write the short handoff note you would leave for them.

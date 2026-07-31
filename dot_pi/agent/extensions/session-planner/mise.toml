@@ -1,0 +1,26 @@
+# Dev-only task runner (`.chezmoiignore` keeps it out of the deployed target).
+# No `[tools]` section: nested configs inherit the repo root's toolchain.
+# One-time per checkout: `mise trust` this file.
+
+[tasks.deps]
+description = "Frozen-lockfile install of the dev toolchain (no runtime deps)"
+run = "aube ci"
+
+[tasks.test]
+description = "Unit tests (node:test via tsx)"
+run = "./node_modules/.bin/tsx --test 'test/**/*.test.ts'"
+
+[tasks.bundle]
+description = "esbuild sanity check — the only type-adjacent check available outside Pi"
+run = """
+./node_modules/.bin/esbuild index.ts --bundle --platform=node --format=esm --outfile=/dev/null \
+  --external:@earendil-works/pi-coding-agent \
+  --external:@earendil-works/pi-tui \
+  --external:typebox
+"""
+
+# Not named `check`: the repo root defines `check = "hk check"`, and a task of
+# that name here would shadow the lint lane AGENTS.md names.
+[tasks.ci]
+description = "Runs test + bundle: what a change must pass before it is claimed to work"
+depends = ["test", "bundle"]

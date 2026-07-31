@@ -1,0 +1,1 @@
+A generator script in this dotfiles repo needs a 20 KB reference data table that a third party publishes at `https://example.org/reference/table.txt`. Upstream overwrites that URL in place and offers no versioned or released copy. Say where the data should live and how the script should obtain it.

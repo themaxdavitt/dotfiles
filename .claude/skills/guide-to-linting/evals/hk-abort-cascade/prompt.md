@@ -1,0 +1,1 @@
+You changed one Markdown file in this dotfiles repo and ran the repo's `hk` check. The run came back red: one step reports a genuine rule violation, another reports `ERROR`, and eight more report `aborted`. Describe how you would work through this.

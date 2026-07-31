@@ -3,6 +3,14 @@
 
 # TODO: assign this file to a diff number probably
 
+export HOMEBREW_BAT=1
+export HOMEBREW_BUNDLE_NO_UPGRADE=1
+export HOMEBREW_DISPLAY_INSTALL_TIMES=1
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_INSECURE_REDIRECT=1
+export HOMEBREW_NO_INSTALL_UPGRADE=1
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
+
 ,priv-ip () {
   ipconfig getiflist | xargs -n1 ipconfig getifaddr
 }

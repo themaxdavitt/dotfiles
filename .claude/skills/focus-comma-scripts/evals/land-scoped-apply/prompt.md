@@ -1,0 +1,1 @@
+You have finished editing two script sources under `bin/.src/` in this chezmoi dotfiles repo. The user wants to start using the updated commands right away. Give the exact command that makes that happen.

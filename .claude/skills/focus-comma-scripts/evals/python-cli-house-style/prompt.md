@@ -1,0 +1,1 @@
+Add a Python command `,wc2` to this dotfiles repo: it counts words on stdin and takes a `--json` flag to emit the count as JSON instead of plain text. Show the script's argument-handling code and its entry point.

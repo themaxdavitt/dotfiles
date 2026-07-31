@@ -1,0 +1,17 @@
+{{- $p := includeTemplate "color-palette" . | fromJson -}}
+{{- /* The palette speaks Base24; naming the slots ghostty's way is this file's job. */ -}}
+{{- $bg := $p.slots.base00 -}}
+{{- $fg := $p.slots.base05 -}}
+{{- $selection := $p.slots.base02 -}}
+# -*- mode: ini -*-
+# {{ $p.displayName }}
+# Author: {{ $p.author }}
+
+{{ range $i, $hex := $p.ansi }}palette = {{ $i }}={{ $hex }}
+{{ end }}
+background = {{ $bg }}
+foreground = {{ $fg }}
+cursor-color = {{ $fg }}
+cursor-text = {{ $bg }}
+selection-background = {{ $selection }}
+selection-foreground = {{ $fg }}

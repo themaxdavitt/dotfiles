@@ -2,33 +2,15 @@
 
 font-family = Source Code Pro
 font-size = 11
-theme = Catppuccin Macchiato
 shell-integration-features = no-cursor,no-path
 bell-features = system,no-title
 cursor-style = bar
 cursor-style-blink = true
 adjust-cursor-thickness = 3
 
-palette = 0=#242424
-palette = 1=#fbc8c3
-palette = 2=#b5e2c8
-palette = 3=#d4dbaf
-palette = 4=#b9dafc
-palette = 5=#d8cff9
-palette = 6=#a9e2e8
-palette = 7=#ebebeb
-palette = 8=#b7b7b7
-palette = 9=#fa9e97
-palette = 10=#36da94
-palette = 11=#b9c630
-palette = 12=#87c0fa
-palette = 13=#bfadfa
-palette = 14=#36d1e0
-palette = 15=#ffffff
-
-background = #242424
-foreground = #ebebeb
-cursor-color = #ebebeb
-cursor-text = #242424
-selection-background = #7d7d7d
-selection-foreground = #ebebeb
+# Palette, background/foreground, cursor and selection all come from the theme
+# file, which is generated into ~/.config/ghostty/themes/ (ghostty's first theme
+# search dir) by the 2026-color-scheme run_onchange script. Regenerate it with
+# `chezmoi apply ~/.local/share/dotfiles/2026-color-scheme` after editing the
+# generator; do not paste colors back in here.
+theme = 2026-color-scheme-public-dark

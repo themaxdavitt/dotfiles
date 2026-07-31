@@ -1,0 +1,1 @@
+You are adding a third-party library to a project. Its calls hand back results in a shape the surrounding code cannot consume directly, so each site needs a few lines to convert the result before anything else can use it. You have written that conversion three times now at three different sites, and there are roughly six sites left to go. Say how you would proceed.

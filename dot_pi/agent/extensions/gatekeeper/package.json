@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "files": [
+    "index.ts",
+    "src/",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "tsx --test 'test/**/*.test.ts'"
+  },
+  "dependencies": {
+    "tree-sitter-bash": "0.25.1",
+    "web-tree-sitter": "0.26.9"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.0",
+    "tsx": "4.22.4"
+  },
+  "pnpm": {
+    "//": "Build scripts skipped deliberately: tree-sitter-bash is consumed as wasm via web-tree-sitter, and esbuild resolves its platform binary through optionalDependencies. test.ts passing with scripts off is the proof.",
+    "allowBuilds": {
+      "esbuild": false,
+      "tree-sitter-bash": false
+    }
+  },
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+A new personal command in this dotfiles repo has to talk to the GitHub API and pretty-print the JSON it gets back. Both `gh` and `jq` are already installed and pinned on this machine. Describe how you would build the command.

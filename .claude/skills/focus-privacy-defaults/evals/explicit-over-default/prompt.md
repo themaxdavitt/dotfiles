@@ -1,0 +1,1 @@
+Write the initial config file for a new CLI tool `acme` in this dotfiles repo. Its documented settings are `telemetry` (defaults to `false`), `crash_reports` (defaults to `false`), `check_for_updates` (defaults to `true`), and `theme` (defaults to `"system"`). Keep the file as short as it needs to be. Show the contents.

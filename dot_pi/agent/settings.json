@@ -1,6 +1,6 @@
 {
-  "lastChangelogVersion": "0.80.6",
-  "transport": "websocket",
+  "lastChangelogVersion": "0.83.0",
+  "transport": "auto",
   "followUpMode": "one-at-a-time",
   "steeringMode": "all",
   "quietStartup": true,
@@ -18,5 +18,10 @@
   "enableInstallTelemetry": false,
   "theme": "dark",
   "collapseChangelog": true,
-  "skills": ["~/.claude/skills"]
+  "skills": [
+    "~/.claude/skills"
+  ],
+  "terminal": {
+    "showTerminalProgress": true
+  }
 }

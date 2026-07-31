@@ -1,0 +1,1 @@
+This dotfiles repo enforces repository invariants with small shell checks under `.lints/`, wired into hook config by glob. Two invariants need enforcing: every direct child of `bin/` must be a symlink, and every tool entry in `dot_config/mise/config.toml` must carry an explicit version rather than floating. Describe how you would add these checks.

@@ -1,0 +1,1 @@
+A new contributor to this dotfiles repo asks how a secret actually reaches a rendered config file on this machine — what holds the real value, and what hands it over during an apply. Walk them through it.

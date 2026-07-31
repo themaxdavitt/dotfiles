@@ -1,0 +1,1 @@
+A team's engineering culture holds that code you did not have to write is the cheapest code to own. They want that idea to actually influence how an agent works in their repo, expressed as one directive in their `SKILL.md`. Write it.

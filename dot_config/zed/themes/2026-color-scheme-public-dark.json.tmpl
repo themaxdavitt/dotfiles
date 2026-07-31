@@ -1,0 +1,425 @@
+{{- /* -*- mode: json -*-
+    Zed theme. Colours come from the 2026-color-scheme generator; this template
+    owns all presentation. Two-hex suffixes are alpha: ff=1.0 bf=.75 66=.4 4d=.3
+    3d=.24 2e=.18 1a=.1 1f=.12 0d=.05 40=.25 */ -}}
+{{- $p := includeTemplate "color-palette" . | fromJson -}}
+{
+  "$schema": "https://zed.dev/schema/themes/v0.2.0.json",
+  "name": "{{ $p.name }}",
+  "author": "{{ $p.author }}",
+  "themes": [
+    {
+      "name": "{{ $p.displayName }}",
+      "appearance": "{{ $p.appearance }}",
+      "style": {
+        "border": "{{ $p.slots.base01 }}ff",
+        "border.variant": "{{ $p.slots.base01 }}ff",
+        "border.focused": "{{ $p.slots.base0D }}ff",
+        "border.selected": "{{ $p.slots.base0D }}4d",
+        "border.transparent": "#00000000",
+        "border.disabled": "{{ $p.slots.base01 }}ff",
+        "elevated_surface.background": "{{ $p.slots.base01 }}ff",
+        "surface.background": "{{ $p.slots.base01 }}ff",
+        "background": "{{ $p.slots.base01 }}ff",
+        "element.background": "{{ $p.slots.base10 }}ff",
+        "element.hover": "{{ $p.slots.base01 }}ff",
+        "element.active": "{{ $p.slots.base0D }}1f",
+        "element.selected": "{{ $p.slots.base0D }}1f",
+        "element.disabled": "{{ $p.slots.base10 }}ff",
+        "drop_target.background": "{{ $p.slots.base05 }}4d",
+        "ghost_element.background": "#00000000",
+        "ghost_element.hover": "{{ $p.slots.base01 }}ff",
+        "ghost_element.active": "{{ $p.slots.base0D }}1f",
+        "ghost_element.selected": "{{ $p.slots.base0D }}1f",
+        "ghost_element.disabled": "{{ $p.slots.base10 }}ff",
+        "text": "{{ $p.slots.base07 }}ff",
+        "text.muted": "{{ $p.slots.base04 }}ff",
+        "text.placeholder": "{{ $p.slots.base03 }}ff",
+        "text.disabled": "{{ $p.slots.base03 }}ff",
+        "text.accent": "{{ $p.slots.base0D }}ff",
+        "icon": "{{ $p.slots.base07 }}ff",
+        "icon.muted": "{{ $p.slots.base04 }}ff",
+        "icon.disabled": "{{ $p.slots.base03 }}ff",
+        "icon.placeholder": "{{ $p.slots.base04 }}ff",
+        "icon.accent": "{{ $p.slots.base0D }}ff",
+        "status_bar.background": "{{ $p.slots.base00 }}ff",
+        "title_bar.background": "{{ $p.slots.base00 }}ff",
+        "title_bar.inactive_background": "{{ $p.slots.base10 }}ff",
+        "toolbar.background": "{{ $p.slots.base00 }}ff",
+        "tab_bar.background": "{{ $p.slots.base01 }}ff",
+        "tab.inactive_background": "{{ $p.slots.base01 }}ff",
+        "tab.active_background": "{{ $p.slots.base00 }}ff",
+        "search.match_background": "{{ $p.slots.base0D }}66",
+        "search.active_match_background": "{{ $p.slots.base09 }}66",
+        "panel.background": "{{ $p.slots.base01 }}ff",
+        "panel.focused_border": null,
+        "pane.focused_border": null,
+        "scrollbar.thumb.background": "{{ $p.slots.base05 }}4d",
+        "scrollbar.thumb.hover_background": "{{ $p.slots.base01 }}ff",
+        "scrollbar.thumb.border": "{{ $p.slots.base01 }}ff",
+        "scrollbar.track.background": "#00000000",
+        "scrollbar.track.border": "{{ $p.slots.base00 }}ff",
+        "editor.foreground": "{{ $p.slots.base05 }}ff",
+        "editor.background": "{{ $p.slots.base00 }}ff",
+        "editor.gutter.background": "{{ $p.slots.base00 }}ff",
+        "editor.subheader.background": "{{ $p.slots.base01 }}ff",
+        "editor.active_line.background": "{{ $p.slots.base01 }}bf",
+        "editor.highlighted_line.background": "{{ $p.slots.base01 }}ff",
+        "editor.line_number": "{{ $p.slots.base03 }}",
+        "editor.active_line_number": "{{ $p.slots.base04 }}",
+        "editor.hover_line_number": "{{ $p.slots.base04 }}",
+        "editor.invisible": "{{ $p.slots.base03 }}66",
+        "editor.wrap_guide": "{{ $p.slots.base05 }}0d",
+        "editor.active_wrap_guide": "{{ $p.slots.base05 }}1a",
+        "editor.document_highlight.read_background": "{{ $p.slots.base0D }}1a",
+        "editor.document_highlight.write_background": "{{ $p.slots.base0D }}2e",
+        "terminal.background": "{{ $p.slots.base00 }}ff",
+        "terminal.foreground": "{{ $p.slots.base05 }}ff",
+        "terminal.bright_foreground": "{{ $p.slots.base07 }}ff",
+        "terminal.dim_foreground": "{{ $p.slots.base03 }}ff",
+        "terminal.ansi.black": "{{ $p.slots.base00 }}ff",
+        "terminal.ansi.bright_black": "{{ $p.slots.base03 }}ff",
+        "terminal.ansi.dim_black": "{{ $p.slots.base10 }}ff",
+        "terminal.ansi.red": "{{ $p.slots.base08 }}ff",
+        "terminal.ansi.bright_red": "{{ $p.slots.base12 }}ff",
+        "terminal.ansi.dim_red": "{{ $p.slots.base18 }}ff",
+        "terminal.ansi.green": "{{ $p.slots.base0B }}ff",
+        "terminal.ansi.bright_green": "{{ $p.slots.base14 }}ff",
+        "terminal.ansi.dim_green": "{{ $p.slots.base1A }}ff",
+        "terminal.ansi.yellow": "{{ $p.slots.base0A }}ff",
+        "terminal.ansi.bright_yellow": "{{ $p.slots.base13 }}ff",
+        "terminal.ansi.dim_yellow": "{{ $p.slots.base19 }}ff",
+        "terminal.ansi.blue": "{{ $p.slots.base0D }}ff",
+        "terminal.ansi.bright_blue": "{{ $p.slots.base16 }}ff",
+        "terminal.ansi.dim_blue": "{{ $p.slots.base1C }}ff",
+        "terminal.ansi.magenta": "{{ $p.slots.base0E }}ff",
+        "terminal.ansi.bright_magenta": "{{ $p.slots.base17 }}ff",
+        "terminal.ansi.dim_magenta": "{{ $p.slots.base1D }}ff",
+        "terminal.ansi.cyan": "{{ $p.slots.base0C }}ff",
+        "terminal.ansi.bright_cyan": "{{ $p.slots.base15 }}ff",
+        "terminal.ansi.dim_cyan": "{{ $p.slots.base1B }}ff",
+        "terminal.ansi.white": "{{ $p.slots.base05 }}ff",
+        "terminal.ansi.bright_white": "{{ $p.slots.base07 }}ff",
+        "terminal.ansi.dim_white": "{{ $p.slots.base04 }}ff",
+        "version_control.added": "{{ $p.slots.base0B }}ff",
+        "version_control.modified": "{{ $p.slots.base0A }}ff",
+        "version_control.word_added": "{{ $p.slots.base0B }}ff",
+        "version_control.word_deleted": "{{ $p.slots.base08 }}ff",
+        "version_control.deleted": "{{ $p.slots.base08 }}ff",
+        "version_control.conflict_marker.ours": "{{ $p.slots.base0B }}1a",
+        "version_control.conflict_marker.theirs": "{{ $p.slots.base0D }}1a",
+        "conflict": "{{ $p.slots.base09 }}ff",
+        "conflict.background": "{{ $p.slots.base09 }}1a",
+        "conflict.border": "{{ $p.slots.base09 }}40",
+        "created": "{{ $p.slots.base0B }}ff",
+        "created.background": "{{ $p.slots.base0B }}1a",
+        "created.border": "{{ $p.slots.base0B }}40",
+        "deleted": "{{ $p.slots.base08 }}ff",
+        "deleted.background": "{{ $p.slots.base08 }}1a",
+        "deleted.border": "{{ $p.slots.base08 }}40",
+        "error": "{{ $p.slots.base08 }}ff",
+        "error.background": "{{ $p.slots.base08 }}1a",
+        "error.border": "{{ $p.slots.base08 }}40",
+        "hidden": "{{ $p.slots.base04 }}ff",
+        "hidden.background": "{{ $p.slots.base03 }}1a",
+        "hidden.border": "{{ $p.slots.base01 }}ff",
+        "hint": "{{ $p.slots.base0D }}ff",
+        "hint.background": "{{ $p.slots.base0D }}1a",
+        "hint.border": "{{ $p.slots.base0D }}4d",
+        "ignored": "{{ $p.slots.base04 }}ff",
+        "ignored.background": "{{ $p.slots.base03 }}1a",
+        "ignored.border": "{{ $p.slots.base01 }}ff",
+        "info": "{{ $p.slots.base0D }}ff",
+        "info.background": "{{ $p.slots.base0D }}1a",
+        "info.border": "{{ $p.slots.base0D }}4d",
+        "modified": "{{ $p.slots.base09 }}ff",
+        "modified.background": "{{ $p.slots.base09 }}1a",
+        "modified.border": "{{ $p.slots.base09 }}40",
+        "predictive": "{{ $p.slots.base03 }}ff",
+        "predictive.background": "{{ $p.slots.base03 }}1a",
+        "predictive.border": "{{ $p.slots.base0B }}40",
+        "renamed": "{{ $p.slots.base0D }}ff",
+        "renamed.background": "{{ $p.slots.base0D }}1a",
+        "renamed.border": "{{ $p.slots.base0D }}4d",
+        "success": "{{ $p.slots.base0B }}ff",
+        "success.background": "{{ $p.slots.base0B }}1a",
+        "success.border": "{{ $p.slots.base0B }}40",
+        "unreachable": "{{ $p.slots.base04 }}ff",
+        "unreachable.background": "{{ $p.slots.base03 }}1a",
+        "unreachable.border": "{{ $p.slots.base01 }}ff",
+        "warning": "{{ $p.slots.base09 }}ff",
+        "warning.background": "{{ $p.slots.base09 }}1a",
+        "warning.border": "{{ $p.slots.base09 }}40",
+        "players": [
+          {
+            "cursor": "{{ $p.slots.base0D }}ff",
+            "background": "{{ $p.slots.base0D }}ff",
+            "selection": "{{ $p.slots.base0D }}3d"
+          },
+          {
+            "cursor": "{{ $p.slots.base08 }}ff",
+            "background": "{{ $p.slots.base08 }}ff",
+            "selection": "{{ $p.slots.base08 }}3d"
+          },
+          {
+            "cursor": "{{ $p.slots.base09 }}ff",
+            "background": "{{ $p.slots.base09 }}ff",
+            "selection": "{{ $p.slots.base09 }}3d"
+          },
+          {
+            "cursor": "{{ $p.slots.base0E }}ff",
+            "background": "{{ $p.slots.base0E }}ff",
+            "selection": "{{ $p.slots.base0E }}3d"
+          },
+          {
+            "cursor": "{{ $p.slots.base0A }}ff",
+            "background": "{{ $p.slots.base0A }}ff",
+            "selection": "{{ $p.slots.base0A }}3d"
+          },
+          {
+            "cursor": "{{ $p.slots.base08 }}ff",
+            "background": "{{ $p.slots.base08 }}ff",
+            "selection": "{{ $p.slots.base08 }}3d"
+          },
+          {
+            "cursor": "{{ $p.slots.base09 }}ff",
+            "background": "{{ $p.slots.base09 }}ff",
+            "selection": "{{ $p.slots.base09 }}3d"
+          },
+          {
+            "cursor": "{{ $p.slots.base0B }}ff",
+            "background": "{{ $p.slots.base0B }}ff",
+            "selection": "{{ $p.slots.base0B }}3d"
+          }
+        ],
+        "syntax": {
+          "attribute": {
+            "color": "{{ $p.slots.base0D }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "boolean": {
+            "color": "{{ $p.slots.base09 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "comment": {
+            "color": "{{ $p.slots.base03 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "comment.doc": {
+            "color": "{{ $p.slots.base0C }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "constant": {
+            "color": "{{ $p.slots.base09 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "constructor": {
+            "color": "{{ $p.slots.base0D }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "embedded": {
+            "color": "{{ $p.slots.base07 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "emphasis": {
+            "color": "{{ $p.slots.base0D }}ff",
+            "font_style": "italic",
+            "font_weight": null
+          },
+          "emphasis.strong": {
+            "color": "{{ $p.slots.base09 }}ff",
+            "font_style": null,
+            "font_weight": 700
+          },
+          "enum": {
+            "color": "{{ $p.slots.base0A }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "function": {
+            "color": "{{ $p.slots.base0D }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "hint": {
+            "color": "{{ $p.slots.base0D }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "keyword": {
+            "color": "{{ $p.slots.base0E }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "label": {
+            "color": "{{ $p.slots.base0D }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "link_text": {
+            "color": "{{ $p.slots.base0D }}ff",
+            "font_style": "italic",
+            "font_weight": null
+          },
+          "link_uri": {
+            "color": "{{ $p.slots.base0A }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "namespace": {
+            "color": "{{ $p.slots.base05 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "number": {
+            "color": "{{ $p.slots.base09 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "operator": {
+            "color": "{{ $p.slots.base0A }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "predictive": {
+            "color": "{{ $p.slots.base03 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "preproc": {
+            "color": "{{ $p.slots.base0E }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "primary": {
+            "color": "{{ $p.slots.base05 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "property": {
+            "color": "{{ $p.slots.base08 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "punctuation": {
+            "color": "{{ $p.slots.base05 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "punctuation.bracket": {
+            "color": "{{ $p.slots.base05 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "punctuation.delimiter": {
+            "color": "{{ $p.slots.base05 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "punctuation.list_marker": {
+            "color": "{{ $p.slots.base08 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "punctuation.markup": {
+            "color": "{{ $p.slots.base08 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "punctuation.special": {
+            "color": "{{ $p.slots.base0F }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "selector": {
+            "color": "{{ $p.slots.base09 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "selector.pseudo": {
+            "color": "{{ $p.slots.base0D }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "string": {
+            "color": "{{ $p.slots.base0B }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "string.escape": {
+            "color": "{{ $p.slots.base0C }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "string.regex": {
+            "color": "{{ $p.slots.base09 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "string.special": {
+            "color": "{{ $p.slots.base09 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "string.special.symbol": {
+            "color": "{{ $p.slots.base09 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "tag": {
+            "color": "{{ $p.slots.base0D }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "text.literal": {
+            "color": "{{ $p.slots.base0B }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "title": {
+            "color": "{{ $p.slots.base08 }}ff",
+            "font_style": null,
+            "font_weight": 400
+          },
+          "type": {
+            "color": "{{ $p.slots.base0A }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "variable": {
+            "color": "{{ $p.slots.base05 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "variable.special": {
+            "color": "{{ $p.slots.base09 }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "variant": {
+            "color": "{{ $p.slots.base0D }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "diff.plus": {
+            "color": "{{ $p.slots.base0B }}ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "diff.minus": {
+            "color": "{{ $p.slots.base08 }}ff",
+            "font_style": null,
+            "font_weight": null
+          }
+        }
+      }
+    }
+  ]
+}

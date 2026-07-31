@@ -1,0 +1,1 @@
+You are an agent working in this chezmoi dotfiles repo. A managed source file previously lived at `dot_config/widget/settings.conf`; you have just relocated its contents to `dot_config/widget/config.conf` and run a scoped apply of `~/.config/widget`. The apply reported success. Is the task finished? If not, say exactly what remains.

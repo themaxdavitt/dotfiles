@@ -4,7 +4,7 @@ This file guides AI agents working with Max in every project; repo-level guidanc
 
 ## Verify
 
-- ALWAYS: show evidence before claiming work is done — run the check that owns the change (tests, linter, build, render/dry-run/diff) and report its output; an unverified assertion doesn't count as done.
+- ALWAYS: show evidence before claiming work is done — run the check that owns the change and report its output; an unverified assertion doesn't count as done. Which checks those are is the repo's to say, so read its guidance rather than assuming a test suite exists.
 
 ## Workflow
 
@@ -18,6 +18,7 @@ This file guides AI agents working with Max in every project; repo-level guidanc
 - ALWAYS: delegate broad fan-out investigation (many-file searches, unfamiliar-codebase surveys) to read-only subagents when the harness provides them — a summary in the main context beats a raw exploration transcript.
 - ALWAYS: commit atomically per task, conventional format `type(scope): description`.
 - ALWAYS: after two failures with the same approach, switch to a different strategy instead of retrying variations.
+- ALWAYS: record a durable fact about a repo in that repo's own guidance, never in agent-private memory — a private store is invisible to Max's other checkouts, to other agents in the tree, and to the duplicate-detection that guards the guidance itself. Reserve memory for what the repo cannot hold: work in flight, state outside the tree, and cross-project preferences. Read the repo's guidance before recording anything, since a fact already stated there wants a pointer rather than a second copy.
 
 ## Judgment
 

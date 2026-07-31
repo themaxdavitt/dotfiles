@@ -1,0 +1,4 @@
+# -*- mode: gitignore -*-
+
+# Generated files
+dot_pi/agent/settings.json

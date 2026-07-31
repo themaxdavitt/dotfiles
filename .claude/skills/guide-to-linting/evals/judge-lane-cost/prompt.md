@@ -1,0 +1,1 @@
+A colleague cloned this dotfiles repo and ran its full check suite. The model-backed checks failed immediately with an authentication error, and they ask you why the repo's checks need network access at all and how to run them. Answer in a short paragraph.

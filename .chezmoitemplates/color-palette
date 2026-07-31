@@ -1,0 +1,15 @@
+{{- /* -*- mode: gotmpl -*-
+  Single definition of how the 2026 colour-scheme palette is computed, shared by
+  every theme template: `{{ $p := includeTemplate "color-palette" . | fromJson }}`.
+
+  Run from the chezmoi SOURCE dir, never a deployed copy — chezmoi applies entries
+  within a directory in lexical order, so a template under dot_config/ would
+  otherwise race a generator living under dot_local/.
+
+  The generator's executable preamble owns its pinned Deno runtime and narrow
+  permissions, so direct use and this template cannot drift. This template only
+  supplies the cache path, whose parent is the generator's sole writable path.
+*/ -}}
+{{- output
+      (printf "%s/.colors/generate.js" .chezmoi.sourceDir)
+      (printf "%s/.cache/2026-color-scheme/xkcd-rgb.txt" .chezmoi.homeDir) -}}

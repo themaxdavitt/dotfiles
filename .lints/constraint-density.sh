@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Warn when a guidance file has more than 15 top-level ALWAYS:/NEVER: directive bullets — beyond that threshold the constraint density risks exceeding reliable recall.
+# Hold guidance-file directive counts inside the band where they stay useful: above 15 constraint density risks exceeding reliable recall, and a skill below 5 is not carrying its own routing overhead.
 
 set -euo pipefail
 
@@ -9,6 +9,11 @@ repo_root="$(realpath "$script_dir"/..)"
 
 failed=0
 THRESHOLD=15
+# Floor applies to SKILL.md only: a skill costs a routable trigger and a load
+# decision, so too few directives means the content belongs in a sibling that the
+# model already reaches for. AGENTS.md/CLAUDE.md are not the proliferation risk —
+# they are per-tree, and a CLAUDE.md that only imports AGENTS.md holds none at all.
+FLOOR=5
 
 report() {
   printf '%s: %s\n' "$1" "$2"
@@ -37,6 +42,10 @@ for arg in "$@"; do
 
   if [[ "$count" -gt "$THRESHOLD" ]]; then
     report "$relpath" "constraint density too high: $count top-level ALWAYS/NEVER directives (threshold $THRESHOLD)"
+  fi
+
+  if [[ "$(basename "$relpath")" == "SKILL.md" && "$count" -lt "$FLOOR" ]]; then
+    report "$relpath" "too thin to be its own skill: $count top-level ALWAYS/NEVER directives (floor $FLOOR); merge it into the skill that already owns the topic, or give it the directives it is missing"
   fi
 done
 

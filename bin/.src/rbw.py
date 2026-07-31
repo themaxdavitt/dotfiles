@@ -10,9 +10,12 @@
 
 from __future__ import annotations
 
+import fcntl
 import json
 import subprocess
 import sys
+import tempfile
+from pathlib import Path
 from typing import Any
 
 import typer
@@ -40,12 +43,23 @@ def as_list(value: object) -> list[Any]:
     return value if isinstance(value, list) else []
 
 
+# bwbio has no serializing agent (unlike rbw-agent): each call does a biometric
+# unlock and a read-modify-write of the Bitwarden CLI's shared data.json. fnox
+# resolves a profile's secrets by firing several `rbw get` calls concurrently,
+# so parallel bwbio invocations clobber each other's session and all but one
+# come back empty. Serialize every bwbio call behind an exclusive file lock so
+# concurrent rbw processes queue instead of racing.
+_BWBIO_LOCK = Path(tempfile.gettempdir()) / "rbw-bwbio.lock"
+
+
 def run(args: list[str], *, want_json: bool = False):
-    proc = subprocess.run(
-        ["bwbio", *args],
-        capture_output=True,
-        text=True,
-    )
+    with open(_BWBIO_LOCK, "w") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        proc = subprocess.run(
+            ["bwbio", *args],
+            capture_output=True,
+            text=True,
+        )
     if proc.returncode:
         sys.stdout.write(proc.stdout)
         sys.stderr.write(proc.stderr)

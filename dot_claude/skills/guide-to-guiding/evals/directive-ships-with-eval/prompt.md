@@ -1,0 +1,1 @@
+A repository keeps its agent guidance in `SKILL.md` files, and measures each document's worth by giving a model the same task with and without the document loaded and grading both answers with a script. You are adding one directive to an existing `SKILL.md`: every shell check must document its exit codes. Say what you deliver.

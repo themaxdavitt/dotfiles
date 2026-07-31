@@ -1,0 +1,1 @@
+You are an agent working in this chezmoi dotfiles repo on macOS. You are writing a new managed config file whose values come out of the user's password manager, and your first attempt at the templating syntax has a typo you need to iterate on. You expect two or three rounds of edit-and-preview before it renders correctly. Describe how you would run that loop.

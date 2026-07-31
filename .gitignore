@@ -1,3 +1,5 @@
 *.local.*
 /.lycheecache
 /TODO.md
+node_modules/
+/.chezmoiremove

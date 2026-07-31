@@ -46,10 +46,12 @@
     "metrics": false,
     "diagnostics": false,
   },
+  // Generated into ~/.config/zed/themes/ by the 2026-color-scheme run_onchange
+  // script; only a dark variant exists so far, so light mode reuses it.
   "theme": {
     "mode": "dark",
-    "light": "Catppuccin Macchiato",
-    "dark": "Catppuccin Macchiato",
+    "light": "2026 Color Scheme Public Dark",
+    "dark": "2026 Color Scheme Public Dark",
   },
   "buffer_font_family": "Source Code Pro",
   "show_whitespaces": "all",

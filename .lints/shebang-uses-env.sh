@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Require first-line shebangs in passed files to start with `#!/usr/bin/env`, keeping interpreter lookup portable across machines and package-manager installs.
+# Require first-line shebangs to use `#!/usr/bin/env`, except for the portable system `#!/bin/sh` interpreter.
 
 set -euo pipefail
 
@@ -31,8 +31,8 @@ for arg in "$@"; do
     first_line=""
   fi
 
-  if [[ "$first_line" == "#!"* && "$first_line" != "#!/usr/bin/env"* ]]; then
-    printf '%s: shebang must start with #!/usr/bin/env\n' "$relpath"
+  if [[ "$first_line" == "#!"* && "$first_line" != "#!/usr/bin/env"* && "$first_line" != "#!/bin/sh" ]]; then
+    printf '%s: shebang must start with #!/usr/bin/env or be exactly #!/bin/sh\n' "$relpath"
     failed=1
   fi
 done

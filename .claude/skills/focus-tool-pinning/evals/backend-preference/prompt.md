@@ -1,0 +1,1 @@
+`ripgrep` needs adding to this dotfiles repo's `mise` tool list. `mise registry` reports it available through the `asdf`, `aqua`, `npm`, `ubi`, and `github` backends. Give the exact line you would add, and one sentence on the choice.

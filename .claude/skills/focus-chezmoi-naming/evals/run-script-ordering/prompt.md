@@ -1,0 +1,1 @@
+In this chezmoi dotfiles repo, the directory `dot_local/share/dotfiles/widget/` contains a managed file `build.js` alongside a chezmoi script `run_onchange_after_build.cz.sh.tmpl`. The script's job is to run `build.js` with node on every apply where `build.js` has changed. Show the body of that script.

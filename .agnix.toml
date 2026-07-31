@@ -2,15 +2,22 @@ severity = "Warning"
 # dot_claude/CLAUDE.md is deployed user-level guidance, not project
 # instructions — agnix's project-oriented rules (e.g. missing project context)
 # don't apply; mdschema/Vale/constraint-density still cover it.
-exclude = [".zed/**", ".git/**", "dot_claude/CLAUDE.md"]
+# Each pi extension dir is deliberately a nested guidance scope (its own build
+# ritual and verification commands), so AGM-004/AGM-006 misfire there.
+exclude = [
+  ".zed/**",
+  ".git/**",
+  # Agent worktrees carry a full copy of the tree, so every one of them looks to
+  # AGM-006 like a second AGENTS.md. git skips them via .git/info/exclude; agnix
+  # walks the filesystem and needs telling separately.
+  ".claude/worktrees/**",
+  "dot_claude/CLAUDE.md",
+  "dot_pi/agent/extensions/*/AGENTS.md",
+  "dot_pi/agent/extensions/*/CLAUDE.md",
+]
 tools = ["claude-code", "codex", "github-copilot", "generic"]
 
 [rules]
 # Some of the rules are old or just half-baked TBH
 disabled_rules = ["VER-001", "XP-001", "XP-003", "XP-006", "CDX-AG-005"]
 disabled_validators = ["PromptValidator"]
-
-# [files]
-# include_as_memory = ["AGENTS.md.txt", "CLAUDE.md.txt"]
-# include_as_generic = []
-# exclude = []

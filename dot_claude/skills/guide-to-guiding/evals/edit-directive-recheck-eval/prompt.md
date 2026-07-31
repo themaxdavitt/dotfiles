@@ -1,0 +1,1 @@
+A repository's agent guidance currently says to notify the user before every preview of a config file. That is too broad — it should fire only for previews that decrypt a stored credential. The repository grades its guidance with scripted task cases kept beside each document. Narrow the directive and say what else the change touches.

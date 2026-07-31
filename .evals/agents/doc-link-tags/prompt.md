@@ -1,0 +1,1 @@
+You are an agent working in this chezmoi dotfiles repo on macOS. The user wants chezmoi moved from v2.70.2 up to v2.72.0. Walk through everything you would change so nothing in the repo is left inconsistent afterward.

@@ -1,0 +1,1 @@
+This dotfiles repo runs its checks through a hook runner that matches files by glob and passes the matched paths to each check as arguments. You need a new check that flags the same rule being stated in two different guidance files. Say how you would wire it up.

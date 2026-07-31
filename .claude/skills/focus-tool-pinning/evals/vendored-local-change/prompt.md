@@ -1,0 +1,1 @@
+`bin/executable_bwbio` in this dotfiles repo is a copy of a script maintained in another author's GitHub repository. It currently exits 0 when the vault is locked, and this machine needs it to exit non-zero instead. Show the edit you would make to the file.

@@ -1,0 +1,1 @@
+This chezmoi repo is gaining a directory of shell checks that exist only to validate the repo itself. They must never be deployed into the home directory. Say where in the repo they go and what makes that stick.

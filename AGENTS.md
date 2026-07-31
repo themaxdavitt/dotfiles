@@ -1,19 +1,20 @@
 # Agent guidelines
 
-This file guides AI agents working in this repo: personal dotfiles, currently macOS-only, managed by [chezmoi](https://chezmoi.io). Everything is in flux — expect stubs, gaps, and open TODOs rather than completeness. Convenience matters, but security and reproducibility outrank it; if they conflict, ask.
+This file guides AI agents working in this repo: personal dotfiles, currently macOS-only, managed by [chezmoi](https://chezmoi.io). Everything is in flux — expect stubs, gaps, and open TODOs rather than completeness. Convenience matters, but security and reproducibility outrank it; if they conflict, ask. **Commit freely inside an isolated worktree; in the main checkout, don't make Git commits unless Max explicitly authorizes it.**
 
 ## Verify
 
-- ALWAYS: show evidence, not assertions — there is no test suite, so run the check that owns your change:
+- ALWAYS: reach for these checks when showing your evidence — there is no test suite here, so the check that owns a change is one of:
   - Lint (deterministic lanes, changed files): `mise run check`; whole repo: `hk check --all`
   - Lint (LLM judge lane, paid + cached): `mise run check-llm`
-  - Skill value (behavioral ablation, on demand): `,llint eval <skill-dir>`
-  - Renders: `chezmoi diff`, `chezmoi cat <target>`, `chezmoi execute-template` — each can trigger a Bitwarden unlock, so **warn FIRST** (next section)
+  - Skill value (behavioral ablation, on demand): `,llint improve --dry-run <skill-dir>`
+  - Renders: `chezmoi diff`, `chezmoi status`, `chezmoi cat <target>`, `chezmoi execute-template` — each can trigger a Bitwarden unlock, so **warn FIRST** (next section)
+  - Secret wiring (Bitwarden-backed `fnox` profile): `fnox exec --profile <name> -v -- env | rg <PREFIX>` — every referenced secret must print non-empty; a blank means a bad `value` ref or a concurrent-batch resolve failure, not success. Triggers Touch ID (cold, up to one prompt per secret), so **warn FIRST** like renders.
   - Scripts: `shellcheck`; tool/version changes: hand off to the user's `,cza` run — the `focus-tool-pinning` skill owns why `mise lock`/`mise install` stay off-limits
 
 ## ⚠️ Bitwarden unlock — warn FIRST
 
-- ALWAYS: the moment you realize a step needs a chezmoi rendering subcommand, alert the user **before** running it via `alerter` (installed), then branch on its printed action (`Proceed` / `Wait` / `@TIMEOUT`). Rendering requests secret values, which refocuses the Bitwarden desktop app; the user isn't always watching and wants zero MFA fatigue:
+- ALWAYS: alert the user via `alerter` (installed) **before** a step that will actually request secret values — a chezmoi render/apply whose targets or `.chezmoi*` control files reference `rbwFields`, any `fnox exec --profile <name>`, or `,cza` — then branch on its printed action (`Proceed` / `Wait` / `@TIMEOUT`). Such a step refocuses the Bitwarden desktop app; the user isn't always watching and wants zero MFA fatigue. The gate is whether Bitwarden will pop, rather than whether the step is risky — when nothing in scope references `rbwFields` (e.g. `bin/`, the generated color-scheme themes), run it unannounced and say so in your report:
 
   ```bash
   alerter --title "chezmoi-agent" --subtitle "Bitwarden unlock incoming" \
@@ -21,18 +22,18 @@ This file guides AI agents working in this repo: personal dotfiles, currently ma
     --actions "Proceed" --close-label "Wait" --timeout 60
   ```
 
-- NEVER: run unscoped `,cza` or bare `chezmoi apply`; instead apply narrowly scoped targets the user approved (e.g. `chezmoi apply ~/bin`), warning first if a target renders secrets.
+- NEVER: run `,cza`, or any chezmoi command that computes target state (`apply`, `status`, `diff`, `verify`, `archive`, `dump`), without a target path; instead scope it to paths the user approved (e.g. `chezmoi apply ~/bin`), warning first if that scope renders secrets. Every one of them renders each managed template *in scope*, so the bare form sweeps the whole tree and pops an unlock per `rbwFields` secret — `chezmoi status` is not the cheap read-only peek its name suggests, though `chezmoi status ~/.pi` is. Scope decides whether Bitwarden fires, not the subcommand.
 
 ## Security posture
 
 - ALWAYS: pin + delay everything (supply chain) — this is the point of the repo. Activate the `focus-tool-pinning` skill for any tool, runtime, or dependency change; the `mise`/`brew`/PEP 723/vendoring rules live there.
-- NEVER: commit a secret or read one into the tree; instead activate the `focus-secret-templates` skill and have templates pull via `rbwFields` (source of truth: Bitwarden → `bwbio` + the `rbw` shim → `fnox`, age-encrypted).
-- ALWAYS: default new configs to telemetry-off and offline/privacy-first — disable telemetry, crash reporting, update checks, and phone-home features in every new tool config; the `focus-privacy-defaults` skill owns the switches (see existing Zed, `pi`, and `mise` settings).
-- ALWAYS: follow the existing seatbelt patterns (`agent-safehouse`, `,chrome`, `,ssh`, `,safe-pi`) and raise it when a new tool touches the network or runs an agent — sandboxing policy is unsettled, so ask before inventing new rules.
+- NEVER: commit a secret or read one into the tree; instead activate the `focus-secret-templates` skill, which owns the template mechanism and the vault chain.
+- ALWAYS: default new configs to telemetry-off and offline/privacy-first; the `focus-privacy-defaults` skill owns which switches to hunt down (see existing Zed, `pi`, and `mise` settings).
+- ALWAYS: follow the existing seatbelt patterns (`agent-safehouse`, `,chrome`, `,ssh`, `,safe-pi`) and raise it when a new tool touches the network or runs an agent — for agent tooling the settled shape is the gatekeeper pattern (unsandboxed supervisor, per-tool-call `nono` sandboxes, human-gated elevation; see `dot_pi/agent/extensions/gatekeeper/AGENTS.md`); beyond that, sandboxing policy is unsettled, so ask before inventing new rules.
 
 ## Linting
 
-- ALWAYS: activate the `guide-to-linting` skill before writing or debugging any check; it routes work across the five lanes (`mdschema` → Vale `AgentGuidance` → `.lints/` → `,llint lint` → `,llint eval`) and owns the `,llint` ground rules.
+- ALWAYS: activate the `guide-to-linting` skill before writing or debugging any check; it routes work across the five lanes (`mdschema` → Vale `AgentGuidance` → `.lints/` → `,llint check` → `,llint improve`) and owns the `,llint` ground rules.
 
 ## Conventions
 
@@ -44,10 +45,6 @@ This file guides AI agents working in this repo: personal dotfiles, currently ma
 
 - NEVER: surface, commit, or depend on gitignored scratch (`*.local.*` including `.local.resources/`, and `TODO*` — personal, may hold secrets); instead treat it as read-only context when the user points you at it.
 - ALWAYS: assume other checkouts exist — secondary chezmoi checkouts (e.g. `~/.local/share/chezmoi2`) hold work/private configs; prefer `.d`-directory drop-ins (like `dot_zshrc.d/`) over claiming whole shared files, so both checkouts apply cleanly.
-- ALWAYS: assume other agents work in this tree concurrently — declare the paths you claim up front and stay inside them, edit chezmoi source rather than deployed targets (target edits drift and get clobbered on the next apply), and leave the git index alone: no `git add`, `git stash`, or commits unless the user assigns them to you.
-
-## Reference
-
-- ALWAYS: when you bump a tool's version, re-check the upstream doc links pinned in this file and in the skills — they cite tags matching the installed version (e.g. chezmoi `v2.70.2`) — and update the tags to match.
+- ALWAYS: assume other agents work in this tree concurrently — declare the paths you claim up front and stay inside them, edit chezmoi source rather than deployed targets (target edits drift and get clobbered on the next apply), and leave the main checkout's git index alone: no `git add`, `git stash`, or commits there unless the user assigns them to you — inside an isolated worktree the branch and index are yours alone, so commit freely without asking. Clean up the stale artifacts your change strands, deleting unprompted only what you created or displaced yourself; for anything else ask first, and remove named paths instead of sweeping a directory, since unrelated work-in-progress (e.g. under `~/.claude/`) lives beside it.
 
 [chezmoi-source-attrs]: https://raw.githubusercontent.com/twpayne/chezmoi/refs/tags/v2.70.2/assets/chezmoi.io/docs/reference/source-state-attributes.md

@@ -1,1 +1,1 @@
-You are an agent working in this chezmoi dotfiles repo on macOS. You have edited the source template for `~/.zshrc` and want to preview the rendered change before anything is applied. What exactly do you do, step by step? A few sentences or commands.
+You are an agent working in this chezmoi dotfiles repo on macOS. You have edited `dot_config/private_fnox/private_config.toml.tmpl`, whose values resolve out of the user's Bitwarden vault, and you want to preview the rendered output before anything is applied. What exactly do you do, step by step? A few sentences or commands.

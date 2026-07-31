@@ -1,0 +1,1 @@
+A behavioural test case in this dotfiles repo needs a grader that decides whether a model's answer declared a tool with an explicit version string. The grader receives the answer on stdin. Say how you would implement it.

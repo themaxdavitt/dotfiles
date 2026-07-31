@@ -1,26 +1,43 @@
 # Consumer agent: represents the deployed model that receives agent guidance.
-# Used by `eval` subcommand to run behavioral ablation: the consumer is run
-# with and without the skill body, and grader scripts inspect the output.
-# List every consumer model you actually deploy — ,llint eval reports a
-# per-model verdict alongside the aggregate, so a stronger model's redundancy
-# can coexist with a weaker model's need. Delete guidance only when every
-# deployed consumer reports it redundant.
+# Used by `improve` to run behavioral ablation: the consumer is run with and
+# without the skill body, and grader scripts inspect the output.
+# List every consumer model you actually deploy — ,llint improve keeps a
+# directive any single consumer still needs, so a stronger model's redundancy
+# can coexist with a weaker model's need. Guidance is dropped only when every
+# deployed consumer gets by without it.
 models:
-  # Subscription/work-accessible consumers (2026-07-18 refresh).
+  # Subscription/work-accessible consumers (2026-07-25 refresh).
   # Top tier. claude-fable-5 is the strongest actually-deployed consumer
   # (Claude Code) — redundant there means the text is pure token rent where
   # it's read most.
   - moonshotai/kimi-k3
   - openai/gpt-5.6-sol
   - anthropic/claude-fable-5
-  # Workhorse tier.
+  # Workhorse tier. Doubles as the day-job set as of 2026-07-25, so the separate
+  # day-job tier (gpt-5.4, claude-sonnet-5) is retired rather than duplicated.
   - z-ai/glm-5.2
   - openai/gpt-5.6-terra
-  - anthropic/claude-opus-4.8
-  # Day-job consumers.
-  - openai/gpt-5.4
-  - anthropic/claude-sonnet-5
+  - anthropic/claude-opus-5
 instructions: >-
   You are a capable AI assistant. Answer the given task directly and concisely.
   When asked to write a plan, outline the steps you would take.
 retries: 2
+
+# What a deployed consumer is already holding before it reads the skill under test,
+# assembled ahead of the skill text in real precedence order. Measuring a skill alone
+# scores a directive `effective` whenever it merely restates an outer layer — true only
+# because the outer layer was missing — so those survive as pure token rent.
+#
+# Only genuinely global settings belong here. Repo guidance is discovered from the working
+# tree (root-level AGENTS.md / CLAUDE.md / AGENTS.*.md), so nothing repo-shaped needs
+# naming; a repo that needs different layers drops its own `.llint/agents/consumer.yaml`
+# beside its source and it merges over this file key by key.
+context:
+  # Stand-in for the harness's own system prompt, which lives in no file we can read.
+  # Deliberately harness-agnostic — pi's real opener names pi, and a longer invented
+  # prompt would buy realism we cannot verify.
+  preamble: >-
+    You are an expert coding assistant operating inside a coding agent harness. You help
+    users by reading files, executing commands, editing code, and writing new files.
+  user:
+    - ~/.claude/CLAUDE.md

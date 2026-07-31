@@ -7,7 +7,7 @@ set -euo pipefail
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(realpath "$script_dir"/..)"
 
-zed_settings="dot_config/zed/private_settings.json.literal"
+zed_settings="dot_config/zed/settings.json.literal"
 pi_settings="dot_pi/agent/settings.json"
 
 failed=0

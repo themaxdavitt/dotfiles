@@ -11,9 +11,30 @@
 /*.wip.txt
 /TODO*
 /hk.pkl
-__pycache__
+# Bare `__pycache__` only matches one at the target root; patterns here are
+# matched against TARGET paths, so nested caches need the doublestar.
+**/__pycache__
 
 # Skill evals: co-located with skills but not deployed to $HOME
 .claude/skills/*/evals
+
+# pi extensions: dev-only files stay in source. gatekeeper's node_modules is
+# installed in the target by its run_onchange deps script, never deployed from
+# source; the other two have no runtime deps, so their targets need none at all.
+.pi/agent/extensions/*/node_modules
+.pi/agent/extensions/*/test
+.pi/agent/extensions/*/mise.toml
+.pi/agent/extensions/*/AGENTS.md
+.pi/agent/extensions/*/CLAUDE.md
+# README.md is contributor docs like the two above: pi never reads an
+# extension's (it loads only the package.json `pi.extensions` entry point; the
+# only README it resolves is its own, under `getPackageDir()`). It stays in
+# package.json `files` regardless — that governs `npm pack`, not deployment.
+# Re-verified against pi 0.83.0.
+.pi/agent/extensions/*/README.md
+# gatekeeper's package-lock.json DOES deploy — its deps script installs from it
+# at the target. The other two have no runtime deps and no deps script, so their
+# lockfile is dev-tree only.
+.pi/agent/extensions/*/aube-lock.yaml
 
 # TODO: something smarter in this file, like maybe an allow list

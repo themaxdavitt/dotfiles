@@ -1,0 +1,1 @@
+This dotfiles repo lints its own agent-instruction files with model-backed checks. Several of those files name a model version that was retired last year, and nobody noticed until it produced a bad recommendation. Set up what is needed so this class of staleness gets caught from here on, and say what you would deliver.

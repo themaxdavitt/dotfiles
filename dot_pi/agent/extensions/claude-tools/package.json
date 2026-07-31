@@ -1,0 +1,28 @@
+{
+  "//": "Created 2026-07-29, carrying AskUserQuestion over from ~/Projects/2026-pi-claude-p. No runtime dependencies: the deployed target needs no node_modules, so there is no run_onchange deps script for this directory.",
+  "private": true,
+  "type": "module",
+  "files": [
+    "index.ts",
+    "src/",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "tsx --test 'test/**/*.test.ts'"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.0",
+    "tsx": "4.22.4"
+  },
+  "pnpm": {
+    "//": "esbuild resolves its platform binary through optionalDependencies, so its build script is not needed.",
+    "allowBuilds": {
+      "esbuild": false
+    }
+  },
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

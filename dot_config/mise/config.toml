@@ -1,4 +1,9 @@
-min_version = "2026.6.11"
+# 2026.7.14+ is required, not just preferred: before it, the npm backend wrote
+# `allow_builds` into the generated manifest as a JSON array, but aube reads
+# `allowBuilds` as a package-name → bool map and rejects the array under
+# `strictDepBuilds` (which `paranoid` turns on). Every npm tool here with a
+# non-empty allow_builds would fail to install. Fixed by jdx/mise#11262.
+min_version = "2026.7.17"
 
 [settings]
 experimental = true
@@ -60,7 +65,7 @@ run = [
 ] }
 # Fun, extensible coding agent harness
 # https://github.com/earendil-works/pi/blob/main/packages/coding-agent/CHANGELOG.md
-"npm:@earendil-works/pi-coding-agent" = { version = "0.80.6", minimum_release_age = "2026-07-10T00:00:00Z", allow_builds = [
+"npm:@earendil-works/pi-coding-agent" = { version = "0.83.0", minimum_release_age = "2026-07-30T00:00:00Z", allow_builds = [
   "@google/genai",
   "protobufjs",
 ], depends = [
@@ -80,7 +85,9 @@ run = [
   "aqua:jdx/aube",
 ] }
 "aqua:rclone/rclone" = "1.74.2"
-"github:jdx/fnox" = "1.25.1"
+# encrypted/remote secret manager (age-backed); repeated-resolve caching daemon added v1.27.0
+# https://github.com/jdx/fnox/blob/main/CHANGELOG.md
+"github:jdx/fnox" = { version = "1.31.0", minimum_release_age = "2026-07-17T00:00:00Z" }
 # https://github.com/git-lfs/git-lfs/releases
 "aqua:git-lfs/git-lfs" = "3.7.1"
 # https://github.com/huggingface/xet-core/releases?q=git-xet&expanded=true
@@ -105,7 +112,7 @@ run = [
 "aqua:starship/starship" = "1.25.1"
 "aqua:max-sixty/worktrunk" = "0.60.0"
 "github:always-further/nono" = "0.65.1"
-"aqua:anthropics/claude-code" = "2.1.185"
+"aqua:anthropics/claude-code" = "2.1.219"
 "github:michel-kraemer/zsh-patina" = "1.8.0"
 "aqua:sharkdp/bat" = "0.26.1"
 "aqua:dandavison/delta" = "0.19.2"
@@ -114,10 +121,17 @@ run = [
 "aqua:koalaman/shellcheck" = "0.11.0"
 # TODO: re-run `,cza`
 # "github:backnotprop/plannotator" = "0.21.1"
-"aqua:vercel-labs/agent-browser" = "0.31.2"
+# Using NPM here instead of Aqua so for `skills` subcommand
+"npm:agent-browser" = { version = "0.31.2", minimum_release_age = "2026-07-21T00:00:00Z", allow_builds = [
+  "agent-browser",
+], depends = [
+  "aqua:jdx/aube",
+] }
 # Session attach/detach for the terminal (dtach-style persistence)
 # https://github.com/neurosnap/zmx/releases
 "github:neurosnap/zmx" = "0.6.0"
+"aqua:restic/restic" = "0.19.1"
+"aqua:twpayne/chezmoi" = "2.70.2"
 
 node = "lts"
 python = "3"

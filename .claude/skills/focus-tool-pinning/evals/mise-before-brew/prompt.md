@@ -1,0 +1,1 @@
+Make the benchmarking tool `hyperfine` available on this machine. Its README recommends `brew install hyperfine`; it also publishes tagged GitHub release binaries for macOS. Say where you would declare it in this dotfiles repo and show the entry.

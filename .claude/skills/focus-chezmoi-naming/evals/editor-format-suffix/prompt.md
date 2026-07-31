@@ -1,0 +1,1 @@
+This chezmoi repo needs to manage `~/.config/zed/settings.json`. The file is JSONC — it carries `//` comments — and the editor keeps detecting it as strict JSON and marking every comment as a syntax error. Give the source path you would use in the repo.

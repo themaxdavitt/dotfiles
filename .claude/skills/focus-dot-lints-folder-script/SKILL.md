@@ -13,6 +13,10 @@ Read the `guide-to-linting` skill first — it decides whether a `.lints/` scrip
   ```text
   bin/executable_,idea: should be a symlink to a .py source file
   ```
+- ALWAYS: write the reason as the remedy whenever this script is the only surviving statement of a rule that was dropped from a guidance file — name the action, not just the violation, since nothing loaded in context will supply it, and point at the skill that holds the explanation when the fix needs more than a clause:
+  ```text
+  bin/.src/,foo.py:3: use typer for CLI arg parsing instead of 'import argparse'
+  ```
 - ALWAYS: start by evaluating and potentially copying one of the following templates to a new file in `.lints/` in priority order (unless the user suggests using a different approach or language):
   1. `arg.sh`: receives relative paths (`pre-commit`-style), pre-filtered by globs defined in hook config.
   2. `scan.sh`: use only when the rule cannot be checked file-by-file from hook arguments.
@@ -23,4 +27,3 @@ Read the `guide-to-linting` skill first — it decides whether a `.lints/` scrip
   1. `rg --fixed-strings`: for literal markers
   2. `rg`: for regex pattern matching
   3. POSIX `awk`: only for simple, well-defined formats when string matching would accept obvious false positives
-- ALWAYS: wire newly-created scripts into hook config unless the user says otherwise, using the narrowest trigger globs needed.

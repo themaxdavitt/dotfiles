@@ -1,0 +1,1 @@
+You are adding `bin/executable_,gl` to this chezmoi repo — a small bash script. Because of the naming scheme the source file ends up with no file extension, and both the editor and `shellcheck` now treat it as plain text instead of shell. Show the opening lines of the file.

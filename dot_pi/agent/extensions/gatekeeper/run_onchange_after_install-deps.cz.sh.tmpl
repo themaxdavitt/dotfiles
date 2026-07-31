@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# -*- mode: bash -*-
+
+# Reinstall the gatekeeper extension's node_modules whenever its pinned manifest
+# changes (chezmoi re-runs this when the hashes below change).
+# package.json hash: {{ include "dot_pi/agent/extensions/gatekeeper/package.json" | sha256sum }}
+# package-lock.json hash: {{ include "dot_pi/agent/extensions/gatekeeper/package-lock.json" | sha256sum }}
+
+source_dir="{{ .chezmoi.sourceDir }}/dot_pi/agent/extensions/gatekeeper"
+target_dir="$HOME/.pi/agent/extensions/gatekeeper"
+
+command -v aube >/dev/null 2>&1 || {
+  echo "gatekeeper deps: aube not on PATH (it is mise-managed) — deps not installed" >&2
+  exit 1
+}
+
+# Seed the manifests from source before installing. Within one directory chezmoi
+# applies entries in lexical order, and `after_` orders this script against the
+# containing directory, NOT against its siblings — `install-deps.cz.sh` sorts
+# before `package.json`, so on a fresh machine `aube ci` would otherwise run
+# against manifests that do not exist yet. Copying is idempotent: chezmoi writes
+# byte-identical content when it reaches those entries later in the same apply.
+mkdir -p "$target_dir"
+cp "$source_dir/package.json" "$source_dir/package-lock.json" "$target_dir"
+
+cd "$target_dir"
+
+# `ci` (wipe + lockfile install) kept over incremental `install` deliberately:
+# verified 2026-07-18 that both are lockfile-authoritative with identical
+# pinning, and NEITHER errors on package.json<->lockfile desync — so route all
+# manifest edits through `aube add`, and let the rare full reinstall buy a
+# clean slate.
+aube ci
+
+# `aube ci` is a frozen install and must not rewrite the lockfile. If it ever
+# does, surface the drift instead of running `chezmoi add` from inside
+# `chezmoi apply` (nested chezmoi risks a persistent-state lock conflict).
+if ! cmp -s package-lock.json "$source_dir/package-lock.json"; then
+  echo "gatekeeper deps: package-lock.json drifted from source — run: chezmoi add ~/.pi/agent/extensions/gatekeeper/package-lock.json" >&2
+fi

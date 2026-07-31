@@ -41,5 +41,31 @@ if ((${#findings[@]} > 0)); then
   [[ "$answer" =~ ^[Yy]([Ee][Ss])?$ ]] || exit 1
 fi
 
-GH_TOKEN="$(ghtkn get "themaxdavitt/none")" PI_OFFLINE=true PI_TELEMETRY=false PI_CACHE_RETENTION=long \
-  exec ,sb pi "$@"
+# nono regenerates its self-signed proxy CA every few days, and the first
+# --trust-proxy-ca run after that pops a macOS keychain prompt. Warm it here so
+# the prompt lands at launch instead of mid-session inside the TUI. The
+# gatekeeper extension repeats this at session_start for launches that skip
+# this wrapper; here is better, because the TUI does not own the terminal yet.
+# (cd /tmp: --allow-cwd is refused for $HOME, which overlaps nono's state root.)
+#
+# GH_TOKEN isn't fetched yet, so nono warns about the github credential route on
+# every launch. Drop just those lines rather than redirecting everything to
+# /dev/null: a real CA failure explains itself in the output, and stdout stays
+# on the terminal so an interactive nono prompt is still readable.
+nono_warmup_noise='(Proxy credential warnings:|credential_not_found |Looked for env var )'
+(cd /tmp && nono run --profile pi-tools --allow-cwd --trust-proxy-ca --silent -- /usr/bin/true) \
+  2> >(grep -Ev "$nono_warmup_noise" >&2) ||
+  echo "dotfiles: nono proxy-CA warm-up failed; sandboxed bash may misbehave" >&2
+
+# Pi itself runs UNSANDBOXED: the gatekeeper extension wraps each unprivileged
+# bash call in `nono run --profile pi-tools` and profile-gates the file tools
+# instead (running pi inside an outer sandbox would let sandboxed bash reach
+# any escape channel the extension can reach). fnox injects DATALAB_API_KEY for
+# `,doc2md`; pi's OpenRouter key is no longer among them, since its browser login
+# stores one in ~/.pi/agent/auth.json, which the sandbox denies reads of anyway.
+# GH_TOKEN stays in pi's env for nono's github credential proxy, which hands
+# tool calls a placeholder. `mise which` pins plannotator's resolution and
+# dodges re-resolving `pi` to this wrapper.
+GH_TOKEN="$(ghtkn get "themaxdavitt/none")" PI_OFFLINE=true PI_TELEMETRY=false \
+  SESSION_PLANNER_PLANNOTATOR_BIN="$(mise which plannotator)" \
+  exec fnox exec --profile pi -- "$(mise which pi)" "$@"

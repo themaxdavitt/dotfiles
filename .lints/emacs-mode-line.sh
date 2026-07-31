@@ -38,6 +38,7 @@ excluded_patterns=(
   '\.py$'
   '\.mjs$'
   '\.js$'
+  '\.ts$'
   '\.gitignore$'
   '\.yml$'
   '\.jsonc$'
@@ -51,8 +52,12 @@ excluded_patterns=(
   '\.pkl$'
   '\.gitattributes$'
 
+  # Renders to a bare age private key (fnox `key_file`); the deployed target
+  # must contain the key and nothing else, so it can carry no comment.
+  'private_age\.txt\.tmpl$'
+
   # Generated, will likely be overwritten if added
-  'dot_config/mise/private_mise.lock$'
+  'dot_config/mise/mise.lock$'
 )
 
 excluded() {

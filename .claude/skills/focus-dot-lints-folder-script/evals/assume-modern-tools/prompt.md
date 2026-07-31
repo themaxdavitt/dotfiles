@@ -1,0 +1,1 @@
+Write a shell check for this dotfiles repo's `.lints/` directory that finds every file under `dot_config/` larger than 100 KB and reports it. Other people may clone this repo onto machines you have never seen. Show the script.

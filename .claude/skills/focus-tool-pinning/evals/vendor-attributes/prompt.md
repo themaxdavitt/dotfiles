@@ -1,0 +1,1 @@
+This dotfiles repo currently carries a copy of a third-party script at `bin/executable_bwbio`. You are deleting that copy and getting the same binary through `mise` instead. List everything in the repo that has to change as part of that removal.

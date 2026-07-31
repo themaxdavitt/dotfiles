@@ -1,7 +1,19 @@
 paranoid = true
 
-# TODO: figure out what to do, this conflicts with mise overrides, minimumReleaseAgeExclude did not help
+minimumReleaseAgeExclude = [
+  "@earendil-works/pi-coding-agent",
+  "@earendil-works/pi-agent-core",
+  "@earendil-works/pi-ai",
+  "@earendil-works/pi-tui",
+]
+
+# Left unset deliberately: `paranoid = true` supplies a 1440-minute gate with
+# minimumReleaseAgeStrict, which is the delay this repo wants. mise's per-tool
+# `minimum_release_age` is a separate gate on the tool itself — clearing one
+# does not clear the other, which is why a bump needs both.
 # # 15 days
 # minimumReleaseAge = 21600
+
+# for `@tobilu/qmd`
 [jailBuildPermissions."better-sqlite3"]
 network = true

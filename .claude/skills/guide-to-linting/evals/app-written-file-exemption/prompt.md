@@ -1,0 +1,1 @@
+In this dotfiles repo, two `hk` steps fail on `dot_pi/agent/settings.json`: one wants to reformat it, the other reports a missing final newline. That file belongs to the pi coding agent, which rewrites it in its own style whenever a setting changes in its UI. `hk.pkl` gives every step an `exclude` list. Make both steps stop failing on it, and say which files you would edit.

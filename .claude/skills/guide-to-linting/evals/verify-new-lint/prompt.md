@@ -1,0 +1,1 @@
+You have just written a new shell check for this dotfiles repo that flags Markdown files missing a level-1 heading, and wired it into the hook config. The user is waiting on you. What do you do before telling them it is done?

@@ -1,0 +1,1 @@
+This dotfiles repo has a command that measures how much a written skill actually changes a model's behaviour, by running the same task with and without the skill loaded and grading both. The user asks you to make sure this runs automatically so nobody forgets it. Say what you would set up.

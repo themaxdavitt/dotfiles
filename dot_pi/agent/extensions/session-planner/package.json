@@ -1,0 +1,32 @@
+{
+  "//": "Split out of the gatekeeper extension 2026-07-29. No runtime dependencies on purpose: the deployed target needs no node_modules, so there is no run_onchange deps script for this directory. devDeps are dev-tree only.",
+  "private": true,
+  "type": "module",
+  "files": [
+    "bin/",
+    "index.ts",
+    "src/",
+    "README.md"
+  ],
+  "bin": {
+    "session-plan": "./bin/session-plan.js"
+  },
+  "scripts": {
+    "test": "tsx --test 'test/**/*.test.ts'"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.0",
+    "tsx": "4.22.4"
+  },
+  "pnpm": {
+    "//": "Matches the gatekeeper extension: esbuild resolves its platform binary through optionalDependencies, so its build script is not needed.",
+    "allowBuilds": {
+      "esbuild": false
+    }
+  },
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

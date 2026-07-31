@@ -1,4 +1,8 @@
 * text=auto
 
 bin/executable_bwbio linguist-vendored
-dot_config/mise/private_mise.lock linguist-language=TOML linguist-generated
+dot_config/mise/mise.lock linguist-language=TOML linguist-generated
+# gatekeeper carries package-lock.json from its vendored upstream; extensions
+# started in-tree use aube's native lockfile. Both are integrity-pinned.
+dot_pi/agent/extensions/*/package-lock.json linguist-generated
+dot_pi/agent/extensions/*/aube-lock.yaml linguist-generated

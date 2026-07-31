@@ -1,0 +1,55 @@
+# -*- mode: toml -*-
+
+# In-memory cache of resolved secrets for the user session (auto-starts on demand,
+# idles out after 8h), so repeated `fnox exec` / rbw→bwbio resolves don't re-prompt
+# Touch ID. Needs fnox >= 1.27.0. NOTE: the deployed copy self-mutates — fnox writes an
+# age-encrypted `sync` cache back into each secret — so applying this template resets
+# those caches. That is fine and is how they get refreshed: `,cza` holds one `bwbio`
+# session across the whole apply, so every secret re-resolves under a single unlock.
+# Add a profile here and run `,cza`; never hand-edit the deployed file.
+[daemon]
+enabled = true
+idle_timeout = "8h"
+
+[providers]
+bitwarden = { type = "bitwarden", backend = "rbw" }
+age = { type = "age", recipients = [{{ (rbwFields "fnox").pub.value | toToml }}], key_file = "/Users/themaxdavitt/.config/fnox/age.txt" }
+
+# Only not-so-secret things here, e.g., for higher rate limits or something
+[secrets]
+GH_TOKEN = { provider = "bitwarden", value = "PUBLIC_READ_ONLY_GH_TOKEN" }
+HF_TOKEN = { provider = "bitwarden", value = "PUBLIC_READ_ONLY_HF_TOKEN" }
+
+# OPENROUTER_API_KEY dropped here 2026-07-30: pi's browser login mints its own
+# OpenRouter key into ~/.pi/agent/auth.json, so injecting a second one earned
+# nothing. That file is no worse protected than the env var was — it sits outside
+# every `pi-tools` capability, so sandboxed bash and the profile-gated `read`
+# tool both get `path_not_granted`. The "Pi OPENROUTER_API_KEY" Bitwarden entry
+# is now unreferenced; revoke it upstream if the browser-minted key replaces it.
+# DATALAB_API_KEY stays: `,doc2md` reads it from the environment and has no
+# login of its own, so this profile is still what `~/bin/pi` exists to supply.
+[profiles.pi.secrets]
+DATALAB_API_KEY = { provider = "bitwarden", "value" = "Pi DATALAB_API_KEY" }
+
+# Separate OpenRouter key so `,llint` spend is attributable on its own — the judge and
+# ablation lanes are the only paid, high-volume consumers here, and a shared key hides
+# which of them burned the month. Capped at $60/mo upstream on 2026-07-26.
+[profiles.llint.secrets]
+OPENROUTER_API_KEY = { provider = "bitwarden", value = "llint OPENROUTER_API_KEY" }
+
+# Separate profiles per repo so `fnox exec` never collides RESTIC_REPOSITORY/RESTIC_PASSWORD.
+# The S3 keys point at the shared "Restic *" Bitwarden entries for now; will be split to
+# per-repo (and per-machine) bucket credentials later.
+[profiles.backups.secrets]
+RESTIC_PASSWORD = { provider = "bitwarden", value = "Restic Backups Repo Password" }
+RCLONE_CONFIG__HETZNER_FSN1_ACCESS_KEY_ID = { provider = "bitwarden", value = "Restic Hetzner FSN1 S3 Access Key ID" }
+RCLONE_CONFIG__HETZNER_FSN1_SECRET_ACCESS_KEY = { provider = "bitwarden", value = "Restic Hetzner FSN1 S3 Secret Access Key" }
+RCLONE_CONFIG__OVH_BHS_ACCESS_KEY_ID = { provider = "bitwarden", value = "Restic OVH BHS S3 Access Key ID" }
+RCLONE_CONFIG__OVH_BHS_SECRET_ACCESS_KEY = { provider = "bitwarden", value = "Restic OVH BHS S3 Secret Access Key" }
+
+[profiles.vault.secrets]
+RESTIC_PASSWORD = { provider = "bitwarden", value = "Restic Vault Repo Password" }
+RCLONE_CONFIG__HETZNER_FSN1_ACCESS_KEY_ID = { provider = "bitwarden", value = "Restic Hetzner FSN1 S3 Access Key ID" }
+RCLONE_CONFIG__HETZNER_FSN1_SECRET_ACCESS_KEY = { provider = "bitwarden", value = "Restic Hetzner FSN1 S3 Secret Access Key" }
+RCLONE_CONFIG__OVH_BHS_ACCESS_KEY_ID = { provider = "bitwarden", value = "Restic OVH BHS S3 Access Key ID" }
+RCLONE_CONFIG__OVH_BHS_SECRET_ACCESS_KEY = { provider = "bitwarden", value = "Restic OVH BHS S3 Secret Access Key" }
