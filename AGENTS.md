@@ -1,6 +1,6 @@
 # Agent guidelines
 
-This file guides AI agents working in this repo: personal dotfiles, currently macOS-only, managed by [chezmoi](https://chezmoi.io). Everything is in flux — expect stubs, gaps, and open TODOs rather than completeness. Convenience matters, but security and reproducibility outrank it; if they conflict, ask. **Commit freely inside an isolated worktree; in the main checkout, don't make Git commits unless Max explicitly authorizes it.**
+This file guides AI agents working in this repo: personal dotfiles, currently macOS-only, managed by [chezmoi](https://chezmoi.io). Everything is in flux — expect stubs, gaps, and open TODOs rather than completeness. Convenience matters, but security and reproducibility outrank it; if they conflict, ask.
 
 ## Verify
 
@@ -45,6 +45,7 @@ This file guides AI agents working in this repo: personal dotfiles, currently ma
 
 - NEVER: surface, commit, or depend on gitignored scratch (`*.local.*` including `.local.resources/`, and `TODO*` — personal, may hold secrets); instead treat it as read-only context when the user points you at it.
 - ALWAYS: assume other checkouts exist — secondary chezmoi checkouts (e.g. `~/.local/share/chezmoi2`) hold work/private configs; prefer `.d`-directory drop-ins (like `dot_zshrc.d/`) over claiming whole shared files, so both checkouts apply cleanly.
-- ALWAYS: assume other agents work in this tree concurrently — declare the paths you claim up front and stay inside them, edit chezmoi source rather than deployed targets (target edits drift and get clobbered on the next apply), and leave the main checkout's git index alone: no `git add`, `git stash`, or commits there unless the user assigns them to you — inside an isolated worktree the branch and index are yours alone, so commit freely without asking. Clean up the stale artifacts your change strands, deleting unprompted only what you created or displaced yourself; for anything else ask first, and remove named paths instead of sweeping a directory, since unrelated work-in-progress (e.g. under `~/.claude/`) lives beside it.
+- ALWAYS: assume other agents work in this tree concurrently — declare the paths you claim up front and stay inside them, edit chezmoi source rather than deployed targets (target edits drift and get clobbered on the next apply). Clean up the stale artifacts your change strands, deleting unprompted only what you created or displaced yourself; for anything else ask first, and remove named paths instead of sweeping a directory, since unrelated work-in-progress (e.g. under `~/.claude/`) lives beside it.
+- ALWAYS: stage only the paths you own after each verified task (`git add -- <path>...`) rather than staging broadly, stashing, or resetting the shared index, since those operations can capture or discard concurrent work. In the main checkout, offer Max a fresh, vague, playful message inspired by the recent log without reusing one of its titles, and wait for approval before creating it; in an isolated worktree, commit each verified staged task without waiting, using a conventional `type(scope): description` message so the worktree's agent can trace its own history.
 
 [chezmoi-source-attrs]: https://raw.githubusercontent.com/twpayne/chezmoi/refs/tags/v2.70.2/assets/chezmoi.io/docs/reference/source-state-attributes.md

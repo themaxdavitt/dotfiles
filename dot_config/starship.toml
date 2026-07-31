@@ -1,6 +1,9 @@
 "$schema" = "https://starship.rs/config-schema.json"
 
-add_newline = true
+# ZLE redisplays after fzf-tab completes; emitting this from Starship's prompt
+# expansion would add a physical line on every redisplay.  The Zsh precmd hook
+# supplies the between-command spacer once instead.
+add_newline = false
 
 # TODO: figure out what I want the colors to be, these are basically just random for now
 

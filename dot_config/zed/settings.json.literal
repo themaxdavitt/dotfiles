@@ -21,9 +21,9 @@
     "pi": {
       // Keep in sync with `dot_pi/agent/settings.json`
       "favorite_models": [
-        "openrouter/~anthropic/claude-fable-latest",
         "openai-codex/gpt-5.6-terra",
-        "openrouter/z-ai/glm-5.2"
+        "openrouter/moonshotai/kimi-k3",
+        "openrouter/~anthropic/claude-fable-latest"
       ],
       "type": "custom",
       "command": ",safe-pi-acp",

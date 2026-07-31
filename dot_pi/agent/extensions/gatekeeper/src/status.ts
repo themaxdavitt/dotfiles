@@ -48,5 +48,7 @@ export function buildStatusEntries(config: GatekeeperConfig, nonoProfile: string
 }
 
 export function planStatusText(summary: string | undefined): string {
-  return summary ? `📋 ${truncateStatus(summary)}` : "";
+  // Pi's footer performs the final terminal-width-aware truncation. Keep enough
+  // text here for wide terminals rather than prematurely clipping a turn plan.
+  return summary ? `📋 ${truncateStatus(summary, 120)}` : "";
 }

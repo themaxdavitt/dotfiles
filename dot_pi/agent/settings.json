@@ -7,12 +7,12 @@
   "treeFilterMode": "default",
   "doubleEscapeAction": "none",
   "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.6-terra",
-  "defaultThinkingLevel": "xhigh",
+  "defaultModel": "gpt-5.6-sol",
+  "defaultThinkingLevel": "high",
   "enabledModels": [
-    "openrouter/~anthropic/claude-fable-latest",
     "openai-codex/gpt-5.6-terra",
-    "openrouter/z-ai/glm-5.2"
+    "openrouter/moonshotai/kimi-k3",
+    "openrouter/~anthropic/claude-fable-latest"
   ],
   "showHardwareCursor": true,
   "enableInstallTelemetry": false,

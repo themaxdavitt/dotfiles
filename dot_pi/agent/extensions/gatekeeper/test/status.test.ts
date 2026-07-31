@@ -52,10 +52,11 @@ describe("planStatusText", () => {
     assert.equal(planStatusText(""), "");
   });
 
-  test("badges and clips a plan summary", () => {
+  test("keeps plan text for Pi's terminal-width-aware footer clipping", () => {
     assert.equal(planStatusText("fix the auth tests"), "📋 fix the auth tests");
-    const clipped = planStatusText("x".repeat(80));
+    assert.equal(planStatusText("x".repeat(80)), `📋 ${"x".repeat(80)}`);
+    const clipped = planStatusText("x".repeat(160));
     assert.ok(clipped.endsWith("…"));
-    assert.ok(clipped.length < 80, `status bar entry stayed long: ${clipped.length}`);
+    assert.equal(clipped.length, 123); // badge plus the 120-character plan cap
   });
 });

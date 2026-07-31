@@ -4,4 +4,4 @@ Powered by [_chezmoi_](https://chezmoi.io), currently macOS-only. Contains lots 
 
 ## License
 
-[BSD Zero](https://choosealicense.com/licenses/0bsd/) (readable in [`LICENSE`](LICENSE) unless stated otherwise; steal shamelessly.
+[BSD Zero](https://choosealicense.com/licenses/0bsd/) (readable in [`LICENSE`](LICENSE)) unless stated otherwise; steal shamelessly.
